@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /pages/student-dashboard.html
+Disallow: /pages/mock-test.html
+Disallow: /pages/test-results.html
