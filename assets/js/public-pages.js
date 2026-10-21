@@ -98,7 +98,7 @@ export function homePage() {
 
       <section class="section section-major session-discovery"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Session discovery")}<h2>Practice formats built around a specific skill.</h2></div><a class="text-button" href="${ROOT}pages/simulator-sessions.html">Compare every session ${icon("arrow")}</a></div><div class="home-session-rail">${sessions
         .slice(0, 4)
-        .map((item, index) => sessionCard(item, index === 0))
+        .map((item) => sessionCard(item, false))
         .join("")}</div></div></section>
 
       <section class="section section-major theory-editorial"><div class="container theory-split"><div class="theory-photo reveal"><img src="${ROOT}assets/images/theory-study.jpg" alt="Student preparing with a laptop and study materials"><div class="photo-note"><b>Original practice content</b><span>Explanation after every answer</span></div></div><div class="theory-content reveal">${eyebrow("Theory challenge")}<h2>Practice the reasoning—not only the answer.</h2><p>Try a question, review the explanation and switch to another without leaving the page.</p>${questionPreview("home-question")}</div></div></section>
@@ -197,7 +197,7 @@ export function sessionsPage() {
       <section class="catalog-header"><div class="container catalog-header-grid"><div>${eyebrow("Simulator sessions")}<h1>Choose the skill you want to rehearse.</h1><p>Compare session focus, duration and level before sending a local request.</p><div class="catalog-quick-filters" role="group" aria-label="Quick duration filter"><button class="active" data-catalog-filter="all">All sessions</button><button data-catalog-filter="45">45 min</button><button data-catalog-filter="60">60 min</button><button data-catalog-filter="75">75 min</button></div></div><div class="catalog-header-media"><img src="${ROOT}assets/images/instrument-panel.jpg" alt="Illuminated vehicle instrument panel"><span>Precision practice · structured review</span></div></div></section>
       <section class="section section-compact"><div class="container">${featuredSession(sessions[1])}</div></section>
       <section class="section section-major catalog-section"><div class="container"><div class="section-heading"><span class="overline">Complete catalog</span><h2>Six ways to focus a simulator session.</h2></div><div class="session-catalog" id="session-catalog">${sessions.map((item) => sessionCard(item)).join("")}</div><p class="catalog-empty" hidden>No sessions match this duration.</p></div></section>
-      <section class="section section-major compare-section"><div class="container"><div class="compare-layout"><div>${eyebrow("Compare at a glance")}<h2>Match the session to the learning task.</h2></div><div class="comparison-table" role="table">${sessions.map((item) => `<div role="row"><b role="cell">${item.title}</b><span role="cell">${item.duration} min</span><span role="cell">${item.difficulty}</span><span role="cell">${item.focus}</span><a role="cell" href="book-session.html?session=${item.id}">Choose</a></div>`).join("")}</div></div></div></section>
+      <section class="section section-major compare-section"><div class="container"><div class="compare-layout"><div>${eyebrow("Compare at a glance")}<h2>Match the session to the learning task.</h2></div><div class="comparison-table" role="table"><div class="table-header" role="row"><span role="columnheader">Session</span><span role="columnheader">Duration</span><span role="columnheader">Level</span><span role="columnheader">Focus</span><span role="columnheader">Action</span></div>${sessions.map((item) => `<div role="row" class="comparison-row"><b role="cell" class="cell-title" data-label="Session">${item.title}</b><span role="cell" class="cell-duration" data-label="Duration">${item.duration} min</span><span role="cell" class="cell-level" data-label="Level">${item.difficulty}</span><span role="cell" class="cell-focus" data-label="Focus">${item.focus}</span><a role="cell" class="cell-action button button-small" href="book-session.html?session=${item.id}" data-label="Action">Choose</a></div>`).join("")}</div></div></div></section>
       <section class="section section-major session-anatomy"><div class="container anatomy-grid"><div class="anatomy-photo"><img src="${ROOT}assets/images/simulator.jpg" alt="Simulator steering wheel and instrument display"></div><div>${eyebrow("What happens in a session")}<h2>A focused sequence from orientation to review.</h2><ol class="number-list"><li><span>01</span><div><b>Set the focus</b><p>Choose the skill and become familiar with the controls.</p></div></li><li><span>02</span><div><b>Run the scenario</b><p>Practice the observation and decision sequence.</p></div></li><li><span>03</span><div><b>Review the attempt</b><p>Identify one clear adjustment before repeating.</p></div></li></ol><p class="fine-print">Equipment and session format are confirmed during booking.</p></div></div></section>
       ${faqStrip([
         [
@@ -263,12 +263,12 @@ export function theoryPage() {
 export function schedulePage() {
   return `
     <main id="main" class="schedule-page">
-      <section class="schedule-header"><div class="container"><div>${eyebrow("Plan your practice")}<h1>Choose a session, date and preferred time.</h1><p>Build a request in four clear steps. The center confirms availability after it is submitted.</p></div><div class="schedule-stepper"><span class="active">1 · Choose a Session</span><span>2 · Select Date</span><span>3 · Preferred Time</span><span>4 · Review Request</span></div></div></section>
+      <section class="schedule-header"><div class="container"><div>${eyebrow("Plan your practice")}<h1>Choose a session, date and preferred time.</h1><p>Build a request in four clear steps. The center confirms availability after it is submitted.</p></div><div class="schedule-stepper"><span class="active">1 · Session</span><span>2 · Date</span><span>3 · Time</span><span>4 · Review</span></div></div></section>
       <section class="section section-compact"><div class="container schedule-shell">
         <div class="schedule-main">
           <div class="schedule-session-picker"><h2>1. Choose a Session</h2><div class="session-pills">${sessions.map((session, index) => `<button class="session-pill ${index === 1 ? "active" : ""}" data-session="${session.id}"><b>${session.title}</b><span>${session.duration} min · pricing on enquiry</span></button>`).join("")}</div></div>
           <div class="calendar-panel"><div class="calendar-toolbar"><div><span class="overline">2. Select a date</span><h2 id="calendar-month"></h2></div><div><button class="icon-button" id="month-prev" aria-label="Previous month">←</button><button class="today-button" id="calendar-today">Today</button><button class="icon-button" id="month-next" aria-label="Next month">→</button></div></div><div class="calendar-weekdays" aria-hidden="true">${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => `<span>${day}</span>`).join("")}</div><div class="calendar-grid" id="calendar-grid" role="grid" aria-label="Choose a future date"></div></div>
-          <div class="time-panel"><div><span class="overline">3. Select a time</span><h2>Preferred Time</h2><p>Choose the time that suits you best.</p></div><div class="time-slots" id="time-slots" role="radiogroup" aria-label="Request time"></div></div>
+          <div class="time-panel"><div><span class="overline">3. Select a time</span><h2>Preferred Time</h2><p>Choose the time that suits you best.</p></div><div class="time-slots" id="time-slots" role="radiogroup" aria-label="Request time"><div class="time-empty-notice"><p>Select a date to view available request times.</p></div></div></div>
         </div>
         <aside class="booking-summary"><span class="overline">4. Review request</span><h2>Your practice request</h2><div class="summary-photo"><img src="${ROOT}assets/images/urban-signal.jpg" alt="Selected session environment" data-summary-image></div><dl><div><dt>Session</dt><dd data-summary-session>Urban Traffic Practice</dd></div><div><dt>Date</dt><dd data-summary-date>Choose a future date</dd></div><div><dt>Time</dt><dd data-summary-time>Choose a request time</dd></div><div><dt>Duration</dt><dd data-summary-duration>60 minutes</dd></div></dl><label for="schedule-note">Optional note</label><textarea id="schedule-note" rows="2" placeholder="Anything the center should know?"></textarea><button class="button" id="save-schedule-request" disabled>Save Local Request</button><button class="text-button reset-schedule" type="button">Reset selection</button><p class="booking-disclosure">This does not reserve live inventory. Center confirmation is still required.</p><div id="schedule-status" aria-live="polite"></div></aside>
       </div></section>
@@ -301,6 +301,79 @@ export function pricingPage() {
             `<article class="pricing-plan ${index === 1 ? "featured" : ""}"><div class="plan-title"><span>${index === 1 ? "Structured path" : "Training option"}</span><h2>${plan.title}</h2><p>${plan.note}</p></div><div class="plan-price"><strong>Contact for pricing</strong><small>Confirmed during follow-up</small></div><ul>${plan.features.map((feature) => `<li>${feature}</li>`).join("")}</ul><a class="button ${index === 1 ? "" : "button-secondary"}" href="book-session.html?plan=${key}">${key === "single" ? "Choose a Session" : "Request Package Follow-up"}</a></article>`,
         )
         .join("")}</div></section>
+      <section class="section section-major goal-decision-section">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              ${eyebrow("Decision support")}
+              <h2>Which option fits your goal?</h2>
+            </div>
+            <p>Compare common learner needs to find the structure that matches your current stage of practice.</p>
+          </div>
+          <div class="goal-decision-matrix">
+            <div class="goal-row">
+              <div class="goal-need">
+                <span class="goal-tag">First simulator experience</span>
+                <h3>Orientation & Basic Feel</h3>
+                <p>Get familiar with simulator physics, steering feel and control feedback without ongoing commitment.</p>
+              </div>
+              <div class="goal-match">
+                <span class="match-label">Recommended starting option</span>
+                <strong>Single Session Practice</strong>
+                <span class="match-desc">45 or 60 min session with structured instructor feedback</span>
+              </div>
+              <div class="goal-action">
+                <a class="button button-small button-secondary" href="book-session.html?plan=single">Select Single</a>
+              </div>
+            </div>
+            <div class="goal-row">
+              <div class="goal-need">
+                <span class="goal-tag">One specific skill</span>
+                <h3>Targeted Maneuver Rehearsal</h3>
+                <p>Overcome a persistent sticking point—such as parallel parking, hill starts, or busy roundabout entry.</p>
+              </div>
+              <div class="goal-match">
+                <span class="match-label">Recommended starting option</span>
+                <strong>Single Focused Session</strong>
+                <span class="match-desc">Concentrate full duration on your chosen road challenge</span>
+              </div>
+              <div class="goal-action">
+                <a class="button button-small button-secondary" href="book-session.html?plan=single">Select Single</a>
+              </div>
+            </div>
+            <div class="goal-row goal-row-featured">
+              <div class="goal-need">
+                <span class="goal-tag">Repeated practical development</span>
+                <h3>Four-Session Progression</h3>
+                <p>Build muscle memory and calm routines across urban, highway, adverse weather and parking environments.</p>
+              </div>
+              <div class="goal-match">
+                <span class="match-label">Recommended structured path</span>
+                <strong>Multi-Session Pack</strong>
+                <span class="match-desc">Four scheduled sessions with cumulative progress tracking</span>
+              </div>
+              <div class="goal-action">
+                <a class="button button-small" href="book-session.html?plan=multi">Request Pack</a>
+              </div>
+            </div>
+            <div class="goal-row">
+              <div class="goal-need">
+                <span class="goal-tag">Combined preparation</span>
+                <h3>Simulator + Theory Integration</h3>
+                <p>Simultaneously build practical road judgment in the simulator while mastering theory reasoning and mock tests.</p>
+              </div>
+              <div class="goal-match">
+                <span class="match-label">Comprehensive preparation</span>
+                <strong>Comprehensive Prep</strong>
+                <span class="match-desc">Six simulator sessions combined with full theory test access</span>
+              </div>
+              <div class="goal-action">
+                <a class="button button-small button-secondary" href="book-session.html?plan=comprehensive">Request Prep</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="section section-major package-explainer"><div class="container package-grid"><div>${eyebrow("How package requests work")}<h2>A practice path begins with one clear enquiry.</h2><p class="lede">One package enquiry records your preferred starting session. The remaining dates are arranged during center follow-up.</p></div><ol class="number-list"><li><span>01</span><div><b>Select a training path</b><p>Choose focused, multi-session or combined preparation.</p></div></li><li><span>02</span><div><b>Share a starting preference</b><p>Pick the first scenario and a useful date window.</p></div></li><li><span>03</span><div><b>Arrange the sequence</b><p>The center confirms availability and remaining sessions.</p></div></li></ol></div></section>
       ${faqStrip([
         [
@@ -325,6 +398,103 @@ export function aboutPage() {
       <section class="about-header"><div class="container about-header-grid"><div>${eyebrow("About DriveLab")}<h1>Practice built around decisions you can revisit.</h1><p>DriveLab brings simulator scenarios, theory revision and progress review into one deliberate preparation journey.</p></div><div class="about-collage"><img src="${ROOT}assets/images/simulator.jpg" alt="Simulator steering wheel and instrument setup"><img src="${ROOT}assets/images/theory-study.jpg" alt="Student engaged in structured theory study"></div></div></section>
       <section class="section section-major"><div class="container story-grid"><div class="story-number">01</div><div>${eyebrow("Controlled practice")}<h2>Slow the learning moment down.</h2><p class="lede">A simulator creates room to repeat a junction, parking maneuver or hazard sequence with a single clear focus. The value comes from what the learner notices, changes and tries again.</p></div><div class="story-image"><img src="${ROOT}assets/images/road-cockpit.jpg" alt="Vehicle controls and road view"></div></div></section>
       <section class="section section-major dark-story"><div class="container dark-story-grid"><div><span class="overline">Theory + practical judgment</span><h2>Connect what you know with what you notice.</h2><p>Theory practice explains the reasoning. Simulator practice turns that reasoning into observation, timing and control. Reviewing both can reveal where preparation should go next.</p></div><div class="principles"><div><span>01</span><b>Repeatable scenarios</b><p>Return to the same challenge with purpose.</p></div><div><span>02</span><b>Immediate review</b><p>Keep the decision and explanation together.</p></div><div><span>03</span><b>Visible progress</b><p>Track completed practice and theory history separately.</p></div></div></div></section>
+      <section class="section section-major session-walkthrough-section">
+        <div class="container walkthrough-layout">
+          <div class="walkthrough-media reveal">
+            <img src="${ROOT}assets/images/simulator.jpg" alt="Learner in simulator setup practicing road positioning">
+            <div class="walkthrough-media-caption">
+              <span>Authentic preparation</span>
+              <strong>Structured 4-step training cycle</strong>
+            </div>
+          </div>
+          <div class="walkthrough-copy reveal">
+            ${eyebrow("Session sequence")}
+            <h2>What a simulator session includes.</h2>
+            <p class="lede">Every visit follows a repeatable structure so your practice time is focused on deliberate skill improvement rather than trial and error.</p>
+            <div class="walkthrough-steps">
+              <div class="walkthrough-step">
+                <span class="step-num">01</span>
+                <div>
+                  <h3>Briefing and focus</h3>
+                  <p>Establish the single scenario or maneuver to rehearse before touching the controls.</p>
+                </div>
+              </div>
+              <div class="walkthrough-step">
+                <span class="step-num">02</span>
+                <div>
+                  <h3>Guided scenario</h3>
+                  <p>Drive the interactive environment under varied traffic, visibility and weather conditions.</p>
+                </div>
+              </div>
+              <div class="walkthrough-step">
+                <span class="step-num">03</span>
+                <div>
+                  <h3>Review and repeat</h3>
+                  <p>Analyze key decision points and immediately re-attempt the situation with adjusted timing.</p>
+                </div>
+              </div>
+              <div class="walkthrough-step">
+                <span class="step-num">04</span>
+                <div>
+                  <h3>Progress record</h3>
+                  <p>Session completion and core observations are recorded into your local profile for next time.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section section-major progress-transparency-section">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              ${eyebrow("Transparent measurement")}
+              <h2>What progress can show.</h2>
+            </div>
+            <p>DriveLab connects practical simulator time with theory test preparation so you know exactly where revision is needed.</p>
+          </div>
+          <div class="progress-editorial-grid">
+            <div class="progress-editorial-item">
+              <div class="progress-editorial-icon">${icon("steer")}</div>
+              <h3>Completed simulator practice</h3>
+              <p>Total hours spent behind simulator controls, session-by-session history and specific scenario categories completed.</p>
+            </div>
+            <div class="progress-editorial-item">
+              <div class="progress-editorial-icon">${icon("quiz")}</div>
+              <h3>Theory-test history</h3>
+              <p>Detailed log of recent mock attempts with scores, timestamps, test mode and breakdown of correct vs incorrect answers.</p>
+            </div>
+            <div class="progress-editorial-item">
+              <div class="progress-editorial-icon">${icon("chart")}</div>
+              <h3>Topic strengths</h3>
+              <p>Visual identification of mastered highway code categories where accuracy consistently exceeds the benchmark threshold.</p>
+            </div>
+            <div class="progress-editorial-item">
+              <div class="progress-editorial-icon">${icon("history")}</div>
+              <h3>Areas requiring revision</h3>
+              <p>Direct highlight of road sign types, hazard recognition or speed regulation areas where errors recur.</p>
+            </div>
+            <div class="progress-editorial-item progress-readiness-highlight">
+              <div class="progress-editorial-icon">${icon("trend")}</div>
+              <h3>Readiness calculated from evidence</h3>
+              <p>Readiness status remains unavailable until sufficient attempts are recorded. Once unlocked, it weights 70% recent score average with 30% topic coverage.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section section-compact about-closing-cta">
+        <div class="container about-cta-card">
+          <div>
+            <span class="overline">Start your preparation</span>
+            <h2>Begin with practical simulator time or a theory baseline.</h2>
+            <p>Choose a session to rehearse a specific driving skill or test your highway code reasoning right now.</p>
+          </div>
+          <div class="button-row">
+            ${action("simulator-sessions.html", "Explore Simulator Sessions")}
+            ${action("theory-test-prep.html", "Theory Test Prep", true)}
+          </div>
+        </div>
+      </section>
       <section class="section section-major"><div class="container start-journey"><div class="journey-photo"><img src="${ROOT}assets/images/study-notes.jpg" alt="Learner taking structured study notes"></div><div>${eyebrow("How to begin")}<h2>Choose the next useful step—not every step at once.</h2><ol class="number-list"><li><span>01</span><div><b>Explore the sessions</b><p>Identify a practical skill to rehearse.</p></div></li><li><span>02</span><div><b>Try a theory baseline</b><p>Use ten questions to reveal revision priorities.</p></div></li><li><span>03</span><div><b>Review progress</b><p>Let evidence shape the next practice choice.</p></div></li></ol><div class="button-row">${action("simulator-sessions.html", "Explore Sessions")}${action("mock-test.html?count=10", "Start Theory Practice", true)}</div></div></div></section>
     </main>`;
 }
@@ -334,6 +504,39 @@ export function contactPage() {
     <main id="main">
       <section class="contact-header"><div class="container contact-header-grid"><div>${eyebrow("Contact DriveLab")}<h1>Start with the question that matters to your practice.</h1><p>Ask about a session, booking support, center access or the Student Dashboard.</p></div><div class="contact-paths"><a href="#contact-form"><span>01</span><b>General enquiry</b>${icon("arrow")}</a><a href="#contact-form"><span>02</span><b>Session support</b>${icon("arrow")}</a><a href="#location"><span>03</span><b>Center location</b>${icon("arrow")}</a></div></div></section>
       <section class="section section-major"><div class="container contact-main"><form class="contact-form" id="contact-form"><div class="form-heading"><span class="overline">Send an enquiry</span><h2>Tell us how we can help.</h2></div><div class="form-grid"><div class="field"><label for="contact-name">Name</label><input id="contact-name" required autocomplete="name"></div><div class="field"><label for="contact-email">Email</label><input id="contact-email" type="email" required autocomplete="email"></div><div class="field field-full"><label for="contact-topic">Enquiry type</label><select id="contact-topic"><option>General enquiry</option><option>Session or booking support</option><option>Center location</option><option>Student Dashboard support</option></select></div><div class="field field-full"><label for="contact-message">Message</label><textarea id="contact-message" required rows="6"></textarea></div><div class="field field-full"><button class="button" type="submit">Review Enquiry</button><p id="contact-status" aria-live="polite"></p></div></div></form><aside class="support-panel"><img src="${ROOT}assets/images/theory-study.jpg" alt="Learner reviewing study material"><div><span class="overline">Booking support</span><h3>Already have a local request?</h3><p>Open My Sessions to review or cancel a pending request from this browser.</p><a class="text-button" href="${portalLink()}">Open My Sessions ${icon("arrow")}</a></div></aside></div></section>
+      <section class="section section-compact enquiry-process-section">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              ${eyebrow("Client follow-up")}
+              <h2>What happens after an enquiry.</h2>
+            </div>
+            <p>Here is how our center team handles your question and session requests.</p>
+          </div>
+          <div class="enquiry-process-grid">
+            <div class="process-card">
+              <span class="process-step">01</span>
+              <h3>Choose the enquiry type</h3>
+              <p>Select whether you need general information, booking support, center directions, or dashboard assistance.</p>
+            </div>
+            <div class="process-card">
+              <span class="process-step">02</span>
+              <h3>Share the relevant question</h3>
+              <p>Provide your contact details and message so our team understands your exact requirements.</p>
+            </div>
+            <div class="process-card">
+              <span class="process-step">03</span>
+              <h3>Center follows up with details</h3>
+              <p>A center instructor or advisor contacts you directly to answer questions and clarify preparation plans.</p>
+            </div>
+            <div class="process-card">
+              <span class="process-step">04</span>
+              <h3>Requests confirmed directly</h3>
+              <p>Any preferred practice session times remain pending until our team confirms scheduling and equipment availability.</p>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="section section-compact location-section" id="location"><div class="container location-card"><div>${eyebrow("Visit the center")}<h2>Ask for center access and arrival details.</h2><p>Contact the center for current access and arrival details.</p></div><a class="button button-secondary" href="#contact-form">Ask about the location ${icon("arrow")}</a></div></section>
       ${faqStrip([
         [

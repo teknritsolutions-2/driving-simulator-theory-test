@@ -51,17 +51,17 @@ export function renderDashboard(store, escapeHtml) {
         <a class="dashboard-logo" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
         <nav aria-label="Dashboard navigation">
           ${[
-            ["overview", "Overview"],
-            ["sessions", "My Sessions"],
-            ["book", "Book Simulator"],
-            ["tests", "Theory Practice"],
-            ["history", "Test History"],
-            ["progress", "My Progress"],
-            ["settings", "Settings"],
+            ["overview", "Overview", "dashboard"],
+            ["sessions", "My Sessions", "calendar"],
+            ["book", "Book Simulator", "steer"],
+            ["tests", "Theory Practice", "quiz"],
+            ["history", "Test History", "history"],
+            ["progress", "My Progress", "trend"],
+            ["settings", "Settings", "settings"],
           ]
             .map(
-              ([view, label], index) =>
-                `<button class="dashboard-nav ${index === 0 ? "active" : ""}" data-view="${view}"><span class="nav-dot"></span><span>${label}</span></button>`,
+              ([view, label, iconName], index) =>
+                `<button class="dashboard-nav ${index === 0 ? "active" : ""}" data-view="${view}" title="${label}"><span class="nav-icon">${icon(iconName)}</span><span class="nav-label">${label}</span></button>`,
             )
             .join("")}
         </nav>
@@ -159,5 +159,6 @@ function emptyState(title, text, actionLabel, href) {
     href === "#"
       ? `<button class="button button-small dashboard-jump" data-view="book">${actionLabel}</button>`
       : `<a class="button button-small" href="${href}">${actionLabel}</a>`;
-  return `<div class="empty-state"><span>＋</span><h3>${title}</h3><p>${text}</p>${button}</div>`;
+  const plusIcon = `<svg class="empty-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`;
+  return `<div class="empty-state"><span class="empty-icon">${plusIcon}</span><h3>${title}</h3><p>${text}</p>${button}</div>`;
 }

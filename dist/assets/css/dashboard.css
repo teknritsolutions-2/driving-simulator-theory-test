@@ -813,21 +813,61 @@
   border-inline-start: 3px solid var(--brand);
 }
 
+.empty-state .empty-icon {
+  display: grid;
+  place-items: center;
+}
+.empty-state .empty-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+}
+
 @media (max-width: 1050px) {
   .dashboard-app {
-    grid-template-columns: 86px minmax(0, 1fr);
+    grid-template-columns: 195px minmax(0, 1fr);
+  }
+  .dashboard-sidebar {
+    padding: 1.25rem 0.85rem;
   }
   .dashboard-logo img {
-    width: 48px;
+    width: 135px;
     object-position: left;
-    object-fit: cover;
+    object-fit: contain;
   }
   .dashboard-nav {
-    justify-content: center;
+    justify-content: flex-start;
+    padding: 0.65rem 0.75rem;
+    min-height: 44px;
+    gap: 0.65rem;
+    border-radius: 8px;
   }
-  .dashboard-nav > span:last-child,
+  .dashboard-nav .nav-icon {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .dashboard-nav .nav-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+  .dashboard-nav .nav-label {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
   .dashboard-exit {
-    display: none;
+    display: block;
+    font-size: 0.82rem;
+    margin-top: auto;
   }
   .metric-row {
     grid-template-columns: repeat(2, 1fr);
@@ -856,24 +896,61 @@
     top: 0;
     width: 100%;
     height: auto;
-    flex-direction: row;
+    display: flex;
+    flex-direction: column;
+    padding: 0.65rem 0.85rem 0.75rem;
+    box-sizing: border-box;
+    background: #17171d;
+    border-bottom: 1px solid #282834;
+  }
+  .dashboard-logo {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 0.65rem 0.8rem;
+    margin-bottom: 0.5rem;
   }
   .dashboard-logo img {
-    width: 42px;
+    width: 105px;
   }
   .dashboard-sidebar nav {
     display: flex;
-    margin: 0;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+    margin: 0;
+    width: 100%;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
   }
   .dashboard-nav {
-    flex: 0 0 auto;
-    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: 0.5rem 0.85rem;
+    border-radius: 99px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
-  .dashboard-nav > span:last-child {
+  .dashboard-nav.active {
+    background: #2e2844;
+    border-color: var(--brand-highlight);
+    color: #ffffff;
+  }
+  .dashboard-nav .nav-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .dashboard-nav .nav-label {
     display: inline;
+  }
+  .dashboard-exit {
+    display: none;
   }
   .dashboard-main {
     padding: 18px;

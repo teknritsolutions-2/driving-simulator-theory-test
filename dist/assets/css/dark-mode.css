@@ -7,11 +7,18 @@
   --surface-inverse: #17171d;
   --surface-inverse-elevated: #26262e;
   --surface-brand-muted: #302943;
+  --surface-raised: #252530;
+  --surface-subtle: #191922;
   --text-primary: #f5f5fa;
-  --text-secondary: #c2c2cd;
+  --text-secondary: #b0b0c0;
+  --text-muted: #9595a6;
   --text-on-dark: #f8f8fb;
   --text-on-dark-muted: #c6c6d0;
   --text-on-light: #17171d;
+  --text-on-photo: #ffffff;
+  --text-on-photo-muted: #e6e5f0;
+  --text-on-accent: #17171d;
+  --disabled-text: #787888;
   --brand: #a58bf1;
   --brand-hover: #bba8f5;
   --brand-highlight: #a58bf1;
@@ -23,10 +30,19 @@
   --focus-ring: #b69fff;
   --border-default: #41414e;
   --border-strong: #626272;
+  --border-visible: #4e4e5e;
   --chart-track: #3b3b47;
   --chart-active: #a58bf1;
   --chart-center: #17171d;
   --chart-label: #f5f5fa;
+  --result-surface: #202028;
+  --result-review-item-bg: #17171f;
+  --result-user-answer-border: #3b3b47;
+  --result-correct-answer-bg: rgba(20, 118, 83, 0.22);
+  --result-correct-answer-text: #5fe0a6;
+  --result-explanation-text: #cfcfe0;
+  --result-summary-chip-bg: rgba(255, 255, 255, 0.08);
+  --result-summary-chip-border: #444452;
   --status-success: #71d4ae;
   --status-success-surface: #183c31;
   --status-warning: #f0bd6d;
@@ -102,6 +118,102 @@
 }
 [data-theme="dark"] .moon-icon {
   display: inline-flex;
+}
+
+/* Dark mode calendar contrast */
+[data-theme="dark"] .calendar-weekdays {
+  color: #b0b0c4;
+  font-weight: 500;
+}
+[data-theme="dark"] .calendar-grid button {
+  border-color: #383844;
+  color: #f0f0f5;
+}
+[data-theme="dark"] .calendar-grid button:disabled {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border-color: #2e2e38;
+  color: #7e7e8e;
+  cursor: not-allowed;
+}
+[data-theme="dark"] .calendar-grid button:disabled small {
+  color: #6b6b79;
+}
+[data-theme="dark"] .calendar-grid button.is-today {
+  border-color: var(--brand-highlight);
+}
+[data-theme="dark"] .time-empty-notice {
+  background: #191922;
+  border-color: #383848;
+  color: #b5b5c5;
+}
+
+/* Dark mode Theory Prep readiness panel & review story contrast */
+[data-theme="dark"] .dashboard-showcase .gauge-title,
+[data-theme="dark"] .gauge-title {
+  color: #f2f2f8;
+  font-weight: 600;
+}
+[data-theme="dark"] .dashboard-showcase .gauge-subtitle,
+[data-theme="dark"] .gauge-subtitle {
+  color: #c4c4d4;
+}
+[data-theme="dark"] .showcase-bottom {
+  color: #c4c4d4;
+  border-top-color: #383848;
+}
+[data-theme="dark"] .showcase-bottom b {
+  color: #ffffff;
+}
+[data-theme="dark"] .component-caption {
+  color: #a4a4b4;
+}
+[data-theme="dark"] .answer-review-mock {
+  background: var(--result-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+}
+[data-theme="dark"] .answer-review-mock p {
+  background: var(--result-review-item-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--result-user-answer-border);
+}
+[data-theme="dark"] .answer-review-mock .correct-line {
+  background: var(--result-correct-answer-bg);
+  border-inline-start-color: var(--result-correct-answer-text);
+  color: #f0fdf6;
+}
+[data-theme="dark"] .answer-review-mock small {
+  color: var(--result-explanation-text);
+}
+[data-theme="dark"] .result-equation span {
+  background: var(--result-summary-chip-bg);
+  border-color: var(--result-summary-chip-border);
+  color: #e4e4ee;
+}
+
+/* Dark mode dashboard panels and metadata contrast */
+[data-theme="dark"] .dashboard-panel h2 {
+  color: #f5f5fa;
+}
+[data-theme="dark"] .dashboard-panel p,
+[data-theme="dark"] .metric-row article i,
+[data-theme="dark"] .empty-state p {
+  color: #b8b8c8;
+}
+[data-theme="dark"] .metric-row article span {
+  color: #c8c8d8;
+}
+[data-theme="dark"] .responsive-table th {
+  color: #b8b8c8;
+  border-bottom-color: #383846;
+}
+[data-theme="dark"] .separation-note span {
+  color: #c8c8d8;
+}
+[data-theme="dark"] .empty-state > span {
+  background: rgba(112, 70, 232, 0.25);
+  color: #b9a5ff;
 }
 
 @media (prefers-color-scheme: dark) {

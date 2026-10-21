@@ -32,3 +32,29 @@ The interface does not claim that road-environment images are simulator screensh
 - **About & Contact Learning Environment**: `theory-study.jpg` and `study-notes.jpg` (one-to-one theory preparation and learner review).
 - **Student Login & Portal**: `dashboard-night.jpg` (illuminated vehicle instrument cockpit) and `theory-study.jpg` (register).
 - **Featured Urban Practice**: `pedestrian-crossing.jpg` (wide street-level intersection).
+
+## Image Audit & Responsive Crop Specifications
+
+| Image File | Natural Dimensions | Primary Uses | Intended Frame Ratio | Desktop `object-position` | Tablet `object-position` | Mobile `object-position` |
+|---|---|---|---|---|---|---|
+| `simulator.jpg` | 1800 × 2700 | Home 1 hero, Home 1 session rail, Session anatomy, About hero & walkthrough | 16:10 / 16:9 / 4:3 | `50% 55%` (Hero: `center 67%`) | `50% 38%` | `50% 30%` (Preserves steering wheel) |
+| `road-cockpit.jpg` | 1600 × 2400 | Home 1 benefit editorial, About story | 4:5 / 16:10 / 3:2 | `50% 52%` | `50% 48%` | `50% 50%` |
+| `urban-signal.jpg` | 1600 × 1067 | Home 1 & 2 scenario cards, Schedule summary thumbnail | 16:10 / 16:9 / 4:3 | `center center` | `center center` | `50% 45%` |
+| `pedestrian-crossing.jpg` | 1600 × 900 | Featured session card, Catalog | 16:9 / 16:10 | `center center` | `center center` | `center center` |
+| `highway.jpg` | 1600 × 1067 | Scenario studio, Catalog, Home 2 gallery | 16:10 / 16:9 / 4:3 | `center center` | `center center` | `center center` |
+| `parking.jpg` | 1600 × 898 | Scenario studio, Catalog, Home 2 gallery | 16:10 / 16:9 / 4:3 | `center center` | `center center` | `center center` |
+| `hazard.jpg` | 1580 × 2809 | Scenario studio, Home 2 gallery, Catalog | 16:10 / 16:9 / 4:3 | `50% 30%` | `50% 30%` | `50% 30%` |
+| `theory-study.jpg` | 1600 × 1067 | Home 1 theory editorial, About collage, Contact support | 16:10 / 16:9 / 4:3 | `50% 50%` | `50% 50%` | `50% 50%` |
+| `road-signs.jpg` | 1600 × 1067 | Theory Prep topic explorer, Home 2 challenge | 16:9 / 16:10 | `center center` | `center center` (Wide 16:9) | `center center` |
+| `exam-desk.jpg` | 1600 × 1076 | Theory Prep topics, Mock test intro | 16:10 / 16:9 | `center center` | `center center` | `center center` |
+| `dashboard-night.jpg` | 1600 × 1067 | Login portal visual, Mock test background | 16:10 / Cover | `50% 52%` | `50% 52%` | `50% 52%` |
+| `night-cockpit.jpg` | 1600 × 1067 | Pricing header visual | 16:10 / 4:3 | `center center` | `center center` | `center center` |
+| `instrument-panel.jpg` | 1600 × 1067 | Catalog header visual | 16:10 / 4:3 | `center center` | `center center` | `center center` |
+| `study-notes.jpg` | 1600 × 1067 | About journey, Home 2 question stack | 16:10 / 4:3 | `center center` | `center center` | `center center` |
+| `city.jpg` | 1600 × 993 | Scenario studio, Catalog | 16:10 / 16:9 | `center center` | `center center` | `center center` |
+| `night-road.jpg` | 1600 × 1070 | Scenario studio, Catalog | 16:10 / 16:9 | `center center` | `center center` | `center center` |
+| `rain-highway.jpg` | 1600 × 2400 | Adverse weather scenario | 16:10 / 16:9 | `50% 40%` | `50% 40%` | `50% 40%` |
+| `urban-aerial.jpg` | 1600 × 2000 | Complex intersection scenario | 16:10 / 16:9 | `50% 45%` | `50% 45%` | `50% 45%` |
+| `warning-sign.jpg` | 1600 × 1037 | Hazard perception topic | 16:10 / 16:9 | `center center` | `center center` | `center center` |
+| `roadworks-sign.jpg` | 1600 × 1063 | Rules & Regulations topic | 16:10 / 16:9 | `center center` | `center center` | `center center` |
+| `computer-lab.jpg` | 1600 × 1067 | Vehicle Safety topic | 16:10 / 16:9 | `center center` | `center center` | `center center` |

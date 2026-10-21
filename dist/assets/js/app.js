@@ -522,7 +522,7 @@ function bindSchedule() {
               `<button role="radio" aria-checked="${time === selectedTime}" class="${time === selectedTime ? "selected" : ""}" data-time="${time}"><span>${time}</span><small>Request</small></button>`,
           )
           .join("")
-      : "<p>Choose a future date to view request times.</p>";
+      : '<div class="time-empty-notice"><p>Select a date to view available request times.</p></div>';
     target.querySelectorAll("button").forEach((button) =>
       button.addEventListener("click", () => {
         selectedTime = button.dataset.time;
