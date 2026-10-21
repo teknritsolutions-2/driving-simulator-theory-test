@@ -50,3 +50,31 @@ test("sticky navigation and focus targets remain usable", async ({ page }) => {
   await page.locator(".skip-link").press("Enter");
   await expect(page.locator("#main")).toBeVisible();
 });
+
+test("public navigation and customer-facing language match the final contract", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator(".desktop-nav > .nav-link")).toHaveText([
+    "About",
+    "Simulator Sessions",
+    "Theory Test Prep",
+    "Schedule",
+    "Pricing",
+    "Contact",
+  ]);
+  await page.locator(".home-menu-button").click();
+  await expect(page.locator(".home-menu a")).toHaveText(["Home 1", "Home 2"]);
+  await expect(page.locator(".portal-button")).toHaveText("Student Dashboard");
+  await expect(page.locator(".site-footer")).toContainText("Home 1");
+  await expect(page.locator(".site-footer")).toContainText("Home 2");
+
+  const forbidden =
+    /illustrative public preview|illustrative dashboard|illustrative recent average|configured request times|example price|empty sample profile/i;
+  for (const route of routes.slice(0, 10)) {
+    await page.goto(route);
+    expect(await page.locator("body").innerText(), route).not.toMatch(
+      forbidden,
+    );
+  }
+});

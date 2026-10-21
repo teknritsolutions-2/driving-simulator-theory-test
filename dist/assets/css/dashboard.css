@@ -933,11 +933,25 @@
     grid-template-columns: 1fr;
   }
   .dashboard-nav > span:last-child {
-    display: none;
+    display: inline;
   }
   .dashboard-sidebar nav {
     width: 100%;
-    justify-content: space-between;
+    gap: 0.25rem;
+    justify-content: flex-start;
+    scrollbar-width: thin;
+  }
+  .dashboard-logo {
+    display: none;
+  }
+  .dashboard-nav {
+    min-height: 38px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+  .dashboard-nav .nav-dot {
+    display: none;
   }
   .dashboard-header h1 {
     font-size: 2rem;

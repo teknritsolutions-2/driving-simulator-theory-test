@@ -29,8 +29,8 @@ export function header(hasProfile) {
           <div class="nav-dropdown">
             <button class="nav-link home-menu-button" aria-expanded="false">Home ${icon("chevron")}</button>
             <div class="home-menu" hidden>
-              <a href="${ROOT}index.html">Simulator Lab</a>
-              <a href="${ROOT}pages/home2.html">Readiness Studio</a>
+              <a href="${ROOT}index.html">Home 1</a>
+              <a href="${ROOT}pages/home2.html">Home 2</a>
             </div>
           </div>
           <a class="nav-link" href="${ROOT}pages/about.html">About</a>
@@ -43,21 +43,21 @@ export function header(hasProfile) {
         <div class="nav-actions">
           <button class="icon-button theme-toggle" aria-label="Switch color theme"><span class="sun-icon">${icon("sun")}</span><span class="moon-icon">${icon("moon")}</span></button>
           <button class="direction-toggle" aria-label="Switch text direction"><span class="direction-label">RTL</span></button>
-          <a class="button button-small portal-button" href="${ROOT}pages/${portal}">Student Portal</a>
+          <a class="button button-small portal-button" href="${ROOT}pages/${portal}">Student Dashboard</a>
           <button class="icon-button menu-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation"><span class="menu-icon">${icon("menu")}</span><span class="close-icon">${icon("close")}</span></button>
         </div>
       </div>
       <div class="mobile-menu" id="mobile-menu" hidden>
         <nav aria-label="Mobile navigation">
-          <a href="${ROOT}index.html">Home — Simulator Lab</a>
-          <a href="${ROOT}pages/home2.html">Home — Readiness Studio</a>
+          <a href="${ROOT}index.html">Home 1</a>
+          <a href="${ROOT}pages/home2.html">Home 2</a>
           <a href="${ROOT}pages/about.html">About</a>
           <a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a>
           <a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a>
           <a href="${ROOT}pages/schedule.html">Schedule</a>
           <a href="${ROOT}pages/pricing.html">Pricing</a>
           <a href="${ROOT}pages/contact.html">Contact</a>
-          <a href="${ROOT}pages/${portal}">Student Portal</a>
+          <a href="${ROOT}pages/${portal}">Student Dashboard</a>
         </nav>
         <div class="mobile-preferences">
           <button class="preference-button theme-toggle">${icon("sun")} <span>Color theme</span></button>
@@ -76,8 +76,8 @@ export function footer() {
           <p>Simulation, theory practice and clear progress tools for deliberate driver preparation.</p>
         </div>
         <div><h3>Train</h3><a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a><a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a></div>
-        <div><h3>Explore</h3><a href="${ROOT}index.html">Simulator Lab</a><a href="${ROOT}pages/home2.html">Readiness Studio</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/contact.html">Contact</a></div>
-        <div><h3>Support</h3><a href="${ROOT}pages/login.html">Student Portal</a><a href="${ROOT}pages/faq.html">FAQ</a><a href="${ROOT}pages/privacy.html">Privacy</a><a href="${ROOT}pages/terms.html">Terms</a></div>
+        <div><h3>Explore</h3><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/contact.html">Contact</a></div>
+        <div><h3>Support</h3><a href="${ROOT}pages/login.html">Student Dashboard</a><a href="${ROOT}pages/faq.html">FAQ</a><a href="${ROOT}pages/privacy.html">Privacy</a><a href="${ROOT}pages/terms.html">Terms</a></div>
       </div>
       <div class="container footer-base"><span>© 2026 DriveLab</span><span>Driver Simulation & Theory Assessment Center</span></div>
     </footer>
@@ -116,7 +116,7 @@ export function scenarioStudio() {
           .join("")}
       </div>
       <div class="scenario-stage">
-        <div class="scenario-image"><img data-scenario-image src="${ROOT}assets/images/${first.image}" alt="City traffic training environment"><span class="scenario-status"><span class="status-dot"></span> Scenario preview</span></div>
+        <div class="scenario-image"><img data-scenario-image src="${ROOT}assets/images/${first.image}" alt="City traffic training environment"><span class="scenario-status"><span class="status-dot"></span> Selected scenario</span></div>
         <div class="scenario-brief">
           <span class="kicker">Selected environment</span><h2 data-field="label">${first.label}</h2><p data-field="description">${first.description}</p>
           <div class="scenario-readout"><div><span>Training focus</span><strong data-field="focus">${first.focus}</strong></div><dl><div><dt>Duration</dt><dd data-field="duration">${first.duration}</dd></div><div><dt>Level</dt><dd data-field="difficulty">${first.difficulty}</dd></div></dl></div>
@@ -130,7 +130,7 @@ export function sessionCard(session, featured = false) {
   return `
     <article class="session-product ${featured ? "session-featured" : ""}" data-duration="${session.duration}">
       <a class="session-photo" href="${ROOT}pages/book-session.html?session=${session.id}" aria-label="Book ${session.title}"><img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment"><span>${session.difficulty}</span></a>
-      <div class="session-body"><div class="session-specs"><span>${icon("clock")} ${session.duration} min</span><span>$${session.price}</span></div><h3>${session.title}</h3><p>${session.description}</p><div class="session-focus">${session.focus}</div><a class="text-button" href="${ROOT}pages/book-session.html?session=${session.id}">Request session ${icon("arrow")}</a></div>
+      <div class="session-body"><div class="session-specs"><span>${icon("clock")} ${session.duration} min</span><span>Pricing on enquiry</span></div><h3>${session.title}</h3><p>${session.description}</p><div class="session-focus">${session.focus}</div><a class="text-button" href="${ROOT}pages/book-session.html?session=${session.id}">Request session ${icon("arrow")}</a></div>
     </article>`;
 }
 
@@ -140,7 +140,7 @@ export function compactPricing() {
       ${Object.entries(plans)
         .map(
           ([key, plan], index) =>
-            `<article class="price-path ${index === 1 ? "is-featured" : ""}"><span class="price-index">0${index + 1}</span><div><h3>${plan.title}</h3><p>${plan.note}</p></div><strong>${plan.price}</strong><a class="text-button" href="${ROOT}pages/book-session.html?plan=${key}">Choose ${icon("arrow")}</a></article>`,
+            `<article class="price-path ${index === 1 ? "is-featured" : ""}"><span class="price-index">0${index + 1}</span><div><h3>${plan.title}</h3><p>${plan.note}</p></div><strong>Enquire</strong><a class="text-button" href="${ROOT}pages/book-session.html?plan=${key}">Choose ${icon("arrow")}</a></article>`,
         )
         .join("")}
     </div>`;
