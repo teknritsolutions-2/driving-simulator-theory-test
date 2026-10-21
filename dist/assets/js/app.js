@@ -82,8 +82,9 @@ function renderPage() {
     "test-results": () => renderResults(store),
   };
   const content = (pages[pageName] || notFoundPage)();
+  const hasProfile = Boolean(store.get("profile", null));
   document.querySelector("#app").innerHTML =
-    `${plainPages.has(pageName) ? "" : header(Boolean(store.get("profile", null)))}${content}${plainPages.has(pageName) ? "" : footer()}`;
+    `${plainPages.has(pageName) ? "" : header(hasProfile)}${content}${plainPages.has(pageName) ? "" : footer(hasProfile)}`;
   bindInteractions();
 }
 
@@ -235,9 +236,12 @@ function bindReveals() {
       .forEach((element) => element.classList.add("visible"));
     document
       .querySelectorAll(".gauge")
-      .forEach((element) =>
-        element.style.setProperty("--progress", element.dataset.progress || 0),
-      );
+      .forEach((element) => {
+        const prog = Number(element.dataset.progress || 0);
+        element.style.setProperty("--progress", prog);
+        const active = element.querySelector(".gauge-active");
+        if (active) active.style.opacity = prog > 0 ? "1" : "0";
+      });
     return;
   }
   const observer = new IntersectionObserver(
@@ -257,18 +261,33 @@ function bindReveals() {
 }
 
 function animateGauge(element) {
-  const target = Number(element.dataset.progress || 0);
-  element.style.setProperty("--progress", target);
-  const value = element.querySelector(".gauge-value");
-  if (!value || !value.dataset.value) return;
-  const suffix = value.textContent.replace(/[\d.]/g, "");
-  const decimals = String(Number(value.dataset.value)).includes(".");
+  const targetProgress = Number(element.dataset.progress || 0);
+  element.style.setProperty("--progress", targetProgress);
+  const activeCircle = element.querySelector(".gauge-active");
+  if (activeCircle) {
+    activeCircle.style.opacity = targetProgress > 0 ? "1" : "0";
+  }
+  const valueEl = element.querySelector(".gauge-value");
+  if (!valueEl) return;
+  const targetNumAttr = element.dataset.targetNumber;
+  if (!targetNumAttr || targetNumAttr === "") return;
+  const targetNum = Number(targetNumAttr);
+  const decimals = element.dataset.decimals === "1";
+  const prefix = element.dataset.prefix || "";
+  const suffix = element.dataset.suffix || "";
   const started = performance.now();
   const step = (now) => {
-    const progress = Math.min(1, (now - started) / 700);
-    const current = Number(value.dataset.value) * progress;
-    value.textContent = `${decimals ? current.toFixed(1) : Math.round(current)}${suffix}`;
-    if (progress < 1) requestAnimationFrame(step);
+    const p = Math.min(1, (now - started) / 750);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const current = targetNum * ease;
+    valueEl.textContent = `${prefix}${decimals ? current.toFixed(1) : Math.round(current)}${suffix}`;
+    element.style.setProperty("--progress", (targetProgress * ease).toFixed(1));
+    if (p < 1) {
+      requestAnimationFrame(step);
+    } else {
+      valueEl.textContent = `${prefix}${decimals ? targetNum.toFixed(1) : Math.round(targetNum)}${suffix}`;
+      element.style.setProperty("--progress", targetProgress);
+    }
   };
   requestAnimationFrame(step);
 }

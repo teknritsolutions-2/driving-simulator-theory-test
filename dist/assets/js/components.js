@@ -67,7 +67,8 @@ export function header(hasProfile) {
     </header>`;
 }
 
-export function footer() {
+export function footer(hasProfile = false) {
+  const portal = hasProfile ? "student-dashboard.html" : "login.html";
   return `
     <footer class="site-footer">
       <div class="container footer-layout">
@@ -77,7 +78,7 @@ export function footer() {
         </div>
         <div><h3>Train</h3><a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a><a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a></div>
         <div><h3>Explore</h3><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/contact.html">Contact</a></div>
-        <div><h3>Support</h3><a href="${ROOT}pages/login.html">Student Dashboard</a><a href="${ROOT}pages/faq.html">FAQ</a><a href="${ROOT}pages/privacy.html">Privacy</a><a href="${ROOT}pages/terms.html">Terms</a></div>
+        <div><h3>Support</h3><a href="${ROOT}pages/${portal}">Student Dashboard</a><a href="${ROOT}pages/faq.html">FAQ</a><a href="${ROOT}pages/privacy.html">Privacy</a><a href="${ROOT}pages/terms.html">Terms</a></div>
       </div>
       <div class="container footer-base"><span>© 2026 DriveLab</span><span>Driver Simulation & Theory Assessment Center</span></div>
     </footer>
@@ -126,6 +127,29 @@ export function scenarioStudio() {
     </div>`;
 }
 
+export function featuredSession(session) {
+  return `
+    <article class="featured-session-card">
+      <div class="featured-session-media">
+        <img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment">
+        <span class="featured-badge">Featured practice</span>
+      </div>
+      <div class="featured-session-body">
+        <div class="featured-session-meta">
+          <span>${icon("clock")} ${session.duration} min</span>
+          <span class="difficulty-pill">${session.difficulty}</span>
+          <span class="pricing-pill">Pricing on enquiry</span>
+        </div>
+        <h2>${session.title}</h2>
+        <p class="featured-session-focus"><strong>Training focus:</strong> ${session.focus}</p>
+        <p class="featured-session-desc">${session.description} Rehearse observation routines, pedestrian scanning and measured gap decisions with structured post-run review.</p>
+        <div class="featured-session-action">
+          <a class="button" href="${ROOT}pages/book-session.html?session=${session.id}">Request this session ${icon("arrow")}</a>
+        </div>
+      </div>
+    </article>`;
+}
+
 export function sessionCard(session, featured = false) {
   return `
     <article class="session-product ${featured ? "session-featured" : ""}" data-duration="${session.duration}">
@@ -148,7 +172,18 @@ export function compactPricing() {
 
 export function gauge(value, label, note, options = {}) {
   const display = options.display ?? `${value}%`;
-  return `<div class="instrument ${options.compact ? "instrument-compact" : ""}"><div class="instrument-ring gauge" data-progress="${value}" role="img" aria-label="${label}: ${display}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="gauge-track" cx="50" cy="50" r="42" pathLength="100"></circle><circle class="gauge-active" cx="50" cy="50" r="42" pathLength="100"></circle></svg><span class="gauge-value" data-value="${value}">${display}</span></div><div><h3>${label}</h3><p>${note}</p></div></div>`;
+  const numMatch = String(display).match(/(\d+(?:\.\d+)?)/);
+  const targetNumber = numMatch ? parseFloat(numMatch[1]) : null;
+  const decimals = numMatch && numMatch[1].includes(".") ? 1 : 0;
+  const parts = numMatch ? String(display).split(numMatch[1]) : ["", ""];
+  const prefix = parts[0] || "";
+  const suffix = parts[1] || "";
+  const progressPercent = typeof value === "number" && !isNaN(value) ? Math.max(0, Math.min(100, value)) : 0;
+  const isAvailable = display !== "—" && progressPercent > 0;
+  const primaryClass = options.primary ? "instrument-primary" : "";
+  const compactClass = options.compact ? "instrument-compact" : "";
+
+  return `<div class="instrument ${primaryClass} ${compactClass}"><div class="instrument-ring gauge" style="--progress: ${progressPercent};" data-progress="${progressPercent}" data-target-number="${targetNumber !== null ? targetNumber : ""}" data-decimals="${decimals}" data-prefix="${prefix}" data-suffix="${suffix}" role="img" aria-label="${label}: ${display}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="gauge-track" cx="50" cy="50" r="42" pathLength="100"></circle><circle class="gauge-active" cx="50" cy="50" r="42" pathLength="100" ${!isAvailable ? 'style="opacity: 0;"' : ""}></circle></svg><span class="gauge-value">${display}</span></div><div class="instrument-meta"><h3>${label}</h3><p>${note}</p></div></div>`;
 }
 
 export function photo(path, alt, className = "") {

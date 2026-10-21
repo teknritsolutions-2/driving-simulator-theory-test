@@ -76,7 +76,7 @@ export const scenarios = {
     focus: "Junction timing · pedestrian awareness",
     duration: "60 min",
     difficulty: "Developing",
-    image: "city.jpg",
+    image: "urban-signal.jpg",
     description:
       "Rehearse observation routines and measured decisions across layered urban traffic.",
   },
@@ -147,8 +147,8 @@ export const plans = {
 
 export const topicDetails = {
   "Road Signs": [
-    "warning-sign.jpg",
-    "Recognize sign shapes, symbols and temporary road information.",
+    "road-signs.jpg",
+    "Recognize sign shapes, symbols and warning information.",
   ],
   "Right of Way": [
     "urban-signal.jpg",

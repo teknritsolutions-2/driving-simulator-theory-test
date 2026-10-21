@@ -25,3 +25,10 @@ All bundled photography was downloaded from Pexels under the [Pexels license](ht
 - `roadworks-sign.jpg` — Pexels photo 117602, roadworks warning environment: https://www.pexels.com/photo/117602/
 
 The interface does not claim that road-environment images are simulator screenshots. They appear as editorial or training-scenario visuals. The site bundles 21 locally hosted photographs and makes no runtime request to a stock-photo provider.
+
+### Contextual Usage
+- **City Traffic Scenario**: `urban-signal.jpg` (street-level urban junction, traffic signals and pedestrian awareness).
+- **Road Signs Theory Topic**: `road-signs.jpg` (authentic road-sign category and study reference).
+- **About & Contact Learning Environment**: `theory-study.jpg` and `study-notes.jpg` (one-to-one theory preparation and learner review).
+- **Student Login & Portal**: `dashboard-night.jpg` (illuminated vehicle instrument cockpit) and `theory-study.jpg` (register).
+- **Featured Urban Practice**: `pedestrian-crossing.jpg` (wide street-level intersection).
