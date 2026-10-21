@@ -1,0 +1,15 @@
+{
+  "name": "drivelab-static-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "sh scripts/build.sh",
+    "format": "prettier --write assets/js/*.js assets/css/*.css tests/*.js",
+    "test": "playwright test tests/functional.spec.js tests/responsive.spec.js --project=desktop",
+    "test:visual": "playwright test tests/visual.spec.js --project=desktop"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "prettier": "^3.6.2"
+  }
+}

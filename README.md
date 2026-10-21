@@ -6,6 +6,16 @@ A buildless HTML/CSS/JavaScript client template for simulator-session discovery,
 
 Serve the repository root over HTTP (for example `python3 -m http.server 4173`) and open `http://localhost:4173/`. No Node.js runtime or build step is required for normal use.
 
+## Build and verify
+
+Run `npm install` once to install the development-only Playwright and formatting tools. Then use:
+
+- `npm run build` to refresh the deployable `dist/` directory.
+- `npm test` to run the functional browser suite.
+- `npm run test:visual` to capture the public pages, dashboard and assessment views at the documented desktop, tablet and mobile sizes.
+
+The runtime itself remains dependency-free: the browser loads native HTML, CSS and JavaScript modules.
+
 ## Important limitations
 
 - Login/profile behavior is a local browser preview, not secure authentication.

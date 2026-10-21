@@ -1,0 +1,100 @@
+[data-theme="dark"] {
+  --graphite: #f5f5fa;
+  --graphite-2: #282832;
+  --text: #f5f5fa;
+  --muted: #c5c5d1;
+  --background: #111116;
+  --surface: #1c1c24;
+  --border: #41414e;
+  --violet-pale: #342b4d;
+  --violet-subtle: #2c263e;
+  --shadow: 0 26px 70px rgba(0, 0, 0, 0.34);
+}
+
+[data-theme="dark"] .logo-light {
+  display: none;
+}
+[data-theme="dark"] .logo-dark {
+  display: block;
+}
+[data-theme="dark"] .site-header {
+  background: color-mix(in srgb, #111116 90%, transparent);
+}
+[data-theme="dark"] .home-hero,
+[data-theme="dark"] .scenario-studio,
+[data-theme="dark"] .theory-editorial,
+[data-theme="dark"] .portal-close,
+[data-theme="dark"] .readiness-process,
+[data-theme="dark"] .catalog-header,
+[data-theme="dark"] .session-anatomy,
+[data-theme="dark"] .review-story,
+[data-theme="dark"] .package-explainer,
+[data-theme="dark"] .dark-story,
+[data-theme="dark"] .contact-header,
+[data-theme="dark"] .schedule-header {
+  --graphite: #17171d;
+}
+[data-theme="dark"] .session-discovery,
+[data-theme="dark"] .showcase-section,
+[data-theme="dark"] .topic-section,
+[data-theme="dark"] .catalog-section,
+[data-theme="dark"] .location-section,
+[data-theme="dark"] .route-section {
+  background: #16161d;
+}
+[data-theme="dark"] .readiness-home,
+[data-theme="dark"] .readiness-hero,
+[data-theme="dark"] .theory-hero,
+[data-theme="dark"] .about-header,
+[data-theme="dark"] .simple-header,
+[data-theme="dark"] .booking-header {
+  background: #111116;
+}
+[data-theme="dark"] .assessment-card {
+  background: rgba(28, 28, 36, 0.92);
+}
+[data-theme="dark"] .dashboard-app {
+  background: #111116;
+}
+[data-theme="dark"] .dashboard-sidebar {
+  background: #09090d;
+}
+[data-theme="dark"] .dashboard-showcase,
+[data-theme="dark"] .result-score,
+[data-theme="dark"] .result-ring::before {
+  background: #17171d;
+}
+[data-theme="dark"] .portal-screen,
+[data-theme="dark"] .portal-screen-nav {
+  border-color: #08080c;
+  background: #08080c;
+}
+[data-theme="dark"] .portal-screen-body main,
+[data-theme="dark"] .portal-screen {
+  background: #22222b;
+}
+[data-theme="dark"] .screen-metrics b,
+[data-theme="dark"] .screen-chart {
+  background: #30303a;
+}
+[data-theme="dark"] .question-photo-stack img:last-child {
+  border-color: #111116;
+}
+[data-theme="dark"] .result-counts b {
+  color: var(--text);
+}
+[data-theme="dark"] .site-footer {
+  background: #08080c;
+}
+[data-theme="dark"] .sun-icon {
+  display: none;
+}
+[data-theme="dark"] .moon-icon {
+  display: inline-flex;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    color-scheme: dark;
+  }
+}

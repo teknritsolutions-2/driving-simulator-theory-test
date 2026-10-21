@@ -1,81 +1,827 @@
-(function(){
-'use strict';
-const ROOT = location.pathname.includes('/pages/') ? '../' : './';
-const $=(s,p=document)=>p.querySelector(s), $$=(s,p=document)=>[...p.querySelectorAll(s)];
-const store={get(k,d){try{return JSON.parse(localStorage.getItem('dl-'+k))??d}catch{return d}},set(k,v){localStorage.setItem('dl-'+k,JSON.stringify(v));window.dispatchEvent(new CustomEvent('dl:update',{detail:k}))},remove(k){localStorage.removeItem('dl-'+k)}};
-const sessions=[
- {id:'orientation',title:'First-Time Simulator Orientation',duration:45,difficulty:'Foundation',focus:'Controls, scanning & familiarization',price:45,desc:'A calm introduction to simulator controls, visual scanning and structured feedback.'},
- {id:'urban',title:'Urban Traffic Practice',duration:60,difficulty:'Developing',focus:'Junctions, observation & space',price:62,desc:'Repeat decision-making in busy streets with pedestrians, junctions and changing traffic.'},
- {id:'highway',title:'Highway Awareness',duration:60,difficulty:'Developing',focus:'Merging, lanes & following distance',price:62,desc:'Build a repeatable routine for joining, lane choice, spacing and exit planning.'},
- {id:'parking',title:'Parking & Maneuvering',duration:45,difficulty:'All levels',focus:'Low-speed control & reference points',price:49,desc:'Work through parking and precise low-speed movements without road pressure.'},
- {id:'hazards',title:'Hazard Recognition',duration:60,difficulty:'Intermediate',focus:'Scanning, anticipation & response',price:68,desc:'Practice identifying developing risks and choosing a measured response.'},
- {id:'assessment',title:'Mock Driving Assessment',duration:75,difficulty:'Advanced',focus:'Independent decision sequence',price:78,desc:'A structured practice assessment followed by an evidence-led review.'}
-];
-const scenarios={
- city:{label:'City Traffic',session:'urban',focus:'Junction timing · pedestrian awareness',duration:'60 min',difficulty:'Developing',image:ROOT+'assets/images/city.jpg',desc:'Rehearse observation routines and measured decisions across layered urban traffic.'},
- highway:{label:'Highway Driving',session:'highway',focus:'Merging · lane discipline · spacing',duration:'60 min',difficulty:'Developing',image:ROOT+'assets/images/highway.jpg',desc:'Build a reliable sequence for joining, lane changes, following space and exits.'},
- parking:{label:'Parking & Maneuvers',session:'parking',focus:'Reference points · low-speed control',duration:'45 min',difficulty:'All levels',image:ROOT+'assets/images/parking.jpg',desc:'Repeat precise maneuvers in a controlled setting and review each attempt.'},
- hazards:{label:'Hazard Awareness',session:'hazards',focus:'Scanning · anticipation · response',duration:'60 min',difficulty:'Intermediate',image:ROOT+'assets/images/hazard.jpg',desc:'Learn to spot developing risks earlier and choose calm, proportionate responses.'}
+import {
+  ROOT,
+  addDays,
+  isoDate,
+  scenarios,
+  sessionById,
+  sessions,
+  topicDetails,
+} from "./data.js";
+import { footer, header } from "./components.js";
+import {
+  bookingPage,
+  contactPage,
+  faqPage,
+  homePage,
+  homeTwoPage,
+  legalPage,
+  loginPage,
+  pricingPage,
+  schedulePage,
+  sessionsPage,
+  theoryPage,
+  aboutPage,
+} from "./public-pages.js";
+import { bookingForm, renderDashboard } from "./dashboard.js";
+import { bindMockTest, renderMockTest, renderResults } from "./mock-test.js";
+
+const store = {
+  get(key, fallback) {
+    try {
+      return JSON.parse(localStorage.getItem(`dl-${key}`)) ?? fallback;
+    } catch {
+      return fallback;
+    }
+  },
+  set(key, value) {
+    localStorage.setItem(`dl-${key}`, JSON.stringify(value));
+  },
+  remove(key) {
+    localStorage.removeItem(`dl-${key}`);
+  },
 };
-const pageName=()=>document.body.dataset.page||location.pathname.split('/').pop().replace('.html','')||'index';
-function logo(){return `<img class="light-logo" src="${ROOT}assets/brand/logo.svg" alt="DriveLab"><img class="dark-logo" src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab">`}
-function header(){const portal=store.get('profile',null)?'student-dashboard.html':'login.html';return `<a class="skip" href="#main">Skip to content</a><header class="topnav"><div class="shell nav-inner"><a class="brand" href="${ROOT}index.html">${logo()}</a><nav class="nav-links" aria-label="Primary"><div class="dropdown"><button aria-expanded="false">Home ▾</button><div class="dropdown-menu"><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a></div></div><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a><a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a><a href="${ROOT}pages/contact.html">Contact</a></nav><div class="nav-tools"><button class="icon-btn theme-toggle" aria-label="Toggle color theme">◐</button><button class="icon-btn dir-toggle" aria-label="Toggle text direction">↔</button><a class="btn small portal" href="${ROOT}pages/${portal}">Student Portal</a><button class="icon-btn menu-toggle" aria-expanded="false" aria-label="Open navigation">☰</button></div></div><nav class="mobile-drawer" aria-label="Mobile"><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a><a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a><a href="${ROOT}pages/contact.html">Contact</a><div class="button-row"><button class="icon-btn theme-toggle" aria-label="Toggle color theme">◐</button><button class="icon-btn dir-toggle" aria-label="Toggle text direction">↔</button></div></nav></header>`}
-function footer(){return `<footer class="footer"><div class="shell"><div class="footer-grid"><div><a class="brand" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a><p>Driver simulation and theory assessment tools for focused, measurable practice.</p></div><div><h3>Train</h3><a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a><a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a></div><div><h3>Explore</h3><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/contact.html">Contact</a><a href="${ROOT}pages/faq.html">FAQ</a></div><div><h3>Account</h3><a href="${ROOT}pages/login.html">Student Portal</a><a href="${ROOT}pages/privacy.html">Privacy</a><a href="${ROOT}pages/terms.html">Terms</a></div></div><div class="footer-bottom"><span>© 2026 DriveLab template.</span><span>Local preview data stays in this browser.</span></div></div></footer><button class="icon-btn back-top" aria-label="Back to top">↑</button>`}
-const questionWidget=(id='public-quiz')=>`<div class="quiz-preview surface reveal" id="${id}"><span class="tag">Original practice item</span><h3 style="margin-top:1rem">A ball rolls into the road from between parked cars. What should you anticipate?</h3><div class="quiz-options"><button class="quiz-option" data-correct="false">A. The road is clear after the ball</button><button class="quiz-option" data-correct="true">B. A child may follow it</button><button class="quiz-option" data-correct="false">C. Only oncoming vehicles matter</button></div><div class="feedback" aria-live="polite">Choose one answer to reveal the explanation.</div><div class="button-row" style="margin-top:1rem"><button class="btn secondary next-preview">Another question</button><a class="btn" href="${ROOT}pages/mock-test.html">Start a full practice</a></div></div>`;
-function cockpit(){return `<div class="cockpit reveal" id="scenario-explorer"><div class="scenario-tabs" role="tablist">${Object.entries(scenarios).map(([k,v],i)=>`<button class="scenario-tab" role="tab" data-scenario="${k}" aria-selected="${!i}">${v.label}</button>`).join('')}</div><div class="cockpit-stage"><img src="${scenarios.city.image}" alt="Urban driving environment preview"><div class="cockpit-overlay"><div class="cockpit-readout"><dl><dt>Training focus</dt><dd data-field="focus">${scenarios.city.focus}</dd><dt>Session</dt><dd data-field="duration">${scenarios.city.duration}</dd><dt>Level</dt><dd data-field="difficulty">${scenarios.city.difficulty}</dd></dl></div><div class="cockpit-copy"><span class="tag">Training-scenario preview</span><h2 data-field="label">${scenarios.city.label}</h2><p data-field="desc">${scenarios.city.desc}</p><a class="btn scenario-cta" href="${ROOT}pages/book-session.html?session=urban">Book this scenario →</a></div></div></div></div>`}
-function cluster(label='Illustrative preview'){return `<div><span class="tag">${label}</span><div class="cluster" style="margin-top:1rem"><article class="gauge-card surface reveal"><div class="gauge" data-progress="68"><span class="gauge-value" data-value="6.8">6.8h</span></div><h3>Practice hours</h3><p>Recorded completed practice only</p></article><article class="gauge-card surface reveal"><div class="gauge" data-progress="82"><span class="gauge-value" data-value="82">82%</span></div><h3>Theory average</h3><p>Calculated from saved attempts</p></article><article class="gauge-card surface reveal"><div class="gauge" data-progress="74"><span class="gauge-value" data-value="74">74%</span></div><h3>Readiness</h3><p>Educational indicator, not a pass prediction</p></article></div></div>`}
-function sessionCards(limit=3){return sessions.slice(0,limit).map(s=>`<article class="session-card surface reveal"><span class="tag">${s.difficulty}</span><h3>${s.title}</h3><p>${s.desc}</p><div class="session-meta"><span>${s.duration} min</span><span>${s.focus}</span><span>$${s.price}</span></div><div class="button-row"><a class="btn small" href="${ROOT}pages/book-session.html?session=${s.id}">Book session</a></div></article>`).join('')}
-function home(){return `<main id="main"><section class="hero"><div class="hero-media"><img src="${ROOT}assets/images/simulator.jpg" alt="Driving simulator steering wheel and instrument setup"></div><div class="shell hero-content"><div class="eyebrow">Driver readiness lab</div><h1>Train the decisions <em>before the real road.</em></h1><p class="lede">Structured simulation, theory practice and clear progress signals—built around repeatable decisions, not empty promises.</p><div class="button-row"><a class="btn" href="${ROOT}pages/simulator-sessions.html">Explore simulator sessions</a><a class="btn secondary" style="color:#fff;border-color:#62626f" href="${ROOT}pages/theory-test-prep.html">Practice theory tests</a></div><div class="hero-instruments"><div class="micro-stat"><span>Training mode</span><strong>Scenario-based</strong></div><div class="micro-stat"><span>Feedback loop</span><strong>Practice → Review</strong></div><div class="micro-stat"><span>Portal data</span><strong>Saved locally</strong></div></div></div></section><section class="section"><div class="shell"><div class="split-header"><div><div class="eyebrow">Scenario explorer</div><h2>Choose the road condition. Focus the practice.</h2></div><p class="lede">Explore what each configured simulator session is designed to rehearse.</p></div>${cockpit()}</div></section><section class="section" style="background:var(--surface)"><div class="shell"><div class="eyebrow">Why simulation</div><div class="benefit-grid"><article class="benefit surface reveal"><span class="num">01</span><h2>Repeat the moment, not the mistake.</h2><p>Controlled scenarios let learners pause, review and revisit decision sequences without claiming to replace supervised on-road practice.</p></article><article class="benefit surface reveal"><span class="num">02</span><h3>Hazard recognition</h3><p>Develop a wider scan and earlier response.</p></article><article class="benefit surface reveal"><span class="num">03</span><h3>Low-speed control</h3><p>Build reference points for precise maneuvers.</p></article><article class="benefit surface reveal"><span class="num">04</span><h3>Structured feedback</h3><p>Turn each attempt into a clear next step.</p></article><article class="benefit surface reveal"><span class="num">05</span><h3>Calm familiarity</h3><p>Reduce novelty through repeatable exposure.</p></article></div></div></section><section class="section"><div class="shell"><div class="split-header"><div><div class="eyebrow">Configured formats</div><h2>Sessions with a purpose.</h2></div><a href="${ROOT}pages/simulator-sessions.html">View all sessions →</a></div><div class="session-strip">${sessionCards(3)}</div></div></section><section class="section" style="background:var(--surface)"><div class="shell grid-2"><div><div class="eyebrow">Theory preview</div><h2>Practice the reasoning, not just the answer.</h2><p class="lede">Every practice item includes an explanation. These are original educational questions, not official exam content.</p></div>${questionWidget()}</div></section><section class="section"><div class="shell"><div class="split-header"><div><div class="eyebrow">Performance console</div><h2>See practice turn into patterns.</h2></div><p>Illustrative public preview. Your dashboard uses only your saved browser data.</p></div>${cluster()}</div></section><section class="section" style="background:var(--surface)"><div class="shell"><div class="eyebrow">Training route</div><h2>One loop. Five deliberate stages.</h2><div class="route-wrap"><div class="route">${['Discover','Book','Practice','Test','Review'].map((x,i)=>`<article class="route-step reveal"><small>0${i+1}</small><h3>${x}</h3><p>${['Choose the skill to focus.','Request a configured slot.','Record completed work.','Take an original mock.','Use the result to target revision.'][i]}</p></article>`).join('')}</div></div></div></section><section class="section"><div class="shell grid-2"><div><div class="eyebrow">Schedule preview</div><h2>Find a practice window.</h2><p>Example slots are locally configured and require center confirmation.</p><a class="btn" href="${ROOT}pages/schedule.html">Open full schedule</a></div><div class="calendar-preview">${nextDays(7).map((d,i)=>`<button class="day" onclick="location.href='${ROOT}pages/schedule.html?date=${iso(d)}'"><span>${d.toLocaleDateString(undefined,{weekday:'short'})}</span><strong>${d.getDate()}</strong><span>${i%3+2} example slots</span></button>`).join('')}</div></div></section><section class="section" style="background:var(--surface)"><div class="shell"><div class="split-header"><div><div class="eyebrow">Practice formats</div><h2>Start focused. Build deliberately.</h2></div><a href="${ROOT}pages/pricing.html">Compare all formats →</a></div>${pricing()}</div></section><section class="section"><div class="shell"><div class="cta-panel"><div><h2>Your practice. One clear console.</h2><p>Book local requests, record completed hours, take mocks and review every answer.</p></div><a class="btn secondary" style="background:#fff;color:#24242c" href="${ROOT}pages/login.html">Explore the student portal</a></div></div></section></main>`}
-function nextDays(n){return Array.from({length:n},(_,i)=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+i+1);return d})}function iso(d){return d.toISOString().slice(0,10)}
-function pricing(){return `<div class="price-comparison"><article class="price-card surface reveal"><span class="tag">Single focus</span><h3>Single Simulator Session</h3><div class="price">$62 <small>/ configured example</small></div><ul class="check-list"><li>One 60-minute session</li><li>Selected scenario</li><li>Practice note</li></ul><a class="btn secondary" href="${ROOT}pages/book-session.html?plan=single">Choose session</a></article><article class="price-card featured surface reveal"><span class="tag">Practice sequence</span><h3>Multi-Session Practice Pack</h3><div class="price">$225 <small>/ 4 sessions</small></div><ul class="check-list"><li>Four 60-minute requests</li><li>Mix configured scenarios</li><li>Progress console access</li></ul><a class="btn" href="${ROOT}pages/book-session.html?plan=pack">Choose pack</a></article><article class="price-card surface reveal"><span class="tag">Combined</span><h3>Simulator + Theory</h3><div class="price">$285 <small>/ bundle</small></div><ul class="check-list"><li>Four simulator sessions</li><li>Mock-test modes</li><li>Readiness analytics</li></ul><a class="btn secondary" href="${ROOT}pages/book-session.html?plan=combined">Choose bundle</a></article></div>`}
-function pageHero(kicker,title,text,actions=''){return `<section class="page-hero"><div class="shell"><div class="eyebrow">${kicker}</div><h1>${title}</h1><p class="lede">${text}</p>${actions}</div></section>`}
-function home2(){return `<main id="main">${pageHero('Assessment & readiness studio','Turn every answer into your next study move.','A lighter, assessment-led route through original theory practice, answer review and cumulative progress.',`<div class="button-row"><a class="btn" href="mock-test.html">Start quick practice</a><a class="btn secondary" href="student-dashboard.html">View progress console</a></div>`)}<section class="section" style="padding-top:0"><div class="shell grid-2">${questionWidget('home2-quiz')}<div><span class="tag">Learning loop</span><h2 style="margin-top:1rem">Answer. Understand. Revisit.</h2><p class="lede">The result is useful only when it points back to the reasoning. Review incorrect and unanswered items with plain explanations.</p></div></div></section><section class="section" style="background:var(--surface)"><div class="shell"><div class="eyebrow">Preparation route</div><h2>Build coverage before confidence.</h2><div class="route">${['Baseline','Practice','Review','Broaden','Reassess'].map((x,i)=>`<article class="route-step"><small>0${i+1}</small><h3>${x}</h3><p>${['Start with a short untimed set.','Work topic by topic.','Explain each miss.','Cover more categories.','Use recent evidence.'][i]}</p></article>`).join('')}</div></div></section><section class="section"><div class="shell">${cluster('Illustrative assessment view')}</div></section><section class="section" style="background:var(--surface)"><div class="shell"><div class="split-header"><div><div class="eyebrow">Training categories</div><h2>Bridge theory and simulator practice.</h2></div></div><div class="session-strip">${sessionCards(3)}</div></div></section><section class="section"><div class="shell">${pricing()}</div></section><section class="section"><div class="shell"><div class="cta-panel"><div><h2>A quieter dashboard for clearer decisions.</h2><p>See history, topic coverage and suggested focus without a racing-game aesthetic.</p></div><a class="btn secondary" style="background:#fff;color:#24242c" href="student-dashboard.html">Open dashboard preview</a></div></div></section></main>`}
-function about(){return `<main id="main">${pageHero('About DriveLab','A preparation platform built around repeatable practice.','DriveLab is a configurable frontend template for a simulator and theory assessment center. It does not invent instructors, certifications or partnerships.')}<section class="section"><div class="shell grid-2"><div><h2>Technology serves the learning loop.</h2><p class="lede">Simulation creates a controlled place to revisit decisions. Theory practice explains the reasoning. The progress console connects both without presenting an educational indicator as an official verdict.</p></div><div class="surface" style="padding:2rem"><h3>What the template emphasizes</h3><ul class="check-list"><li>Scenario-led simulation practice</li><li>Original educational mock questions</li><li>Correct, incorrect and unanswered review</li><li>Self-reported completed practice</li><li>Transparent readiness calculations</li></ul></div></div></section><section class="section" style="background:var(--surface)"><div class="shell"><div class="benefit-grid"><article class="benefit surface"><span class="num">01</span><h2>Practice is evidence when it is recorded honestly.</h2><p>Requested sessions stay separate from completed time. Local data is labeled clearly.</p></article><article class="benefit surface"><h3>Repeatable</h3><p>Return to a specific skill rather than chasing variety.</p></article><article class="benefit surface"><h3>Reviewable</h3><p>Keep explanations connected to each answer.</p></article><article class="benefit surface"><h3>Configurable</h3><p>Adapt jurisdiction, pricing and sessions.</p></article><article class="benefit surface"><h3>Accessible</h3><p>Untimed modes, keyboard controls and readable reports.</p></article></div></div></section><section class="section"><div class="shell"><div class="cta-panel"><div><h2>Choose a skill to rehearse.</h2><p>Start with the session catalog or take an original practice test.</p></div><div class="button-row"><a class="btn secondary" style="background:#fff;color:#24242c" href="simulator-sessions.html">View sessions</a><a class="btn" href="mock-test.html">Start mock test</a></div></div></div></section></main>`}
-function sessionsPage(){return `<main id="main">${pageHero('Simulator session catalog','Configured training formats, not generic lessons.','Filter by duration, compare the skill focus, then carry your selected session into the local booking request.')}<section class="section" style="padding-top:0"><div class="shell catalog"><aside class="filters surface"><h3>Filter sessions</h3><div class="filter-group"><label for="duration-filter">Duration</label><select id="duration-filter"><option value="all">All durations</option><option value="45">45 minutes</option><option value="60">60 minutes</option><option value="75">75 minutes</option></select></div><p>Example services and prices are centrally editable template content.</p></aside><div class="catalog-grid" id="catalog-grid">${sessionCards(6)}</div></div></section><section class="section" style="background:var(--surface)"><div class="shell">${cockpit()}</div></section></main>`}
-function theory(){return `<main id="main">${pageHero('Theory test preparation','Practice decisions. See exactly what needs review.','Question formats are configurable and use original educational content. Local rules vary, so jurisdiction-specific material should be reviewed before launch.',`<div class="button-row"><a class="btn" href="mock-test.html">Start a mock test</a><a class="btn secondary" href="#sample">Try one question</a></div>`)}<section class="section" id="sample"><div class="shell grid-2"><div><div class="eyebrow">Question preview</div><h2>Reasoning appears after the choice.</h2><p>Sample practice never presents itself as official exam content.</p></div>${questionWidget('theory-quiz')}</div></section><section class="section" style="background:var(--surface)"><div class="shell"><div class="split-header"><div><div class="eyebrow">Practice modes</div><h2>Choose the depth you need.</h2></div></div><div class="session-strip">${[['Quick Practice','10','Untimed option for a short baseline.'],['Standard Mock','20','A broader cross-topic practice set.'],['Full Practice','30','Extended practice with more coverage.']].map(x=>`<article class="session-card surface"><span class="tag">${x[1]} questions</span><h3>${x[0]}</h3><p>${x[2]}</p><a class="btn" href="mock-test.html?count=${x[1]}">Start ${x[0]}</a></article>`).join('')}</div></div></section><section class="section"><div class="shell"><div class="eyebrow">Topic map</div><h2>Seven practical categories.</h2><div class="catalog-grid">${['Road Signs','Right of Way','Traffic Awareness','Hazard Perception','Parking Rules','Vehicle Basics','Safe Driving Decisions'].map(x=>`<article class="surface" style="padding:1.2rem"><h3>${x}</h3><p>Original practice items with explanations and a general-safety applicability note.</p></article>`).join('')}</div></div></section><section class="section" style="background:var(--surface)"><div class="shell"><h2>How scoring works</h2><p class="lede">Score is correct answers divided by total questions. Incorrect and unanswered answers remain separate. Topic summaries are calculated from the attempt—not filled with example history.</p></div></section></main>`}
-function schedule(){const dates=nextDays(14);return `<main id="main">${pageHero('Configured example schedule','Select a date, then request a practice time.','This frontend does not connect to live center inventory. Every submitted item is a local request awaiting center confirmation.')}<section class="section" style="padding-top:0"><div class="shell grid-2"><div class="surface" style="padding:1.5rem"><div class="split-header"><h2 id="month-label">${new Date().toLocaleDateString(undefined,{month:'long',year:'numeric'})}</h2><div class="button-row"><button class="icon-btn" id="month-prev" aria-label="Previous month">←</button><button class="icon-btn" id="month-next" aria-label="Next month">→</button></div></div><div class="calendar-preview" id="schedule-days">${dates.map((d,i)=>`<button class="day" data-date="${iso(d)}"><span>${d.toLocaleDateString(undefined,{weekday:'short'})}</span><strong>${d.getDate()}</strong><span>${i%3+2} example slots</span></button>`).join('')}</div></div><form class="surface" style="padding:1.5rem" id="schedule-form"><h2>Request summary</h2><div class="field"><label for="schedule-session">Session type</label><select id="schedule-session">${sessions.map(s=>`<option value="${s.id}">${s.title}</option>`).join('')}</select></div><fieldset style="border:0;padding:1rem 0"><legend><strong>Example time slots</strong></legend><div class="button-row">${['09:00','11:30','14:00','16:30'].map((t,i)=>`<label class="btn secondary"><input ${!i?'checked':''} type="radio" name="time" value="${t}"> ${t}</label>`).join('')}</div></fieldset><p id="schedule-summary">Select a future date to continue.</p><div class="notice">Time zone: center-local time (configure before launch). Request saved locally—center confirmation pending.</div><button class="btn" style="margin-top:1rem" type="submit">Save local request</button></form></div></section></main>`}
-function pricingPage(){return `<main id="main">${pageHero('Practice formats','Transparent example pricing tied to real flows.','These configurable amounts are not verified business pricing. Each selection carries into the booking request.')}<section class="section" style="padding-top:0"><div class="shell">${pricing()}</div></section><section class="section" style="background:var(--surface)"><div class="shell grid-2"><div><h2>What pricing does—and does not—confirm.</h2><p class="lede">Choosing a format prefills the local request. It does not charge a card, reserve center inventory or create a confirmed appointment.</p></div><div class="surface" style="padding:2rem"><h3>Before launch</h3><ul class="check-list"><li>Replace all example prices</li><li>Connect a payment provider if needed</li><li>Connect live scheduling inventory</li><li>Define cancellation terms</li></ul></div></div></section></main>`}
-function contact(){return `<main id="main">${pageHero('Contact','Ask about the center, a session or support.','No unverified address, phone number or live-support promise is shown in this template. Connect this form to the client’s preferred enquiry service before launch.')}<section class="section" style="padding-top:0"><div class="shell grid-2"><form class="surface form-grid" style="padding:2rem" id="contact-form"><div class="field"><label for="c-name">Name</label><input id="c-name" required autocomplete="name"></div><div class="field"><label for="c-email">Email</label><input id="c-email" type="email" required autocomplete="email"></div><div class="field full"><label for="c-topic">Enquiry type</label><select id="c-topic"><option>General enquiry</option><option>Session-related enquiry</option><option>Center location</option><option>Portal support</option></select></div><div class="field full"><label for="c-message">Message</label><textarea id="c-message" required></textarea></div><button class="btn" type="submit">Save enquiry draft</button><p class="field full" id="contact-status" aria-live="polite"></p></form><div><span class="tag">Template note</span><h2 style="margin-top:1rem">Location details belong to the real center.</h2><p class="lede">Once supplied, add the verified address, opening hours and a genuine directions link. Until then, the site avoids creating a fictional map pin.</p><a href="faq.html">Read common questions →</a></div></div></section></main>`}
-function faq(){return `<main id="main">${pageHero('FAQ','Clear expectations before practice.','Answers describe the frontend template and should be updated with verified center policies.')}<section class="section" style="padding-top:0"><div class="shell">${[['Does simulation replace on-road training?','No. This site describes simulator practice as a controlled preparation tool, not a legal replacement for required road hours.'],['Are the slots live?','No. They are configured examples until a scheduling backend is connected.'],['Are the questions official?','No. They are original educational practice items and must be reviewed for the launch jurisdiction.'],['Is the readiness score an official result?','No. It is a transparent educational indicator based on recent practice and topic coverage.']].map(x=>`<details class="surface" style="padding:1.2rem;margin:.8rem 0"><summary><strong>${x[0]}</strong></summary><p style="margin-top:1rem">${x[1]}</p></details>`).join('')}</div></section></main>`}
-function legal(type){return `<main id="main">${pageHero(type,type==='Privacy'?'Local data stays on this device in the demo.':'Terms for a frontend preview.','Replace this template notice with client-reviewed legal content before production use.')}<section class="section" style="padding-top:0"><div class="shell"><article class="surface" style="padding:2rem;max-width:850px"><h2>${type} overview</h2><p>This demonstration stores profile settings, local booking requests, self-reported practice and mock-test attempts in browser localStorage. It does not create a secure account or synchronize between devices.</p><p>Do not enter sensitive personal data. Production authentication, scheduling, payments and privacy terms require proper backend services and legal review.</p></article></div></section></main>`}
-function login(register=false){return `<main class="auth-page"><section class="auth-media"><img src="${ROOT}assets/images/simulator.jpg" alt="Simulator cockpit"><div class="auth-media-content"><a class="brand" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a><div><div class="eyebrow">Local portal preview</div><h1>${register?'Create your practice profile.':'Return to your progress console.'}</h1><p class="lede">No password is stored and no real authentication occurs in this frontend demonstration.</p></div></div></section><section class="auth-form"><div class="auth-box"><a href="${ROOT}index.html">← Back to site</a><h2 style="margin-top:2rem">${register?'Register':'Student portal'}</h2><p>${register?'Create a local browser profile.':'Enter a display name to continue locally.'}</p><form id="auth-form" class="form-grid"><div class="field full"><label for="display-name">Display name</label><input id="display-name" required autocomplete="name"></div><div class="field full"><label for="email">Email (not stored in preview)</label><input id="email" type="email" autocomplete="email"></div>${register?`<div class="field full"><label for="region">Preferred theory region</label><input id="region" placeholder="Not set"></div>`:''}<button class="btn field full" type="submit">${register?'Create local profile':'Continue to dashboard'}</button></form><div class="notice" style="margin-top:1rem">This is not secure authentication. Connect a real identity service before production.</div><p style="margin-top:1rem">${register?'Already have a local profile? <a href="login.html">Log in</a>':'New here? <a href="register.html">Create a local profile</a>'}</p><button class="btn secondary" id="sample-profile">Explore sample dashboard</button></div></section></main>`}
-function readiness(attempts){if(attempts.length<3)return {value:0,label:'Not Enough Data',detail:'Complete at least 3 tests for an indicator.'};const recent=attempts.slice(-5),avg=recent.reduce((a,b)=>a+b.score,0)/recent.length;const topics=new Set(recent.flatMap(a=>Object.keys(a.topics||{}))).size,coverage=Math.min(100,topics/7*100);const value=Math.round(avg*.7+coverage*.3);return {value,label:value<55?'Building Foundations':value<75?'Developing Consistency':'Strong Practice Performance',detail:'70% recent average + 30% topic coverage.'}}
-function dashboard(){const profile=store.get('profile',{name:'Student'}),bookings=store.get('bookings',[]),practice=store.get('practice',[]),attempts=store.get('attempts',[]),hours=practice.reduce((a,b)=>a+Number(b.hours),0),avg=attempts.length?Math.round(attempts.reduce((a,b)=>a+b.score,0)/attempts.length):null,ready=readiness(attempts);return `<main class="dashboard"><div class="dash-layout"><aside class="dash-side"><a class="brand" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a><nav>${[['overview','Overview'],['sessions','My Sessions'],['book','Book a Session'],['tests','Theory Mock Tests'],['history','Test History'],['progress','Progress & Readiness'],['settings','Settings']].map((x,i)=>`<button class="dash-nav ${!i?'active':''}" data-view="${x[0]}"><span>${x[1]}</span></button>`).join('')}</nav></aside><div class="dash-main"><header class="dash-top"><div><span class="eyebrow">Student console</span><h2>Hello, ${esc(profile.name||'Student')}</h2></div><div class="button-row"><button class="icon-btn theme-toggle">◐</button><a class="btn secondary small" href="${ROOT}index.html">Public site</a></div></header><section class="view active" data-view="overview"><div class="metric-grid"><article class="metric surface"><span>Simulator hours completed</span><strong>${hours.toFixed(1)}h</strong></article><article class="metric surface"><span>Upcoming requests</span><strong>${bookings.filter(b=>b.status==='Requested').length}</strong></article><article class="metric surface"><span>Average theory score</span><strong>${avg===null?'—':avg+'%'}</strong></article><article class="metric surface"><span>Readiness indicator</span><strong>${ready.label}</strong></article></div><div class="dash-grid"><article class="panel surface"><h3>Recent mock-test results</h3>${chart(attempts)}<div style="height:20px"></div>${attempts.length?historyTable(attempts.slice(-4)):'<p>No completed tests yet. Start a short practice to create your first result.</p>'}</article><article class="panel surface"><h3>Suggested focus</h3><p>${attempts.length?'Review the lowest-scoring topic from your latest attempt.':'Complete a quick practice to generate a topic suggestion.'}</p><a class="btn" href="mock-test.html?count=10">Start quick practice</a><hr style="border:0;border-top:1px solid var(--border);margin:1.5rem 0"><h3>Practice note</h3><p>Requested sessions do not add to completed hours.</p><button class="btn secondary dash-jump" data-view="progress">Record completed practice</button></article></div></section><section class="view" data-view="sessions"><div class="split-header"><h2>My session requests</h2><button class="btn dash-jump" data-view="book">New request</button></div><div class="panel surface">${bookings.length?bookingTable(bookings):'<p>No local requests saved yet.</p>'}</div></section><section class="view" data-view="book">${bookingForm()}</section><section class="view" data-view="tests"><h2>Theory mock tests</h2><div class="session-strip">${[['Quick Practice',10],['Standard Mock',20],['Full Practice',30]].map(x=>`<article class="panel surface"><span class="tag">${x[1]} questions</span><h3>${x[0]}</h3><p>Original educational items with answer review. Timer is optional.</p><a class="btn" href="mock-test.html?count=${x[1]}">Start</a></article>`).join('')}</div></section><section class="view" data-view="history"><h2>Test history</h2><div class="panel surface">${attempts.length?historyTable(attempts):'<p>No completed attempts yet.</p>'}</div></section><section class="view" data-view="progress"><div class="grid-2"><article class="panel surface"><h2>Readiness</h2><div class="gauge" data-progress="${ready.value}"><span class="gauge-value">${ready.value?ready.value+'%':'—'}</span></div><h3>${ready.label}</h3><p>${ready.detail} This is an educational indicator, not an official exam decision.</p></article><article class="panel surface"><h2>Record completed practice</h2><form id="practice-form" class="form-grid"><div class="field"><label for="p-date">Date</label><input id="p-date" type="date" max="${iso(new Date())}" required></div><div class="field"><label for="p-hours">Hours completed</label><input id="p-hours" type="number" min="0.25" max="8" step="0.25" required></div><div class="field full"><label for="p-scenario">Scenario</label><select id="p-scenario">${sessions.map(s=>`<option>${s.title}</option>`).join('')}</select></div><div class="field full"><label for="p-note">Practice note (optional)</label><textarea id="p-note"></textarea></div><button class="btn" type="submit">Add self-reported entry</button></form></article></div><article class="panel surface" style="margin-top:1rem"><h3>Practice log</h3>${practice.length?practiceTable(practice):'<p>No completed practice recorded.</p>'}</article></section><section class="view" data-view="settings"><article class="panel surface"><h2>Settings</h2><form id="settings-form" class="form-grid"><div class="field"><label for="s-name">Display name</label><input id="s-name" value="${esc(profile.name||'')}"></div><div class="field"><label for="s-region">Theory region</label><input id="s-region" value="${esc(profile.region||'Not set')}"></div><div class="button-row field full"><button class="btn" type="submit">Save locally</button><button class="btn secondary" type="button" id="export-data">Export JSON</button><button class="btn secondary" type="button" id="reset-data">Reset local data</button></div></form><div class="notice" style="margin-top:1rem">Data is stored only in this browser and is not synchronized.</div></article></section></div></div></main>`}
-function chart(a){const vals=a.slice(-6);return vals.length?`<div class="bar-chart" aria-label="Recent scores">${vals.map((x,i)=>`<div class="bar" style="height:${x.score}%"><span>${x.score}%</span></div>`).join('')}</div>`:'<p>No score trend yet.</p>'}
-function historyTable(a){return `<table class="data-table"><thead><tr><th>Date</th><th>Mode</th><th>Score</th><th>Correct</th><th>Incorrect</th><th>Review</th></tr></thead><tbody>${a.slice().reverse().map(x=>`<tr><td data-label="Date">${new Date(x.date).toLocaleDateString()}</td><td data-label="Mode">${x.count} questions</td><td data-label="Score">${x.score}%</td><td data-label="Correct">${x.correct}</td><td data-label="Incorrect">${x.incorrect}</td><td data-label="Review"><a href="test-results.html?id=${x.id}">View</a></td></tr>`).join('')}</tbody></table>`}
-function bookingTable(a){return `<table class="data-table"><thead><tr><th>Session</th><th>Date</th><th>Time</th><th>Duration</th><th>Status</th><th>Action</th></tr></thead><tbody>${a.map(b=>`<tr><td data-label="Session">${sessionById(b.session).title}</td><td data-label="Date">${b.date}</td><td data-label="Time">${b.time}</td><td data-label="Duration">${b.duration} min</td><td data-label="Status"><span class="status">${b.status}</span></td><td data-label="Action">${b.status==='Requested'?`<button class="btn secondary small cancel-booking" data-id="${b.id}">Cancel</button>`:'—'}</td></tr>`).join('')}</tbody></table>`}
-function practiceTable(a){return `<table class="data-table"><thead><tr><th>Date</th><th>Scenario</th><th>Hours</th><th>Source</th><th>Action</th></tr></thead><tbody>${a.map(p=>`<tr><td data-label="Date">${p.date}</td><td data-label="Scenario">${p.scenario}</td><td data-label="Hours">${p.hours}</td><td data-label="Source">Self-reported</td><td data-label="Action"><button class="btn secondary small edit-practice" data-id="${p.id}">Edit</button> <button class="btn secondary small delete-practice" data-id="${p.id}">Delete</button></td></tr>`).join('')}</tbody></table>`}
-function sessionById(id){return sessions.find(s=>s.id===id)||sessions[0]}
-function bookingForm(){const q=new URLSearchParams(location.search),selected=q.get('session')||'urban',plan=q.get('plan'),min=iso(nextDays(1)[0]),plans={single:'Single Simulator Session',pack:'Multi-Session Practice Pack',combined:'Simulator + Theory Preparation Package'};return `<article class="panel surface"><h2>Book a simulator session</h2><p>Submit a local request. No live inventory is checked.</p>${plan&&plans[plan]?`<div class="notice" style="margin-bottom:1rem">Selected format: <strong>${plans[plan]}</strong>. Choose the first applicable session below.</div>`:''}<form id="booking-form" class="form-grid"><div class="field"><label for="b-session">Session type</label><select id="b-session">${sessions.map(s=>`<option value="${s.id}" ${s.id===selected?'selected':''}>${s.title}</option>`).join('')}</select></div><div class="field"><label for="b-date">Date</label><input id="b-date" type="date" min="${min}" required></div><div class="field"><label for="b-time">Configured time</label><select id="b-time">${['09:00','11:30','14:00','16:30'].map(t=>`<option>${t}</option>`).join('')}</select></div><div class="field"><label for="b-duration">Duration</label><input id="b-duration" value="${sessionById(selected).duration} minutes" readonly></div><div class="field full"><label for="b-note">Note (optional)</label><textarea id="b-note"></textarea></div><div class="field full notice">Request saved locally—center confirmation pending. This does not block the time for other users.</div><button class="btn" type="submit">Save local request</button><p id="booking-status" aria-live="polite"></p></form></article>`}
-function bookPage(){return `<main id="main">${pageHero('Local session request','Choose a scenario, date and configured example time.','This is not a live reservation. The request remains pending until a real center confirms it.')}<section class="section" style="padding-top:0"><div class="shell">${bookingForm()}</div></section></main>`}
-function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function mockTest(){const params=new URLSearchParams(location.search),count=Math.min(30,Math.max(10,Number(params.get('count'))||10));return `<main class="test-shell" id="main"><div class="test-header"><a class="brand" href="student-dashboard.html">${logo()}</a><div><strong id="test-timer">Untimed</strong><br><button class="btn secondary small theme-toggle">Theme</button></div></div><section id="test-start" class="surface panel"><span class="tag">${count} questions</span><h1>Original theory practice</h1><p class="lede">Questions cover general safety principles and are not official jurisdiction-specific exam content.</p><label class="answer-choice"><input type="checkbox" id="timer-enabled"> Enable a ${count===10?15:count===20?30:45}-minute practice timer</label><button class="btn" id="start-test">Start assessment</button></section><section id="test-active" class="surface panel" hidden><div class="test-progress" aria-label="Question progress"><span style="width:0"></span></div><div class="question-nav" aria-label="Question navigation"></div><div id="question-area"></div><div class="button-row"><button class="btn secondary" id="prev-q">Previous</button><button class="btn" id="next-q">Next</button><button class="btn secondary" id="submit-test">Submit test</button></div></section></main>`}
-function results(){const id=new URLSearchParams(location.search).get('id'),attempts=store.get('attempts',[]),a=attempts.find(x=>x.id===id)||attempts.at(-1);if(!a)return `<main class="test-shell"><h1>No saved result</h1><p>Complete a mock test first.</p><a class="btn" href="mock-test.html">Start practice</a></main>`;return `<main class="test-shell" id="main"><a class="brand" href="student-dashboard.html">${logo()}</a><section class="result-hero surface" style="margin-top:2rem"><span class="tag">Instant result</span><div class="score-ring" style="--score:${a.score}"><strong>${a.score}%</strong></div><h1>${a.correct} correct · ${a.incorrect} incorrect · ${a.unanswered} unanswered</h1><p>${a.count} questions · ${Math.round(a.duration/60)} minutes · ${new Date(a.date).toLocaleString()}</p><div class="button-row" style="justify-content:center"><a class="btn" href="mock-test.html?count=${a.count}">Start another test</a><a class="btn secondary" href="student-dashboard.html">Back to dashboard</a></div></section><section style="margin-top:2rem"><h2>Topic performance</h2><div class="catalog-grid">${Object.entries(a.topics).map(([k,v])=>`<article class="surface panel"><h3>${k}</h3><p>${v.correct} of ${v.total} correct</p></article>`).join('')}</div></section><section style="margin-top:2rem"><h2>Answer review</h2>${a.review.map(r=>`<article class="surface review-item ${r.correct?'correct':'incorrect'}"><span class="tag">${r.correct?'Correct':r.answer===null?'Unanswered':'Incorrect'}</span><h3>${r.question}</h3><p><strong>Your answer:</strong> ${r.answer===null?'No answer':r.choices[r.answer]}</p><p><strong>Correct answer:</strong> ${r.choices[r.correctIndex]}</p><p>${r.explanation}</p></article>`).join('')}</section></main>`}
-function notFound(){return `<main id="main">${pageHero('404','That route is outside the training map.','Return to the lab overview or open the session catalog.',`<div class="button-row"><a class="btn" href="${ROOT}index.html">Go home</a><a class="btn secondary" href="${ROOT}pages/simulator-sessions.html">View sessions</a></div>`)}</main>`}
-function render(){const p=pageName();let main;const plain=['login','register','student-dashboard','mock-test','test-results'];if(p==='index'||p==='')main=home();else if(p==='home2')main=home2();else if(p==='about')main=about();else if(p==='simulator-sessions')main=sessionsPage();else if(p==='theory-test-prep')main=theory();else if(p==='schedule')main=schedule();else if(p==='pricing')main=pricingPage();else if(p==='contact')main=contact();else if(p==='faq')main=faq();else if(p==='privacy'||p==='terms')main=legal(p[0].toUpperCase()+p.slice(1));else if(p==='login')main=login(false);else if(p==='register')main=login(true);else if(p==='student-dashboard')main=dashboard();else if(p==='book-session')main=bookPage();else if(p==='mock-test')main=mockTest();else if(p==='test-results')main=results();else main=notFound();document.getElementById('app').innerHTML=(plain.includes(p)?'':header())+main+(plain.includes(p)?'':footer());init()}
-function init(){
-  $$('.theme-toggle').forEach(b=>b.onclick=()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;localStorage.setItem('dl-theme',t)});$$('.dir-toggle').forEach(b=>b.onclick=()=>{const d=document.documentElement.dir==='rtl'?'ltr':'rtl';document.documentElement.dir=d;localStorage.setItem('dl-dir',d)});
-  const mt=$('.menu-toggle'),drawer=$('.mobile-drawer');if(mt)mt.onclick=()=>{const o=drawer.classList.toggle('open');mt.setAttribute('aria-expanded',o)};const drop=$('.dropdown');if(drop){const b=$('button',drop);b.onclick=()=>{const o=drop.classList.toggle('open');b.setAttribute('aria-expanded',o)};document.addEventListener('keydown',e=>{if(e.key==='Escape'){drop.classList.remove('open');b.setAttribute('aria-expanded','false')}})}
-  $$('.quiz-preview').forEach(q=>$$('.quiz-option',q).forEach(o=>o.onclick=()=>{if($$('.correct,.incorrect',q).length)return;const ok=o.dataset.correct==='true';o.classList.add(ok?'correct':'incorrect');if(!ok)$('[data-correct=true]',q).classList.add('correct');$('.feedback',q).textContent=ok?'Correct. A concealed child may follow the ball, so reduce speed and prepare to stop.':'Not quite. A concealed child may follow the ball, so reduce speed and prepare to stop.'}));
-  $$('.next-preview').forEach(b=>b.onclick=()=>{const q=b.closest('.quiz-preview');$$('.quiz-option',q).forEach(x=>x.classList.remove('correct','incorrect'));$('.feedback',q).textContent='Preview reset. Choose one answer to review the reasoning.'});
-  $$('.scenario-tab').forEach(t=>t.onclick=()=>{const box=t.closest('.cockpit'),s=scenarios[t.dataset.scenario];$$('.scenario-tab',box).forEach(x=>x.setAttribute('aria-selected','false'));t.setAttribute('aria-selected','true');$('img',box).src=s.image;['focus','duration','difficulty','label','desc'].forEach(f=>$(`[data-field=${f}]`,box).textContent=s[f]);$('.scenario-cta',box).href=ROOT+'pages/book-session.html?session='+s.session});
-  const stage=$('.cockpit-stage');if(stage&&!matchMedia('(prefers-reduced-motion: reduce)').matches){stage.onpointermove=e=>{const r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;stage.style.transform=`rotateY(${x*3}deg) rotateX(${-y*3}deg)`};stage.onpointerleave=()=>stage.style.transform=''}
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');if(e.target.classList.contains('gauge')){e.target.style.setProperty('--p',e.target.dataset.progress||0);const v=$('.gauge-value',e.target),target=Number(v?.dataset.value);if(v&&Number.isFinite(target)&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const suffix=v.textContent.replace(/[\d.]/g,''),start=performance.now(),decimal=String(target).includes('.');const step=now=>{const n=Math.min(1,(now-start)/700);v.textContent=(decimal?(target*n).toFixed(1):Math.round(target*n))+suffix;if(n<1)requestAnimationFrame(step)};requestAnimationFrame(step)}}io.unobserve(e.target)}}),{threshold:.18});$$('.reveal,.gauge').forEach(x=>io.observe(x));
-  const bt=$('.back-top');if(bt){onscroll=()=>bt.classList.toggle('show',scrollY>700);bt.onclick=()=>scrollTo({top:0,behavior:'smooth'})}
-  const df=$('#duration-filter');if(df)df.onchange=()=>{$$('#catalog-grid .session-card').forEach((c,i)=>c.hidden=df.value!=='all'&&String(sessions[i].duration)!==df.value)};
-  initSchedule();initAuth();initDashboard();initBooking();initMock();
-  const cf=$('#contact-form');if(cf)cf.onsubmit=e=>{e.preventDefault();$('#contact-status').textContent='Draft validated locally. Connect an enquiry backend to send it.'}
+
+const pageName =
+  document.body.dataset.page ||
+  location.pathname.split("/").pop().replace(".html", "") ||
+  "index";
+const plainPages = new Set([
+  "login",
+  "register",
+  "student-dashboard",
+  "mock-test",
+  "test-results",
+]);
+const escapeHtml = (value) =>
+  String(value).replace(
+    /[&<>'"]/g,
+    (character) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[
+        character
+      ],
+  );
+
+function renderPage() {
+  const pages = {
+    index: homePage,
+    home2: homeTwoPage,
+    about: aboutPage,
+    "simulator-sessions": sessionsPage,
+    "theory-test-prep": theoryPage,
+    schedule: schedulePage,
+    pricing: pricingPage,
+    contact: contactPage,
+    faq: faqPage,
+    privacy: () => legalPage("Privacy"),
+    terms: () => legalPage("Terms"),
+    login: () => loginPage(false),
+    register: () => loginPage(true),
+    "student-dashboard": () => renderDashboard(store, escapeHtml),
+    "book-session": bookingPage,
+    "mock-test": renderMockTest,
+    "test-results": () => renderResults(store),
+  };
+  const content = (pages[pageName] || notFoundPage)();
+  document.querySelector("#app").innerHTML =
+    `${plainPages.has(pageName) ? "" : header(Boolean(store.get("profile", null)))}${content}${plainPages.has(pageName) ? "" : footer()}`;
+  bindInteractions();
 }
-function initSchedule(){const form=$('#schedule-form');if(!form)return;let date='';$$('#schedule-days .day').forEach(b=>b.onclick=()=>{$$('#schedule-days .day').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');date=b.dataset.date;$('#schedule-summary').textContent=`${sessionById($('#schedule-session').value).title} · ${date} · configured example time`});form.onsubmit=e=>{e.preventDefault();if(!date)return $('#schedule-summary').textContent='Choose a future date first.';const s=sessionById($('#schedule-session').value),time=$('input[name=time]:checked').value;saveBooking({session:s.id,date,time,duration:s.duration,note:''},$('#schedule-summary'))}}
-function initAuth(){const f=$('#auth-form');if(f)f.onsubmit=e=>{e.preventDefault();store.set('profile',{name:$('#display-name').value.trim(),region:$('#region')?.value||'Not set',sample:false});location.href='student-dashboard.html'};const s=$('#sample-profile');if(s)s.onclick=()=>{store.set('profile',{name:'Sample Student',region:'General practice',sample:true});location.href='student-dashboard.html'}}
-function initBooking(){const f=$('#booking-form');if(!f)return;const sel=$('#b-session'),dur=$('#b-duration');sel.onchange=()=>dur.value=sessionById(sel.value).duration+' minutes';f.onsubmit=e=>{e.preventDefault();const s=sessionById(sel.value);saveBooking({session:s.id,date:$('#b-date').value,time:$('#b-time').value,duration:s.duration,note:$('#b-note').value},$('#booking-status'))}}
-function saveBooking(data,status){if(!data.date||new Date(data.date+'T23:59')<new Date())return status.textContent='Please select a future date.';const a=store.get('bookings',[]),start=new Date(`${data.date}T${data.time}:00`).getTime(),end=start+data.duration*60000,conflict=a.some(b=>b.status==='Requested'&&b.date===data.date&&start<new Date(`${b.date}T${b.time}:00`).getTime()+b.duration*60000&&end>new Date(`${b.date}T${b.time}:00`).getTime());if(conflict)return status.textContent='This overlaps one of your existing local requests.';a.push({...data,id:crypto.randomUUID(),status:'Requested',created:new Date().toISOString()});store.set('bookings',a);status.textContent='Request saved locally—center confirmation pending.'}
-function initDashboard(){
-  $$('.dash-nav,.dash-jump').forEach(b=>b.onclick=()=>{$$('.dash-nav').forEach(x=>x.classList.toggle('active',x.dataset.view===b.dataset.view));$$('.view').forEach(x=>x.classList.toggle('active',x.dataset.view===b.dataset.view))});
-  $$('.cancel-booking').forEach(b=>b.onclick=()=>{const a=store.get('bookings',[]),x=a.find(v=>v.id===b.dataset.id);if(x)x.status='Cancelled';store.set('bookings',a);render()});
-  const pf=$('#practice-form');if(pf)pf.onsubmit=e=>{e.preventDefault();const a=store.get('practice',[]);a.push({id:crypto.randomUUID(),date:$('#p-date').value,hours:Number($('#p-hours').value),scenario:$('#p-scenario').value,note:$('#p-note').value});store.set('practice',a);render()};$$('.edit-practice').forEach(b=>b.onclick=()=>{const a=store.get('practice',[]),x=a.find(v=>v.id===b.dataset.id),h=Number(prompt('Completed hours (0.25–8)',x.hours));if(h>=.25&&h<=8){x.hours=h;store.set('practice',a);render()}});$$('.delete-practice').forEach(b=>b.onclick=()=>{if(confirm('Delete this self-reported entry?')){store.set('practice',store.get('practice',[]).filter(x=>x.id!==b.dataset.id));render()}});
-  const sf=$('#settings-form');if(sf)sf.onsubmit=e=>{e.preventDefault();store.set('profile',{...store.get('profile',{}),name:$('#s-name').value,region:$('#s-region').value});render()};const ex=$('#export-data');if(ex)ex.onclick=()=>{const blob=new Blob([JSON.stringify({profile:store.get('profile',{}),bookings:store.get('bookings',[]),practice:store.get('practice',[]),attempts:store.get('attempts',[])},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='drivelab-progress.json';a.click();URL.revokeObjectURL(a.href)};const reset=$('#reset-data');if(reset)reset.onclick=()=>{if(confirm('Reset all DriveLab local data in this browser?')){['profile','bookings','practice','attempts','active-test'].forEach(k=>store.remove(k));location.href='login.html'}}
+
+function notFoundPage() {
+  return `<main id="main"><section class="simple-header"><div class="container"><span class="overline">404</span><h1>That route is outside the training map.</h1><p>Return to the simulator lab or explore the session catalog.</p><div class="button-row"><a class="button" href="${ROOT}index.html">Go Home</a><a class="button button-secondary" href="${ROOT}pages/simulator-sessions.html">View Sessions</a></div></div></section></main>`;
 }
-function initMock(){const start=$('#start-test');if(!start)return;let state=store.get('active-test',null),tick;const count=Number(new URLSearchParams(location.search).get('count'))||10;function begin(){if(!state||state.completed||!confirmResume()){const qs=[...window.DL_QUESTIONS].sort(()=>Math.random()-.5).slice(0,count);state={id:crypto.randomUUID(),questions:qs.map(q=>q.id),answers:{},index:0,started:Date.now(),timed:$('#timer-enabled').checked,remaining:(count===10?15:count===20?30:45)*60,completed:false};store.set('active-test',state)}$('#test-start').hidden=true;$('#test-active').hidden=false;show();if(state.timed)tick=setInterval(()=>{state.remaining--;store.set('active-test',state);updateTimer();if(state.remaining<=0)submit()},1000)}function confirmResume(){return state&&!state.completed&&confirm('Resume your saved in-progress attempt?')}function qs(){return state.questions.map(id=>window.DL_QUESTIONS.find(q=>q.id===id))}function show(){const q=qs()[state.index];$('.test-progress span').style.width=((state.index+1)/state.questions.length*100)+'%';$('.question-nav').innerHTML=state.questions.map((id,i)=>`<button class="${state.answers[id]!==undefined?'answered':''} ${i===state.index?'current':''}" data-i="${i}" aria-label="Question ${i+1}">${i+1}</button>`).join('');$$('.question-nav button').forEach(b=>b.onclick=()=>{state.index=Number(b.dataset.i);store.set('active-test',state);show()});$('#question-area').innerHTML=`<p>Question ${state.index+1} of ${state.questions.length} · ${q.topic}</p><h2>${q.question}</h2><fieldset style="border:0;padding:0"><legend class="sr-only">Choose one answer</legend>${q.choices.map((c,i)=>`<label class="answer-choice"><input type="radio" name="answer" value="${i}" ${state.answers[q.id]===i?'checked':''}> ${c}</label>`).join('')}</fieldset>`;$$('input[name=answer]').forEach(r=>r.onchange=()=>{state.answers[q.id]=Number(r.value);store.set('active-test',state);show()});$('#prev-q').disabled=state.index===0;$('#next-q').textContent=state.index===state.questions.length-1?'Review':'Next';updateTimer()}function updateTimer(){if(!state.timed)return $('#test-timer').textContent='Untimed';const m=Math.floor(state.remaining/60),s=state.remaining%60;$('#test-timer').textContent=`${m}:${String(s).padStart(2,'0')}`}function submit(){const unanswered=state.questions.filter(id=>state.answers[id]===undefined).length;if(unanswered&&!confirm(`${unanswered} questions are unanswered. Submit anyway?`))return;clearInterval(tick);const items=qs(),review=items.map(q=>({question:q.question,choices:q.choices,answer:state.answers[q.id]??null,correctIndex:q.correct,correct:state.answers[q.id]===q.correct,explanation:q.explanation,topic:q.topic})),correct=review.filter(x=>x.correct).length,topics={};review.forEach(x=>{topics[x.topic]??={correct:0,total:0};topics[x.topic].total++;if(x.correct)topics[x.topic].correct++});const a={id:state.id,date:new Date().toISOString(),count:items.length,score:Math.round(correct/items.length*100),correct,incorrect:items.length-correct-unanswered,unanswered,duration:Math.max(1,Math.round((Date.now()-state.started)/1000)),topics,review};const arr=store.get('attempts',[]);arr.push(a);store.set('attempts',arr);state.completed=true;store.set('active-test',state);location.href='test-results.html?id='+a.id}start.onclick=begin;$('#prev-q').onclick=()=>{state.index--;show()};$('#next-q').onclick=()=>{if(state.index<state.questions.length-1)state.index++;show()};$('#submit-test').onclick=submit}
-render();
-})();
+
+function bindInteractions() {
+  bindThemeAndDirection();
+  bindNavigation();
+  bindReveals();
+  bindScenarioStudio();
+  bindQuestionPreviews();
+  bindCatalog();
+  bindTopicExplorer();
+  bindSchedule();
+  bindAuth();
+  bindBookingForms();
+  bindDashboard();
+  bindMockTest(store);
+  bindContact();
+}
+
+function bindThemeAndDirection() {
+  document.querySelectorAll(".theme-toggle").forEach((button) =>
+    button.addEventListener("click", () => {
+      const theme =
+        document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem("dl-theme", theme);
+    }),
+  );
+  const updateDirectionLabels = () =>
+    document.querySelectorAll(".direction-label").forEach((label) => {
+      label.textContent =
+        document.documentElement.dir === "rtl" ? "LTR" : "RTL";
+    });
+  updateDirectionLabels();
+  document.querySelectorAll(".direction-toggle").forEach((button) =>
+    button.addEventListener("click", () => {
+      const direction = document.documentElement.dir === "rtl" ? "ltr" : "rtl";
+      document.documentElement.dir = direction;
+      localStorage.setItem("dl-dir", direction);
+      updateDirectionLabels();
+    }),
+  );
+}
+
+function bindNavigation() {
+  const menuButton = document.querySelector(".menu-toggle");
+  const mobileMenu = document.querySelector(".mobile-menu");
+  let previousFocus;
+  const closeMobileMenu = (restoreFocus = true) => {
+    if (!menuButton || !mobileMenu) return;
+    mobileMenu.hidden = true;
+    document.body.classList.remove("menu-open");
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open navigation");
+    if (restoreFocus && previousFocus) previousFocus.focus();
+  };
+  if (menuButton && mobileMenu) {
+    menuButton.addEventListener("click", () => {
+      const opening = mobileMenu.hidden;
+      if (!opening) return closeMobileMenu();
+      previousFocus = document.activeElement;
+      mobileMenu.hidden = false;
+      document.body.classList.add("menu-open");
+      menuButton.setAttribute("aria-expanded", "true");
+      menuButton.setAttribute("aria-label", "Close navigation");
+      mobileMenu.querySelector("a")?.focus();
+    });
+    mobileMenu.addEventListener("click", (event) => {
+      if (event.target === mobileMenu) closeMobileMenu();
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (
+        !mobileMenu.hidden &&
+        !mobileMenu.contains(event.target) &&
+        !menuButton.contains(event.target)
+      )
+        closeMobileMenu(false);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMobileMenu();
+      if (event.key === "Tab" && !mobileMenu.hidden) {
+        const focusable = [...mobileMenu.querySelectorAll("a, button")];
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable.at(-1);
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+  }
+  const homeButton = document.querySelector(".home-menu-button");
+  const homeMenu = document.querySelector(".home-menu");
+  if (homeButton && homeMenu) {
+    const close = () => {
+      homeMenu.hidden = true;
+      homeButton.setAttribute("aria-expanded", "false");
+    };
+    homeButton.addEventListener("click", () => {
+      const opening = homeMenu.hidden;
+      homeMenu.hidden = !opening;
+      homeButton.setAttribute("aria-expanded", String(opening));
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (!homeButton.closest(".nav-dropdown").contains(event.target)) close();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        close();
+        homeButton.focus();
+      }
+    });
+  }
+  const current = location.pathname.split("/").pop() || "index.html";
+  document
+    .querySelectorAll(".desktop-nav a, .mobile-menu a")
+    .forEach((link) => {
+      if (link.getAttribute("href")?.endsWith(current))
+        link.setAttribute("aria-current", "page");
+    });
+  const backToTop = document.querySelector(".back-to-top");
+  if (backToTop) {
+    window.addEventListener(
+      "scroll",
+      () => backToTop.classList.toggle("visible", window.scrollY > 650),
+      { passive: true },
+    );
+    backToTop.addEventListener("click", () =>
+      window.scrollTo({ top: 0, behavior: "smooth" }),
+    );
+  }
+}
+
+function bindReveals() {
+  if (
+    !("IntersectionObserver" in window) ||
+    matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    document
+      .querySelectorAll(".reveal")
+      .forEach((element) => element.classList.add("visible"));
+    document
+      .querySelectorAll(".gauge")
+      .forEach((element) =>
+        element.style.setProperty("--progress", element.dataset.progress || 0),
+      );
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        if (entry.target.classList.contains("gauge"))
+          animateGauge(entry.target);
+        observer.unobserve(entry.target);
+      }),
+    { threshold: 0.15 },
+  );
+  document
+    .querySelectorAll(".reveal, .gauge")
+    .forEach((element) => observer.observe(element));
+}
+
+function animateGauge(element) {
+  const target = Number(element.dataset.progress || 0);
+  element.style.setProperty("--progress", target);
+  const value = element.querySelector(".gauge-value");
+  if (!value || !value.dataset.value) return;
+  const suffix = value.textContent.replace(/[\d.]/g, "");
+  const decimals = String(Number(value.dataset.value)).includes(".");
+  const started = performance.now();
+  const step = (now) => {
+    const progress = Math.min(1, (now - started) / 700);
+    const current = Number(value.dataset.value) * progress;
+    value.textContent = `${decimals ? current.toFixed(1) : Math.round(current)}${suffix}`;
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+function bindScenarioStudio() {
+  const studio = document.querySelector("#scenario-studio");
+  if (!studio) return;
+  studio.querySelectorAll(".scenario-tab").forEach((tab) =>
+    tab.addEventListener("click", () => {
+      const scenario = scenarios[tab.dataset.scenario];
+      studio
+        .querySelectorAll(".scenario-tab")
+        .forEach((item) => item.setAttribute("aria-selected", "false"));
+      tab.setAttribute("aria-selected", "true");
+      const image = studio.querySelector("[data-scenario-image]");
+      image.classList.add("switching");
+      window.setTimeout(() => {
+        image.src = `${ROOT}assets/images/${scenario.image}`;
+        image.alt = `${scenario.label} training environment`;
+        image.classList.remove("switching");
+      }, 160);
+      ["focus", "duration", "difficulty", "label", "description"].forEach(
+        (field) => {
+          studio.querySelector(`[data-field="${field}"]`).textContent =
+            scenario[field];
+        },
+      );
+      studio.querySelector(".scenario-book").href =
+        `${ROOT}pages/book-session.html?session=${scenario.session}`;
+    }),
+  );
+  const stage = studio.querySelector(".scenario-stage");
+  if (
+    !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+    matchMedia("(pointer:fine)").matches
+  ) {
+    stage.addEventListener("pointermove", (event) => {
+      const box = stage.getBoundingClientRect();
+      const x = (event.clientX - box.left) / box.width - 0.5;
+      const y = (event.clientY - box.top) / box.height - 0.5;
+      stage.style.transform = `perspective(1200px) rotateY(${x * 1.8}deg) rotateX(${-y * 1.8}deg)`;
+    });
+    stage.addEventListener("pointerleave", () => {
+      stage.style.transform = "";
+    });
+  }
+}
+
+function bindQuestionPreviews() {
+  const previewPool = [0, 8, 16, 20, 32, 40, 48, 58];
+  document.querySelectorAll(".question-preview").forEach((preview) => {
+    const render = (index) => {
+      const question = window.DL_QUESTIONS[index];
+      preview.dataset.previewIndex = String(index);
+      preview.querySelector("[data-question-topic]").textContent =
+        question.topic;
+      preview.querySelector("[data-question-text]").textContent =
+        question.question;
+      preview.querySelector(".question-options").innerHTML = question.choices
+        .map(
+          (choice, choiceIndex) =>
+            `<button class="question-option" role="radio" aria-checked="false" data-choice="${choiceIndex}"><span>${String.fromCharCode(65 + choiceIndex)}</span><b>${choice}</b></button>`,
+        )
+        .join("");
+      preview.querySelector("[data-question-feedback]").textContent =
+        "Choose an answer to see the reasoning.";
+      preview
+        .querySelectorAll(".question-option")
+        .forEach((option) =>
+          option.addEventListener("click", () => answer(option, question)),
+        );
+    };
+    const answer = (option, question) => {
+      if (
+        preview.querySelector(
+          ".question-option.correct, .question-option.incorrect",
+        )
+      )
+        return;
+      const selected = Number(option.dataset.choice);
+      preview.querySelectorAll(".question-option").forEach((item) => {
+        item.disabled = true;
+        item.setAttribute("aria-checked", String(item === option));
+      });
+      option.classList.add(
+        selected === question.correct ? "correct" : "incorrect",
+      );
+      if (selected !== question.correct)
+        preview
+          .querySelector(`[data-choice="${question.correct}"]`)
+          .classList.add("correct");
+      preview.querySelector("[data-question-feedback]").innerHTML =
+        `<strong>${selected === question.correct ? "Correct." : "Review this one."}</strong> ${question.explanation}`;
+    };
+    preview
+      .querySelectorAll(".question-option")
+      .forEach((option) =>
+        option.addEventListener("click", () =>
+          answer(
+            option,
+            window.DL_QUESTIONS[Number(preview.dataset.previewIndex)],
+          ),
+        ),
+      );
+    preview.querySelector(".next-preview").addEventListener("click", () => {
+      const current = Number(preview.dataset.previewIndex);
+      const currentPosition = previewPool.indexOf(current);
+      const nextIndex =
+        previewPool[
+          (currentPosition + 1 + previewPool.length) % previewPool.length
+        ];
+      render(
+        nextIndex === current
+          ? previewPool[(currentPosition + 2) % previewPool.length]
+          : nextIndex,
+      );
+    });
+  });
+}
+
+function bindCatalog() {
+  const buttons = document.querySelectorAll("[data-catalog-filter]");
+  if (!buttons.length) return;
+  buttons.forEach((button) =>
+    button.addEventListener("click", () => {
+      buttons.forEach((item) => item.classList.remove("active"));
+      button.classList.add("active");
+      const value = button.dataset.catalogFilter;
+      let visible = 0;
+      document
+        .querySelectorAll("#session-catalog .session-product")
+        .forEach((card) => {
+          card.hidden = value !== "all" && card.dataset.duration !== value;
+          if (!card.hidden) visible += 1;
+        });
+      document.querySelector(".catalog-empty").hidden = visible !== 0;
+    }),
+  );
+}
+
+function bindTopicExplorer() {
+  const buttons = document.querySelectorAll(".topic-button");
+  if (!buttons.length) return;
+  buttons.forEach((button) =>
+    button.addEventListener("click", () => {
+      const topic = button.dataset.topic;
+      const [image, description] = topicDetails[topic];
+      buttons.forEach((item) => {
+        item.classList.toggle("active", item === button);
+        item.setAttribute("aria-selected", String(item === button));
+      });
+      document.querySelector("[data-topic-image]").src =
+        `${ROOT}assets/images/${image}`;
+      document.querySelector("[data-topic-image]").alt = topic;
+      document.querySelector("[data-topic-title]").textContent = topic;
+      document.querySelector("[data-topic-description]").textContent =
+        description;
+      document.querySelector("[data-topic-question]").textContent =
+        window.DL_QUESTIONS.find((item) => item.topic === topic).question;
+    }),
+  );
+}
+
+function bindSchedule() {
+  const grid = document.querySelector("#calendar-grid");
+  if (!grid) return;
+  const params = new URLSearchParams(location.search);
+  let viewDate = new Date();
+  viewDate.setDate(1);
+  viewDate.setHours(12, 0, 0, 0);
+  let selectedDate = params.get("date") || "";
+  let selectedTime = "";
+  let selectedSession = "urban";
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const slots = ["09:00", "11:30", "14:00", "16:30"];
+
+  function renderCalendar() {
+    document.querySelector("#calendar-month").textContent =
+      viewDate.toLocaleDateString(undefined, {
+        month: "long",
+        year: "numeric",
+      });
+    const firstDay = new Date(
+      viewDate.getFullYear(),
+      viewDate.getMonth(),
+      1,
+      12,
+    );
+    const lastDay = new Date(
+      viewDate.getFullYear(),
+      viewDate.getMonth() + 1,
+      0,
+      12,
+    );
+    const cells = [];
+    for (let index = 0; index < firstDay.getDay(); index += 1)
+      cells.push('<span class="calendar-blank"></span>');
+    for (let day = 1; day <= lastDay.getDate(); day += 1) {
+      const date = new Date(
+        viewDate.getFullYear(),
+        viewDate.getMonth(),
+        day,
+        12,
+      );
+      const value = isoDate(date);
+      const past = date < today;
+      const isToday = value === isoDate(new Date());
+      const active = value === selectedDate;
+      cells.push(
+        `<button role="gridcell" data-date="${value}" ${past ? "disabled" : ""} class="${isToday ? "is-today" : ""} ${active ? "selected" : ""}"><span>${day}</span>${past ? "<small>Past</small>" : `<small>${2 + (day % 3)} slots</small>`}</button>`,
+      );
+    }
+    grid.innerHTML = cells.join("");
+    grid.querySelectorAll("button:not(:disabled)").forEach((button) =>
+      button.addEventListener("click", () => {
+        selectedDate = button.dataset.date;
+        selectedTime = "";
+        renderCalendar();
+        renderSlots();
+        updateScheduleSummary();
+      }),
+    );
+  }
+
+  function renderSlots() {
+    const target = document.querySelector("#time-slots");
+    target.innerHTML = selectedDate
+      ? slots
+          .map(
+            (time) =>
+              `<button role="radio" aria-checked="${time === selectedTime}" class="${time === selectedTime ? "selected" : ""}" data-time="${time}"><span>${time}</span><small>Request</small></button>`,
+          )
+          .join("")
+      : "<p>Choose a future date to view request times.</p>";
+    target.querySelectorAll("button").forEach((button) =>
+      button.addEventListener("click", () => {
+        selectedTime = button.dataset.time;
+        renderSlots();
+        updateScheduleSummary();
+      }),
+    );
+  }
+
+  function updateScheduleSummary() {
+    const session = sessionById(selectedSession);
+    document.querySelector("[data-summary-session]").textContent =
+      session.title;
+    document.querySelector("[data-summary-date]").textContent = selectedDate
+      ? new Date(`${selectedDate}T12:00:00`).toLocaleDateString(undefined, {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+        })
+      : "Choose a future date";
+    document.querySelector("[data-summary-time]").textContent =
+      selectedTime || "Choose a request time";
+    document.querySelector("[data-summary-duration]").textContent =
+      `${session.duration} minutes`;
+    document.querySelector("[data-summary-image]").src =
+      `${ROOT}assets/images/${session.image}`;
+    document.querySelector("#save-schedule-request").disabled = !(
+      selectedDate && selectedTime
+    );
+    document
+      .querySelectorAll(".schedule-stepper span")
+      .forEach((step, index) =>
+        step.classList.toggle(
+          "active",
+          index === 0 ||
+            (index === 1 && selectedSession) ||
+            (index === 2 && selectedDate) ||
+            (index === 3 && selectedTime),
+        ),
+      );
+  }
+
+  document.querySelectorAll(".session-pill").forEach((button) =>
+    button.addEventListener("click", () => {
+      selectedSession = button.dataset.session;
+      document
+        .querySelectorAll(".session-pill")
+        .forEach((item) => item.classList.toggle("active", item === button));
+      updateScheduleSummary();
+    }),
+  );
+  document.querySelector("#month-prev").addEventListener("click", () => {
+    const previous = new Date(
+      viewDate.getFullYear(),
+      viewDate.getMonth() - 1,
+      1,
+      12,
+    );
+    const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1, 12);
+    if (previous >= currentMonth) {
+      viewDate = previous;
+      renderCalendar();
+    }
+  });
+  document.querySelector("#month-next").addEventListener("click", () => {
+    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1, 12);
+    renderCalendar();
+  });
+  document.querySelector("#calendar-today").addEventListener("click", () => {
+    viewDate = new Date(today.getFullYear(), today.getMonth(), 1, 12);
+    selectedDate = isoDate(new Date());
+    selectedTime = "";
+    renderCalendar();
+    renderSlots();
+    updateScheduleSummary();
+  });
+  document.querySelector(".reset-schedule").addEventListener("click", () => {
+    selectedDate = "";
+    selectedTime = "";
+    viewDate = new Date(today.getFullYear(), today.getMonth(), 1, 12);
+    renderCalendar();
+    renderSlots();
+    updateScheduleSummary();
+    document.querySelector("#schedule-status").textContent = "";
+  });
+  document
+    .querySelector("#save-schedule-request")
+    .addEventListener("click", () =>
+      saveBooking(
+        {
+          session: selectedSession,
+          date: selectedDate,
+          time: selectedTime,
+          duration: sessionById(selectedSession).duration,
+          note: document.querySelector("#schedule-note").value,
+        },
+        document.querySelector("#schedule-status"),
+      ),
+    );
+  renderCalendar();
+  renderSlots();
+  updateScheduleSummary();
+}
+
+function bindAuth() {
+  const form = document.querySelector("#auth-form");
+  if (form)
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      store.set("profile", {
+        name: document.querySelector("#display-name").value.trim(),
+        region: document.querySelector("#region")?.value || "Not set",
+        sample: false,
+      });
+      location.href = "student-dashboard.html";
+    });
+  const sample = document.querySelector("#sample-profile");
+  if (sample)
+    sample.addEventListener("click", () => {
+      store.set("profile", {
+        name: "Sample Student",
+        region: "General practice",
+        sample: true,
+      });
+      location.href = "student-dashboard.html";
+    });
+}
+
+function bindBookingForms() {
+  const holder = document.querySelector("#standalone-booking-form");
+  if (holder)
+    holder.innerHTML = bookingForm(
+      holder.dataset.selectedSession,
+      holder.dataset.plan,
+    );
+  const form = document.querySelector("#booking-form");
+  if (!form) return;
+  const sessionSelect = document.querySelector("#booking-session");
+  sessionSelect.addEventListener("change", () => {
+    document.querySelector("#booking-duration").value =
+      `${sessionById(sessionSelect.value).duration} minutes`;
+  });
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const session = sessionById(sessionSelect.value);
+    saveBooking(
+      {
+        session: session.id,
+        date: document.querySelector("#booking-date").value,
+        time: document.querySelector("#booking-time").value,
+        duration: session.duration,
+        note: document.querySelector("#booking-note").value,
+        plan: form.dataset.plan || null,
+      },
+      document.querySelector("#booking-status"),
+    );
+  });
+}
+
+function saveBooking(data, statusElement) {
+  if (!data.date || new Date(`${data.date}T23:59`) < new Date()) {
+    statusElement.textContent = "Please select a future date.";
+    return;
+  }
+  const bookings = store.get("bookings", []);
+  const start = new Date(`${data.date}T${data.time}:00`).getTime();
+  const end = start + data.duration * 60_000;
+  const conflict = bookings.some(
+    (booking) =>
+      booking.status === "Requested" &&
+      booking.date === data.date &&
+      start <
+        new Date(`${booking.date}T${booking.time}:00`).getTime() +
+          booking.duration * 60_000 &&
+      end > new Date(`${booking.date}T${booking.time}:00`).getTime(),
+  );
+  if (conflict) {
+    statusElement.textContent =
+      "This overlaps one of your existing local requests.";
+    return;
+  }
+  bookings.push({
+    ...data,
+    id: crypto.randomUUID(),
+    status: "Requested",
+    created: new Date().toISOString(),
+  });
+  store.set("bookings", bookings);
+  statusElement.textContent = data.plan
+    ? "Package enquiry saved locally. The center still needs to arrange each session."
+    : "Request saved locally—center confirmation pending.";
+}
+
+function bindDashboard() {
+  const navigation = document.querySelectorAll(
+    ".dashboard-nav, .dashboard-jump",
+  );
+  navigation.forEach((button) =>
+    button.addEventListener("click", () => {
+      document
+        .querySelectorAll(".dashboard-nav")
+        .forEach((item) =>
+          item.classList.toggle(
+            "active",
+            item.dataset.view === button.dataset.view,
+          ),
+        );
+      document
+        .querySelectorAll(".dashboard-view")
+        .forEach((view) =>
+          view.classList.toggle(
+            "active",
+            view.dataset.view === button.dataset.view,
+          ),
+        );
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }),
+  );
+  document.querySelectorAll(".cancel-booking").forEach((button) =>
+    button.addEventListener("click", () => {
+      const bookings = store.get("bookings", []);
+      const booking = bookings.find((item) => item.id === button.dataset.id);
+      if (booking) booking.status = "Cancelled";
+      store.set("bookings", bookings);
+      renderPage();
+    }),
+  );
+  const practiceForm = document.querySelector("#practice-form");
+  if (practiceForm)
+    practiceForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const entries = store.get("practice", []);
+      entries.push({
+        id: crypto.randomUUID(),
+        date: document.querySelector("#practice-date").value,
+        hours: Number(document.querySelector("#practice-hours").value),
+        scenario: document.querySelector("#practice-scenario").value,
+        note: document.querySelector("#practice-note").value,
+      });
+      store.set("practice", entries);
+      renderPage();
+    });
+  document.querySelectorAll(".edit-practice").forEach((button) =>
+    button.addEventListener("click", () => {
+      const entries = store.get("practice", []);
+      const entry = entries.find((item) => item.id === button.dataset.id);
+      const hours = Number(
+        window.prompt("Completed hours (0.25–8)", entry.hours),
+      );
+      if (hours >= 0.25 && hours <= 8) {
+        entry.hours = hours;
+        store.set("practice", entries);
+        renderPage();
+      }
+    }),
+  );
+  document.querySelectorAll(".delete-practice").forEach((button) =>
+    button.addEventListener("click", () => {
+      if (window.confirm("Delete this self-reported entry?")) {
+        store.set(
+          "practice",
+          store
+            .get("practice", [])
+            .filter((item) => item.id !== button.dataset.id),
+        );
+        renderPage();
+      }
+    }),
+  );
+  const settingsForm = document.querySelector("#settings-form");
+  if (settingsForm)
+    settingsForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      store.set("profile", {
+        ...store.get("profile", {}),
+        name: document.querySelector("#settings-name").value,
+        region: document.querySelector("#settings-region").value,
+      });
+      renderPage();
+    });
+  const exportButton = document.querySelector("#export-data");
+  if (exportButton)
+    exportButton.addEventListener("click", () => {
+      const data = {
+        profile: store.get("profile", {}),
+        bookings: store.get("bookings", []),
+        practice: store.get("practice", []),
+        attempts: store.get("attempts", []),
+      };
+      const url = URL.createObjectURL(
+        new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "drivelab-progress.json";
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+  const resetButton = document.querySelector("#reset-data");
+  if (resetButton)
+    resetButton.addEventListener("click", () => {
+      if (window.confirm("Reset all DriveLab local data in this browser?")) {
+        ["profile", "bookings", "practice", "attempts", "active-test"].forEach(
+          (key) => store.remove(key),
+        );
+        location.href = "login.html";
+      }
+    });
+}
+
+function bindContact() {
+  const form = document.querySelector("#contact-form");
+  if (form)
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      document.querySelector("#contact-status").textContent =
+        "Your enquiry is ready. Connect the center’s enquiry service to send it.";
+    });
+}
+
+renderPage();

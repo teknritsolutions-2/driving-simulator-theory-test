@@ -1,0 +1,353 @@
+import {
+  ROOT,
+  addDays,
+  plans,
+  scenarios,
+  sessions,
+  topicDetails,
+} from "./data.js";
+import {
+  compactPricing,
+  eyebrow,
+  gauge,
+  icon,
+  logo,
+  photo,
+  questionPreview,
+  scenarioStudio,
+  sessionCard,
+} from "./components.js";
+
+const action = (href, label, secondary = false) =>
+  `<a class="button ${secondary ? "button-secondary" : ""}" href="${href}">${label}${icon("arrow")}</a>`;
+
+export function homePage() {
+  return `
+    <main id="main">
+      <section class="home-hero">
+        <img class="home-hero-image" src="${ROOT}assets/images/simulator.jpg" alt="Driving simulator steering wheel and illuminated instrument display">
+        <div class="home-hero-overlay"></div>
+        <div class="container home-hero-layout">
+          <div class="home-hero-copy reveal">
+            ${eyebrow("Driver readiness lab")}
+            <h1>Train the decisions <em>before the real road.</em></h1>
+            <p>Practice demanding situations in a controlled simulator, strengthen theory judgment and turn every review into a clearer next step.</p>
+            <div class="button-row">${action(`${ROOT}pages/simulator-sessions.html`, "Explore Simulator Sessions")}${action(`${ROOT}pages/theory-test-prep.html`, "Try Theory Practice", true)}</div>
+          </div>
+          <aside class="hero-readout reveal" aria-label="Selected training overview">
+            <div><span class="pulse"></span> Training system ready</div>
+            <dl><div><dt>Scenario</dt><dd>Urban awareness</dd></div><div><dt>Focus</dt><dd>Observation</dd></div><div><dt>Review</dt><dd>After each run</dd></div></dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section-major"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Interactive scenario studio")}<h2>Choose the environment. Focus the practice.</h2></div><p>Preview four training contexts, then carry the selected session directly into a booking request.</p></div>${scenarioStudio()}</div></section>
+
+      <section class="section section-major simulator-benefits">
+        <div class="container benefit-editorial">
+          <div class="benefit-media reveal"><img src="${ROOT}assets/images/road-cockpit.jpg" alt="Driver view of a road and vehicle controls"><div class="media-caption"><span>Controlled repetition</span><strong>Practice → feedback → repeat</strong></div></div>
+          <div class="benefit-copy reveal">${eyebrow("Why simulator practice")}<h2>Repeat the moment, not the mistake.</h2><p class="lede">Simulation creates space to slow down the learning process, revisit decisions and build a dependable routine before applying it on the road.</p><div class="skill-list"><div><span>01</span><h3>Controlled scenarios</h3><p>Return to the same junction, hazard or maneuver with a clear purpose.</p></div><div><span>02</span><h3>Earlier recognition</h3><p>Strengthen the scan that reveals developing hazards sooner.</p></div><div><span>03</span><h3>Measured feedback</h3><p>Review what happened and choose one practical adjustment.</p></div><div><span>04</span><h3>Calm familiarity</h3><p>Reduce novelty through deliberate, repeated exposure.</p></div></div><p class="fine-print">Simulator practice supports preparation; it does not replace required supervised road experience.</p></div>
+        </div>
+      </section>
+
+      <section class="section section-major session-discovery"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Session discovery")}<h2>Practice formats built around a specific skill.</h2></div><a class="text-button" href="${ROOT}pages/simulator-sessions.html">Compare every session ${icon("arrow")}</a></div><div class="home-session-rail">${sessions
+        .slice(0, 4)
+        .map((item, index) => sessionCard(item, index === 0))
+        .join("")}</div></div></section>
+
+      <section class="section section-major theory-editorial"><div class="container theory-split"><div class="theory-photo reveal"><img src="${ROOT}assets/images/theory-study.jpg" alt="Student preparing with a laptop and study materials"><div class="photo-note"><b>Original practice content</b><span>Explanation after every answer</span></div></div><div class="theory-content reveal">${eyebrow("Theory challenge")}<h2>Practice the reasoning—not only the answer.</h2><p>Try a question, review the explanation and switch to another without leaving the page.</p>${questionPreview("home-question")}</div></div></section>
+
+      <section class="section section-major progress-section"><div class="container"><div class="progress-intro">${eyebrow("Performance console")}<h2>See practice become a pattern.</h2><p>Illustrative public preview. The Student Portal calculates the same instruments only from a learner’s saved local activity.</p></div><div class="instrument-cluster reveal">${gauge(68, "Recorded practice", "Completed time only", { display: "6.8h" })}${gauge(82, "Theory average", "Across saved attempts")}${gauge(74, "Readiness signal", "Educational indicator")}</div></div></section>
+
+      <section class="section section-major route-section"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Training route")}<h2>A deliberate loop from discovery to review.</h2></div><p>Each stage adds evidence for the next decision.</p></div><div class="route-map">${[
+        "Discover|Choose a skill to focus.",
+        "Book|Request a suitable practice time.",
+        "Practice|Complete and record the session.",
+        "Test|Check theory under pressure.",
+        "Review|Target the next weak area.",
+      ]
+        .map((step, index) => {
+          const [title, text] = step.split("|");
+          return `<article><span>0${index + 1}</span><h3>${title}</h3><p>${text}</p></article>`;
+        })
+        .join("")}</div></div></section>
+
+      <section class="section section-compact"><div class="container schedule-teaser"><div>${eyebrow("Plan your practice")}<h2>Choose a day while the week is still in view.</h2><p>Times shown are request options and remain pending until the center confirms them.</p>${action(`${ROOT}pages/schedule.html`, "Open Full Schedule")}</div><div class="week-strip">${Array.from(
+        { length: 6 },
+        (_, index) => addDays(index + 1),
+      )
+        .map(
+          (date, index) =>
+            `<a href="${ROOT}pages/schedule.html?date=${date.toISOString().slice(0, 10)}"><span>${date.toLocaleDateString(undefined, { weekday: "short" })}</span><strong>${date.getDate()}</strong><small>${index % 2 ? "3" : "4"} slots</small></a>`,
+        )
+        .join("")}</div></div></section>
+
+      <section class="section section-major portal-close"><div class="container portal-close-layout"><div><span class="overline">Student Portal</span><h2>One place for session requests, practice history and answer review.</h2><div class="button-row">${action(`${ROOT}pages/login.html`, "Open Student Portal")}${action(`${ROOT}pages/pricing.html`, "Compare Training Options", true)}</div></div><div class="portal-mini"><div><span>Recent practice</span><b>Hazard Recognition</b></div><div><span>Next action</span><b>Review road-sign questions</b></div><div class="mini-progress"><span style="width:72%"></span></div></div></div></section>
+    </main>`;
+}
+
+export function homeTwoPage() {
+  return `
+    <main id="main" class="readiness-home">
+      <section class="readiness-hero">
+        <div class="container readiness-hero-grid">
+          <div class="readiness-copy reveal">${eyebrow("Assessment & readiness studio")}<h1>Know what to revise <em>before test day.</em></h1><p>Build topic coverage, review every wrong answer and use recent results to choose your next practice move.</p><div class="button-row">${action("mock-test.html?count=10", "Start Mock Test")}${action("#readiness-showcase", "Explore Readiness", true)}</div><div class="hero-proof"><span>Original practice questions</span><span>Clear answer review</span><span>Local progress history</span></div></div>
+          <div class="assessment-visual reveal"><img src="${ROOT}assets/images/exam-desk.jpg" alt="Laptop and exam materials in a learning environment"><div class="assessment-card"><span>Practice set · 07 / 10</span><strong>Which response creates the safest margin?</strong><div><i class="is-complete"></i><i class="is-complete"></i><i class="is-active"></i><i></i></div></div><div class="score-orbit"><b>82%</b><span>Illustrative<br>recent average</span></div></div>
+        </div>
+      </section>
+
+      <section class="section section-compact path-selector-section"><div class="container"><div class="path-selector" role="tablist" aria-label="Preparation path">${[
+        [
+          "theory",
+          "Theory Practice",
+          "Questions, explanations and topic review",
+          "theory-test-prep.html",
+        ],
+        [
+          "simulator",
+          "Simulator Training",
+          "Scenarios, controls and observation",
+          "simulator-sessions.html",
+        ],
+        [
+          "combined",
+          "Combined Preparation",
+          "Connect practical and theory progress",
+          "pricing.html",
+        ],
+      ]
+        .map(
+          (item, index) =>
+            `<a class="path-choice ${index === 0 ? "active" : ""}" href="${item[3]}" data-path="${item[0]}"><span>0${index + 1}</span><div><h3>${item[1]}</h3><p>${item[2]}</p></div>${icon("arrow")}</a>`,
+        )
+        .join("")}</div></div></section>
+
+      <section class="section section-major challenge-section"><div class="container challenge-grid"><div>${eyebrow("Interactive theory challenge")}<h2>One question can reveal the next topic to study.</h2><p class="lede">Choose an answer, read the reasoning and move to a genuinely different question.</p><div class="question-photo-stack"><img src="${ROOT}assets/images/road-signs.jpg" alt="Road signs used to support theory learning"><img src="${ROOT}assets/images/study-notes.jpg" alt="Student taking notes beside a laptop"></div></div>${questionPreview("home-two-question", "question-preview-light")}</div></section>
+
+      <section class="section section-major readiness-process"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("How readiness develops")}<h2>Confidence follows evidence—not the other way around.</h2></div><p>Move through a repeatable loop that grows both score consistency and topic coverage.</p></div><div class="process-track"><svg viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true"><path d="M20 105 C170 15 275 145 420 70 S700 20 980 85"/></svg>${["Practice", "Review", "Cover topics", "Repeat", "Analyse"].map((item, index) => `<div style="--x:${[3, 23, 42, 69, 94][index]}%;--y:${[68, 25, 47, 20, 56][index]}%"><span>${index + 1}</span><b>${item}</b></div>`).join("")}</div></div></section>
+
+      <section class="section section-major showcase-section" id="readiness-showcase"><div class="container showcase-grid"><div class="showcase-copy">${eyebrow("Illustrative dashboard")}<h2>A progress view designed for the next decision.</h2><p>Recent scores, topic coverage and revision priorities appear together. The live portal starts empty and uses only saved learner activity.</p><div class="revision-list"><div><span>Priority</span><b>Road Signs</b><i>Revise</i></div><div><span>Steady</span><b>Hazard Perception</b><i>Maintain</i></div><div><span>Strong</span><b>Traffic Awareness</b><i>Extend</i></div></div></div><div class="dashboard-showcase reveal"><div class="showcase-top"><span>Readiness signal</span><b>Developing consistency</b></div><div class="showcase-main">${gauge(74, "Practice readiness", "Illustrative only", { compact: true })}<div class="score-bars">${[58, 68, 64, 76, 82].map((value, index) => `<span style="--h:${value}%"><i>${index + 1}</i></span>`).join("")}</div></div><div class="showcase-bottom"><span>Recent average <b>76%</b></span><span>Topics covered <b>6 / 7</b></span></div></div></div></section>
+
+      <section class="section section-major skills-gallery"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Explore simulator skills")}<h2>Turn theory knowledge into observable decisions.</h2></div><a class="text-button" href="simulator-sessions.html">See all sessions ${icon("arrow")}</a></div><div class="skill-mosaic">${Object.values(
+        scenarios,
+      )
+        .map(
+          (item, index) =>
+            `<a href="book-session.html?session=${item.session}" class="skill-tile tile-${index + 1}"><img src="${ROOT}assets/images/${item.image}" alt="${item.label} environment"><div><span>${item.duration}</span><h3>${item.label}</h3><p>${item.focus}</p></div></a>`,
+        )
+        .join("")}</div></div></section>
+
+      <section class="section section-compact formats-band"><div class="container"><div class="formats-copy"><span>Training formats</span><h2>Start focused. Combine when it helps.</h2></div>${compactPricing()}</div></section>
+
+      <section class="section section-major portal-feature"><div class="container portal-feature-grid"><div class="portal-screen reveal"><div class="portal-screen-nav"><i></i><i></i><i></i></div><div class="portal-screen-body"><aside><span></span><span></span><span></span><span></span></aside><main><div class="screen-metrics"><b></b><b></b><b></b></div><div class="screen-chart">${[42, 64, 52, 78, 70, 88].map((value) => `<i style="--h:${value}%"></i>`).join("")}</div></main></div></div><div>${eyebrow("Student Portal")}<h2>Keep the whole preparation story in view.</h2><p class="lede">Manage requests, record completed simulator practice, revisit test reports and see when the readiness indicator has enough evidence to become meaningful.</p><ul class="tick-list"><li>Requested sessions stay separate from completed hours</li><li>Every test preserves a full answer review</li><li>Progress remains on this device in the preview</li></ul>${action("login.html", "Explore Student Portal")}</div></div></section>
+
+      <section class="section section-compact editorial-close"><div class="container"><span>Ready for a baseline?</span><h2>Begin with ten questions. Leave with a clearer revision plan.</h2>${action("mock-test.html?count=10", "Start Quick Practice")}</div></section>
+    </main>`;
+}
+
+export function sessionsPage() {
+  return `
+    <main id="main">
+      <section class="catalog-header"><div class="container catalog-header-grid"><div>${eyebrow("Simulator sessions")}<h1>Choose the skill you want to rehearse.</h1><p>Compare session focus, duration and level before sending a local request.</p><div class="catalog-quick-filters" role="group" aria-label="Quick duration filter"><button class="active" data-catalog-filter="all">All sessions</button><button data-catalog-filter="45">45 min</button><button data-catalog-filter="60">60 min</button><button data-catalog-filter="75">75 min</button></div></div><div class="catalog-header-media"><img src="${ROOT}assets/images/instrument-panel.jpg" alt="Illuminated vehicle instrument panel"><span>Precision practice · structured review</span></div></div></section>
+      <section class="section section-compact"><div class="container"><div class="featured-session">${sessionCard(sessions[1], true)}<div class="featured-session-note"><span>Featured environment</span><h2>Urban decisions need more than quick reactions.</h2><p>Build a wider scan, recognize competing road users and repeat the decision sequence until it becomes deliberate.</p><a class="text-button" href="book-session.html?session=urban">Request Urban Traffic Practice ${icon("arrow")}</a></div></div></div></section>
+      <section class="section section-major catalog-section"><div class="container"><div class="section-heading"><span class="overline">Complete catalog</span><h2>Six ways to focus a simulator session.</h2></div><div class="session-catalog" id="session-catalog">${sessions.map((item) => sessionCard(item)).join("")}</div><p class="catalog-empty" hidden>No sessions match this duration.</p></div></section>
+      <section class="section section-major compare-section"><div class="container"><div class="compare-layout"><div>${eyebrow("Compare at a glance")}<h2>Match the session to the learning task.</h2></div><div class="comparison-table" role="table">${sessions.map((item) => `<div role="row"><b role="cell">${item.title}</b><span role="cell">${item.duration} min</span><span role="cell">${item.difficulty}</span><span role="cell">${item.focus}</span><a role="cell" href="book-session.html?session=${item.id}">Choose</a></div>`).join("")}</div></div></div></section>
+      <section class="section section-major session-anatomy"><div class="container anatomy-grid"><div class="anatomy-photo"><img src="${ROOT}assets/images/simulator.jpg" alt="Simulator steering wheel and instrument display"></div><div>${eyebrow("What happens in a session")}<h2>A focused sequence from orientation to review.</h2><ol class="number-list"><li><span>01</span><div><b>Set the focus</b><p>Choose the skill and become familiar with the controls.</p></div></li><li><span>02</span><div><b>Run the scenario</b><p>Practice the observation and decision sequence.</p></div></li><li><span>03</span><div><b>Review the attempt</b><p>Identify one clear adjustment before repeating.</p></div></li></ol><p class="fine-print">Exact center equipment and facilitation details should be confirmed before launch.</p></div></div></section>
+      ${faqStrip([
+        [
+          "Can simulator time replace required road training?",
+          "No. It is a preparation tool and should not be presented as a legal substitute for required road experience.",
+        ],
+        [
+          "Are requests immediately confirmed?",
+          "No. A request remains pending until the center confirms it.",
+        ],
+        [
+          "Can I mix scenarios?",
+          "Choose the closest starting session; the center can discuss an appropriate sequence during follow-up.",
+        ],
+      ])}
+    </main>`;
+}
+
+export function theoryPage() {
+  const firstTopic = Object.entries(topicDetails)[0];
+  return `
+    <main id="main">
+      <section class="theory-hero"><div class="container theory-hero-grid"><div>${eyebrow("Theory test preparation")}<h1>Build a stronger answer—and understand why.</h1><p>Original practice questions, instant scoring and topic-level review help turn mistakes into a focused revision plan.</p><div class="button-row">${action("mock-test.html?count=10", "Start Quick Practice")}${action("#topic-explorer", "Explore Topics", true)}</div><p class="fine-print">Practice content is educational and not an official examination.</p></div>${questionPreview("theory-hero-question", "question-preview-light")}</div></section>
+      <section class="section section-major practice-modes"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Choose a practice mode")}<h2>Start short or build broader coverage.</h2></div><p>All modes preserve answers while you navigate and create an instant result report.</p></div><div class="mode-layout">${[
+        ["Quick Practice", 10, "Short baseline", "Untimed option"],
+        ["Standard Mock", 20, "Wider topic mix", "Optional 30 min timer"],
+        ["Full Practice", 30, "Extended coverage", "Optional 45 min timer"],
+      ]
+        .map(
+          (item, index) =>
+            `<article class="practice-mode mode-${index + 1}"><span>${String(item[1]).padStart(2, "0")}</span><div><h3>${item[0]}</h3><p>${item[2]} · ${item[3]}</p></div><a class="button button-small ${index ? "button-secondary" : ""}" href="mock-test.html?count=${item[1]}">Start</a></article>`,
+        )
+        .join("")}</div></div></section>
+      <section class="section section-major topic-section" id="topic-explorer"><div class="container topic-layout"><div class="topic-controls" role="tablist" aria-label="Theory topics">${Object.keys(
+        topicDetails,
+      )
+        .map(
+          (topic, index) =>
+            `<button class="topic-button ${index === 0 ? "active" : ""}" role="tab" aria-selected="${index === 0}" data-topic="${topic}"><span>0${index + 1}</span>${topic}</button>`,
+        )
+        .join(
+          "",
+        )}</div><div class="topic-display"><img data-topic-image src="${ROOT}assets/images/${firstTopic[1][0]}" alt="${firstTopic[0]}"><div><span class="overline">Topic focus</span><h2 data-topic-title>${firstTopic[0]}</h2><p data-topic-description>${firstTopic[1][1]}</p><div class="topic-question" data-topic-question>${window.DL_QUESTIONS.find((item) => item.topic === firstTopic[0]).question}</div><a class="text-button" href="mock-test.html?count=10">Practice this topic mix ${icon("arrow")}</a></div></div></div></section>
+      <section class="section section-major review-story"><div class="container review-story-grid"><div>${eyebrow("After submission")}<h2>A result should tell you what to do next.</h2><p class="lede">Every report separates correct, incorrect and unanswered items, then keeps the original choice beside the correct answer and explanation.</p><div class="result-equation"><span><b>14</b> Correct</span><i>+</i><span><b>4</b> Incorrect</span><i>+</i><span><b>2</b> Unanswered</span><i>=</i><strong>70%</strong></div></div><div class="answer-review-mock"><span class="review-status">Needs review</span><h3>What should you anticipate near a stopped bus?</h3><p><b>Your answer</b> Only the bus moving</p><p class="correct-line"><b>Correct answer</b> Passengers crossing near the bus</p><small>The vehicle can conceal pedestrians moving into the road.</small></div></div></section>
+      <section class="section section-major theory-progress"><div class="container showcase-grid"><div class="dashboard-showcase">${gauge(72, "Practice readiness", "Illustrative preview", { compact: true })}<div class="showcase-bottom"><span>Coverage <b>5 / 7 topics</b></span><span>Next focus <b>Road Signs</b></span></div></div><div>${eyebrow("Progress monitoring")}<h2>Look for consistency across attempts.</h2><p class="lede">The readiness indicator waits for sufficient practice, then combines recent score average with topic coverage. It never claims an official pass prediction.</p>${action("student-dashboard.html", "View Student Dashboard")}</div></div></section>
+      ${faqStrip([
+        [
+          "Are these official exam questions?",
+          "No. They are original educational practice items.",
+        ],
+        [
+          "Can I take an untimed test?",
+          "Yes. Timers are optional in every practice mode.",
+        ],
+        [
+          "How is the score calculated?",
+          "Correct answers are divided by total questions; unanswered items remain visible as their own count.",
+        ],
+      ])}
+    </main>`;
+}
+
+export function schedulePage() {
+  return `
+    <main id="main" class="schedule-page">
+      <section class="schedule-header"><div class="container"><div>${eyebrow("Plan your practice")}<h1>Choose a session, date and request time.</h1><p>Explore configured request windows in center-local time. A saved request remains pending until confirmed.</p></div><div class="schedule-stepper"><span class="active">1 · Session</span><span>2 · Date</span><span>3 · Time</span><span>4 · Review</span></div></div></section>
+      <section class="section section-compact"><div class="container schedule-shell">
+        <div class="schedule-main">
+          <div class="schedule-session-picker"><h2>1. Select a session</h2><div class="session-pills">${sessions.map((session, index) => `<button class="session-pill ${index === 1 ? "active" : ""}" data-session="${session.id}"><b>${session.title}</b><span>${session.duration} min · $${session.price}</span></button>`).join("")}</div></div>
+          <div class="calendar-panel"><div class="calendar-toolbar"><div><span class="overline">2. Select a date</span><h2 id="calendar-month"></h2></div><div><button class="icon-button" id="month-prev" aria-label="Previous month">←</button><button class="today-button" id="calendar-today">Today</button><button class="icon-button" id="month-next" aria-label="Next month">→</button></div></div><div class="calendar-weekdays" aria-hidden="true">${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => `<span>${day}</span>`).join("")}</div><div class="calendar-grid" id="calendar-grid" role="grid" aria-label="Choose a future date"></div></div>
+          <div class="time-panel"><div><span class="overline">3. Select a time</span><h2>Configured request times</h2></div><div class="time-slots" id="time-slots" role="radiogroup" aria-label="Request time"></div></div>
+        </div>
+        <aside class="booking-summary"><span class="overline">4. Review request</span><h2>Your practice request</h2><div class="summary-photo"><img src="${ROOT}assets/images/city.jpg" alt="Selected session environment" data-summary-image></div><dl><div><dt>Session</dt><dd data-summary-session>Urban Traffic Practice</dd></div><div><dt>Date</dt><dd data-summary-date>Choose a future date</dd></div><div><dt>Time</dt><dd data-summary-time>Choose a request time</dd></div><div><dt>Duration</dt><dd data-summary-duration>60 minutes</dd></div></dl><label for="schedule-note">Optional note</label><textarea id="schedule-note" rows="3" placeholder="Anything the center should know?"></textarea><button class="button" id="save-schedule-request" disabled>Save Local Request</button><button class="text-button reset-schedule" type="button">Reset selection</button><p class="booking-disclosure">This does not reserve live inventory. Center confirmation is still required.</p><div id="schedule-status" aria-live="polite"></div></aside>
+      </div></section>
+      ${faqStrip([
+        [
+          "Are these live available times?",
+          "No. They are configured request windows until a scheduling provider is connected.",
+        ],
+        [
+          "What happens after I save?",
+          "The request appears in My Sessions with a Requested status.",
+        ],
+        [
+          "Which time zone is used?",
+          "Times are shown in the center’s configured local time; this must be confirmed for production.",
+        ],
+      ])}
+    </main>`;
+}
+
+export function pricingPage() {
+  return `
+    <main id="main" class="pricing-page">
+      <section class="pricing-header"><div class="container pricing-header-grid"><div>${eyebrow("Training options")}<h1>Choose the amount of structure you need.</h1><p>Start with a focused simulator request or ask the center to plan a broader practice path.</p></div><div class="pricing-header-photo"><img src="${ROOT}assets/images/night-cockpit.jpg" alt="Vehicle controls during a night driving environment"><span>Practical scenarios + theory review</span></div></div></section>
+      <section class="section section-compact"><div class="container pricing-table">${Object.entries(
+        plans,
+      )
+        .map(
+          ([key, plan], index) =>
+            `<article class="pricing-plan ${index === 1 ? "featured" : ""}"><div class="plan-title"><span>${index === 1 ? "Structured path" : "Training option"}</span><h2>${plan.title}</h2><p>${plan.note}</p></div><div class="plan-price"><strong>${plan.price}</strong><small>example price</small></div><ul>${plan.features.map((feature) => `<li>${feature}</li>`).join("")}</ul><a class="button ${index === 1 ? "" : "button-secondary"}" href="book-session.html?plan=${key}">${key === "single" ? "Choose a Session" : "Request Package Follow-up"}</a></article>`,
+        )
+        .join("")}</div></section>
+      <section class="section section-major package-explainer"><div class="container package-grid"><div>${eyebrow("How package requests work")}<h2>A practice path begins with one clear enquiry.</h2><p class="lede">Multi-session packages do not pretend to schedule four appointments at once. The local form records the selected package and preferred starting session; the center then follows up to arrange the remaining dates.</p></div><ol class="number-list"><li><span>01</span><div><b>Select a training path</b><p>Choose focused, multi-session or combined preparation.</p></div></li><li><span>02</span><div><b>Share a starting preference</b><p>Pick the first scenario and a useful date window.</p></div></li><li><span>03</span><div><b>Arrange the sequence</b><p>The center confirms availability and remaining sessions.</p></div></li></ol></div></section>
+      ${faqStrip([
+        [
+          "Does choosing a plan take payment?",
+          "No. This frontend records a local request or package enquiry only.",
+        ],
+        [
+          "Does a four-session plan create four bookings?",
+          "No. The center must follow up to arrange each session honestly.",
+        ],
+        [
+          "Can I combine simulator and theory work?",
+          "The combined option is designed to connect both preparation routes.",
+        ],
+      ])}
+    </main>`;
+}
+
+export function aboutPage() {
+  return `
+    <main id="main">
+      <section class="about-header"><div class="container about-header-grid"><div>${eyebrow("About DriveLab")}<h1>Practice built around decisions you can revisit.</h1><p>DriveLab brings simulator scenarios, theory revision and progress review into one deliberate preparation journey.</p></div><div class="about-collage"><img src="${ROOT}assets/images/simulator.jpg" alt="Simulator steering wheel and instrument setup"><img src="${ROOT}assets/images/computer-lab.jpg" alt="Computer-based learning environment"></div></div></section>
+      <section class="section section-major"><div class="container story-grid"><div class="story-number">01</div><div>${eyebrow("Controlled practice")}<h2>Slow the learning moment down.</h2><p class="lede">A simulator creates room to repeat a junction, parking maneuver or hazard sequence with a single clear focus. The value comes from what the learner notices, changes and tries again.</p></div><div class="story-image"><img src="${ROOT}assets/images/road-cockpit.jpg" alt="Vehicle controls and road view"></div></div></section>
+      <section class="section section-major dark-story"><div class="container dark-story-grid"><div><span class="overline">Theory + practical judgment</span><h2>Connect what you know with what you notice.</h2><p>Theory practice explains the reasoning. Simulator practice turns that reasoning into observation, timing and control. Reviewing both can reveal where preparation should go next.</p></div><div class="principles"><div><span>01</span><b>Repeatable scenarios</b><p>Return to the same challenge with purpose.</p></div><div><span>02</span><b>Immediate review</b><p>Keep the decision and explanation together.</p></div><div><span>03</span><b>Visible progress</b><p>Track completed practice and theory history separately.</p></div></div></div></section>
+      <section class="section section-major"><div class="container start-journey"><div class="journey-photo"><img src="${ROOT}assets/images/study-notes.jpg" alt="Learner taking structured study notes"></div><div>${eyebrow("How to begin")}<h2>Choose the next useful step—not every step at once.</h2><ol class="number-list"><li><span>01</span><div><b>Explore the sessions</b><p>Identify a practical skill to rehearse.</p></div></li><li><span>02</span><div><b>Try a theory baseline</b><p>Use ten questions to reveal revision priorities.</p></div></li><li><span>03</span><div><b>Review progress</b><p>Let evidence shape the next practice choice.</p></div></li></ol><div class="button-row">${action("simulator-sessions.html", "Explore Sessions")}${action("mock-test.html?count=10", "Start Theory Practice", true)}</div></div></div></section>
+    </main>`;
+}
+
+export function contactPage() {
+  return `
+    <main id="main">
+      <section class="contact-header"><div class="container contact-header-grid"><div>${eyebrow("Contact DriveLab")}<h1>Start with the question that matters to your practice.</h1><p>Ask about a session, booking support, center access or the Student Portal.</p></div><div class="contact-paths"><a href="#contact-form"><span>01</span><b>General enquiry</b>${icon("arrow")}</a><a href="#contact-form"><span>02</span><b>Session support</b>${icon("arrow")}</a><a href="#location"><span>03</span><b>Center location</b>${icon("arrow")}</a></div></div></section>
+      <section class="section section-major"><div class="container contact-main"><form class="contact-form" id="contact-form"><div class="form-heading"><span class="overline">Send an enquiry</span><h2>Tell us how we can help.</h2></div><div class="form-grid"><div class="field"><label for="contact-name">Name</label><input id="contact-name" required autocomplete="name"></div><div class="field"><label for="contact-email">Email</label><input id="contact-email" type="email" required autocomplete="email"></div><div class="field field-full"><label for="contact-topic">Enquiry type</label><select id="contact-topic"><option>General enquiry</option><option>Session or booking support</option><option>Center location</option><option>Student Portal support</option></select></div><div class="field field-full"><label for="contact-message">Message</label><textarea id="contact-message" required rows="6"></textarea></div><div class="field field-full"><button class="button" type="submit">Validate Enquiry</button><p id="contact-status" aria-live="polite"></p></div></div></form><aside class="support-panel"><img src="${ROOT}assets/images/computer-lab.jpg" alt="Computer-based training environment"><div><span class="overline">Booking support</span><h3>Already have a local request?</h3><p>Open My Sessions to review or cancel a pending request from this browser.</p><a class="text-button" href="student-dashboard.html">Open My Sessions ${icon("arrow")}</a></div></aside></div></section>
+      <section class="section section-major location-section" id="location"><div class="container location-grid"><div class="location-visual"><div class="location-lines"></div><span>Verified address pending</span></div><div>${eyebrow("Visit the center")}<h2>Location details will appear here once confirmed.</h2><p>We have intentionally left out an address and map until the center supplies verified information. Use the enquiry form to ask about access and arrival details.</p><a class="text-button" href="#contact-form">Ask about the location ${icon("arrow")}</a></div></div></section>
+      ${faqStrip([
+        [
+          "Can I change a request?",
+          "Cancel the current local request in My Sessions, then submit a new preferred time.",
+        ],
+        [
+          "Is support live?",
+          "No live-support claim is made. Use the enquiry form for follow-up.",
+        ],
+        [
+          "Why is there no map?",
+          "A map will be added only after the client confirms the center address.",
+        ],
+      ])}
+    </main>`;
+}
+
+export function faqPage() {
+  return `<main id="main"><section class="simple-header"><div class="container">${eyebrow("Questions & answers")}<h1>Clear expectations before practice.</h1><p>Understand how simulator sessions, theory practice and local portal data work.</p></div></section>${faqStrip(
+    [
+      [
+        "Does simulator practice replace on-road training?",
+        "No. It supports preparation and does not replace legal road-training requirements.",
+      ],
+      [
+        "Are schedule times live?",
+        "No. They are configured request windows until a scheduling provider is connected.",
+      ],
+      [
+        "Are the theory questions official?",
+        "No. They are original educational practice items.",
+      ],
+      [
+        "How is readiness calculated?",
+        "After at least three attempts, it uses 70% recent score average and 30% topic coverage.",
+      ],
+      [
+        "Where is my data stored?",
+        "In this preview it remains in localStorage on this browser.",
+      ],
+    ],
+  )}</main>`;
+}
+
+export function legalPage(title) {
+  return `<main id="main"><section class="simple-header"><div class="container">${eyebrow(title)}<h1>${title === "Privacy" ? "How this preview handles local data." : "Terms for using the DriveLab preview."}</h1><p>Replace this concise preview notice with client-reviewed legal content before public production use.</p></div></section><section class="section section-compact"><div class="container legal-copy"><h2>Important preview limitation</h2><p>The Student Portal stores profile settings, booking requests, self-reported practice and mock-test attempts in browser localStorage. It does not create a secure account or synchronize between devices.</p><p>Do not enter sensitive personal data. Production authentication, scheduling, payments and privacy terms require appropriate backend services and legal review.</p></div></section></main>`;
+}
+
+export function loginPage(register = false) {
+  return `<main class="auth-page"><section class="auth-visual"><img src="${ROOT}assets/images/${register ? "theory-study.jpg" : "simulator.jpg"}" alt="${register ? "Learner preparing with study materials" : "Driving simulator controls"}"><div class="auth-shade"></div><a class="brand" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a><div><span class="overline">Student Portal preview</span><h1>${register ? "Create your practice profile." : "Return to your progress console."}</h1><p>Session requests, completed practice and theory results stay organized in one place.</p></div></section><section class="auth-form-wrap"><div class="auth-form-box"><a class="back-link" href="${ROOT}index.html">← Back to site</a><span class="overline">${register ? "Create profile" : "Local sign in"}</span><h2>${register ? "Begin your DriveLab record" : "Welcome back"}</h2><p>This preview creates a local browser profile. No password is stored.</p><form id="auth-form" class="form-grid"><div class="field field-full"><label for="display-name">Display name</label><input id="display-name" required autocomplete="name"></div><div class="field field-full"><label for="email">Email <small>not stored in preview</small></label><input id="email" type="email" autocomplete="email"></div>${register ? '<div class="field field-full"><label for="region">Preferred theory region</label><input id="region" placeholder="Not set"></div>' : ""}<button class="button field-full" type="submit">${register ? "Create Local Profile" : "Continue to Dashboard"}</button></form><div class="auth-disclosure">Secure authentication must replace this local profile before production.</div><p>${register ? 'Already have a local profile? <a href="login.html">Sign in</a>' : 'New here? <a href="register.html">Create a local profile</a>'}</p><button class="text-button" id="sample-profile" type="button">Explore an empty sample profile ${icon("arrow")}</button></div></section></main>`;
+}
+
+export function bookingPage() {
+  const params = new URLSearchParams(location.search);
+  const session = params.get("session") || "urban";
+  const plan = params.get("plan");
+  return `<main id="main"><section class="booking-header"><div class="container">${eyebrow(plan ? "Package enquiry" : "Session request")}<h1>${plan ? "Choose a starting preference for your training path." : "Request a simulator practice time."}</h1><p>${plan ? "The center will follow up to arrange the full sequence; this form does not create multiple appointments." : "Choose a future date and configured request time."}</p></div></section><section class="section section-compact"><div class="container booking-page-grid"><div class="booking-context"><img src="${ROOT}assets/images/${sessions.find((item) => item.id === session)?.image || "city.jpg"}" alt="Selected training environment"><div>${plan && plans[plan] ? `<span class="overline">Selected training path</span><h2>${plans[plan].title}</h2><p>${plans[plan].note}</p>` : '<span class="overline">Local request</span><h2>Choose the starting session.</h2>'}</div></div><div id="standalone-booking-form" data-selected-session="${session}" data-plan="${plan || ""}"></div></div></section></main>`;
+}
+
+function faqStrip(items) {
+  return `<section class="section section-compact faq-strip"><div class="container"><div class="faq-heading"><span class="overline">Useful questions</span><h2>Before you continue</h2></div><div class="faq-list">${items.map((item) => `<details><summary>${item[0]}<span>+</span></summary><p>${item[1]}</p></details>`).join("")}</div></div></section>`;
+}

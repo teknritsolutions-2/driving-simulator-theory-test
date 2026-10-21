@@ -1,0 +1,158 @@
+import { ROOT, plans, scenarios, sessions } from "./data.js";
+
+const iconPaths = {
+  sun: '<circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.5 8.5 0 1 0 20.2 15.4Z"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  close: '<path d="m6 6 12 12M18 6 6 18"/>',
+  arrow: '<path d="M5 12h14m-5-5 5 5-5 5"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  chevron: '<path d="m8 10 4 4 4-4"/>',
+};
+
+export function icon(name, label = "") {
+  return `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="${label ? "false" : "true"}">${label ? `<title>${label}</title>` : ""}${iconPaths[name]}</svg>`;
+}
+
+export function logo() {
+  return `<img class="logo-light" src="${ROOT}assets/brand/logo.svg" alt="DriveLab"><img class="logo-dark" src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab">`;
+}
+
+export function header(hasProfile) {
+  const portal = hasProfile ? "student-dashboard.html" : "login.html";
+  return `
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container nav-row">
+        <a class="brand" href="${ROOT}index.html" aria-label="DriveLab home">${logo()}</a>
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <div class="nav-dropdown">
+            <button class="nav-link home-menu-button" aria-expanded="false">Home ${icon("chevron")}</button>
+            <div class="home-menu" hidden>
+              <a href="${ROOT}index.html">Simulator Lab</a>
+              <a href="${ROOT}pages/home2.html">Readiness Studio</a>
+            </div>
+          </div>
+          <a class="nav-link" href="${ROOT}pages/about.html">About</a>
+          <a class="nav-link" href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a>
+          <a class="nav-link" href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a>
+          <a class="nav-link" href="${ROOT}pages/schedule.html">Schedule</a>
+          <a class="nav-link" href="${ROOT}pages/pricing.html">Pricing</a>
+          <a class="nav-link" href="${ROOT}pages/contact.html">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="icon-button theme-toggle" aria-label="Switch color theme"><span class="sun-icon">${icon("sun")}</span><span class="moon-icon">${icon("moon")}</span></button>
+          <button class="direction-toggle" aria-label="Switch text direction"><span class="direction-label">RTL</span></button>
+          <a class="button button-small portal-button" href="${ROOT}pages/${portal}">Student Portal</a>
+          <button class="icon-button menu-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation"><span class="menu-icon">${icon("menu")}</span><span class="close-icon">${icon("close")}</span></button>
+        </div>
+      </div>
+      <div class="mobile-menu" id="mobile-menu" hidden>
+        <nav aria-label="Mobile navigation">
+          <a href="${ROOT}index.html">Home — Simulator Lab</a>
+          <a href="${ROOT}pages/home2.html">Home — Readiness Studio</a>
+          <a href="${ROOT}pages/about.html">About</a>
+          <a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a>
+          <a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a>
+          <a href="${ROOT}pages/schedule.html">Schedule</a>
+          <a href="${ROOT}pages/pricing.html">Pricing</a>
+          <a href="${ROOT}pages/contact.html">Contact</a>
+          <a href="${ROOT}pages/${portal}">Student Portal</a>
+        </nav>
+        <div class="mobile-preferences">
+          <button class="preference-button theme-toggle">${icon("sun")} <span>Color theme</span></button>
+          <button class="preference-button direction-toggle"><strong class="direction-label">RTL</strong><span>Text direction</span></button>
+        </div>
+      </div>
+    </header>`;
+}
+
+export function footer() {
+  return `
+    <footer class="site-footer">
+      <div class="container footer-layout">
+        <div class="footer-brand">
+          <a class="brand" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
+          <p>Simulation, theory practice and clear progress tools for deliberate driver preparation.</p>
+        </div>
+        <div><h3>Train</h3><a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a><a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a></div>
+        <div><h3>Explore</h3><a href="${ROOT}index.html">Simulator Lab</a><a href="${ROOT}pages/home2.html">Readiness Studio</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/contact.html">Contact</a></div>
+        <div><h3>Support</h3><a href="${ROOT}pages/login.html">Student Portal</a><a href="${ROOT}pages/faq.html">FAQ</a><a href="${ROOT}pages/privacy.html">Privacy</a><a href="${ROOT}pages/terms.html">Terms</a></div>
+      </div>
+      <div class="container footer-base"><span>© 2026 DriveLab</span><span>Driver Simulation & Theory Assessment Center</span></div>
+    </footer>
+    <button class="icon-button back-to-top" aria-label="Back to top">↑</button>`;
+}
+
+export function eyebrow(text) {
+  return `<div class="eyebrow"><span></span>${text}</div>`;
+}
+
+export function questionPreview(id = "question-preview", className = "") {
+  const question = window.DL_QUESTIONS[16];
+  return `
+    <article class="question-preview ${className}" id="${id}" data-preview-index="16">
+      <div class="question-topline"><span>Practice question</span><span data-question-topic>${question.topic}</span></div>
+      <div class="question-progress"><span></span><span></span><span></span><span></span></div>
+      <h3 data-question-text>${question.question}</h3>
+      <div class="question-options" role="radiogroup" aria-label="Answer choices">
+        ${question.choices.map((choice, index) => `<button class="question-option" role="radio" aria-checked="false" data-choice="${index}"><span>${String.fromCharCode(65 + index)}</span><b>${choice}</b></button>`).join("")}
+      </div>
+      <div class="question-feedback" data-question-feedback aria-live="polite">Choose an answer to see the reasoning.</div>
+      <div class="question-actions"><button class="text-button next-preview" type="button">Another question ${icon("arrow")}</button><a class="button button-small" href="${ROOT}pages/mock-test.html?count=10">Start Quick Practice</a></div>
+    </article>`;
+}
+
+export function scenarioStudio() {
+  const first = scenarios.city;
+  return `
+    <div class="scenario-studio reveal" id="scenario-studio">
+      <div class="scenario-control" role="tablist" aria-label="Training scenario">
+        ${Object.entries(scenarios)
+          .map(
+            ([key, scenario], index) =>
+              `<button class="scenario-tab" role="tab" aria-selected="${index === 0}" data-scenario="${key}"><span>0${index + 1}</span>${scenario.label}</button>`,
+          )
+          .join("")}
+      </div>
+      <div class="scenario-stage">
+        <img data-scenario-image src="${ROOT}assets/images/${first.image}" alt="City traffic training environment">
+        <div class="scenario-shade"></div>
+        <div class="scenario-status"><span class="status-dot"></span> Scenario preview</div>
+        <div class="scenario-readout">
+          <p>Training focus</p><strong data-field="focus">${first.focus}</strong>
+          <dl><div><dt>Duration</dt><dd data-field="duration">${first.duration}</dd></div><div><dt>Level</dt><dd data-field="difficulty">${first.difficulty}</dd></div></dl>
+        </div>
+        <div class="scenario-copy"><span class="kicker">Selected environment</span><h2 data-field="label">${first.label}</h2><p data-field="description">${first.description}</p><a class="button scenario-book" href="${ROOT}pages/book-session.html?session=${first.session}">Book this scenario ${icon("arrow")}</a></div>
+      </div>
+    </div>`;
+}
+
+export function sessionCard(session, featured = false) {
+  return `
+    <article class="session-product ${featured ? "session-featured" : ""}" data-duration="${session.duration}">
+      <a class="session-photo" href="${ROOT}pages/book-session.html?session=${session.id}" aria-label="Book ${session.title}"><img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment" loading="lazy"><span>${session.difficulty}</span></a>
+      <div class="session-body"><div class="session-specs"><span>${icon("clock")} ${session.duration} min</span><span>$${session.price}</span></div><h3>${session.title}</h3><p>${session.description}</p><div class="session-focus">${session.focus}</div><a class="text-button" href="${ROOT}pages/book-session.html?session=${session.id}">Request session ${icon("arrow")}</a></div>
+    </article>`;
+}
+
+export function compactPricing() {
+  return `
+    <div class="pricing-compact">
+      ${Object.entries(plans)
+        .map(
+          ([key, plan], index) =>
+            `<article class="price-path ${index === 1 ? "is-featured" : ""}"><span class="price-index">0${index + 1}</span><div><h3>${plan.title}</h3><p>${plan.note}</p></div><strong>${plan.price}</strong><a class="text-button" href="${ROOT}pages/book-session.html?plan=${key}">Choose ${icon("arrow")}</a></article>`,
+        )
+        .join("")}
+    </div>`;
+}
+
+export function gauge(value, label, note, options = {}) {
+  const display = options.display ?? `${value}%`;
+  return `<div class="instrument ${options.compact ? "instrument-compact" : ""}"><div class="instrument-ring gauge" data-progress="${value}"><span class="gauge-value" data-value="${value}">${display}</span></div><div><h3>${label}</h3><p>${note}</p></div></div>`;
+}
+
+export function photo(path, alt, className = "") {
+  return `<figure class="photo-frame ${className}"><img src="${ROOT}assets/images/${path}" alt="${alt}" loading="lazy"></figure>`;
+}
