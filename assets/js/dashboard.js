@@ -90,7 +90,7 @@ export function renderDashboard(store, escapeHtml) {
           )
           .join("")}</div></section>
         <section class="dashboard-view" data-view="history"><div class="view-heading"><div><span class="overline">Theory assessment</span><h2>Test history</h2></div></div><div class="dashboard-panel">${attempts.length ? historyTable(attempts) : emptyState("No result history", "Completed attempts will appear here with a review link.", "Start Practice", "mock-test.html?count=10")}</div></section>
-        <section class="dashboard-view" data-view="progress"><div class="view-heading"><div><span class="overline">Training record</span><h2>Progress & readiness</h2></div></div><div class="progress-layout"><article class="dashboard-panel readiness-panel">${gauge(ready.value, ready.label, ready.detail, { compact: true })}<p>This is an educational signal, not an official exam decision or pass prediction.</p></article><article class="dashboard-panel"><span class="overline">Completed simulator practice</span><h2>Record a self-reported entry</h2><form id="practice-form" class="form-grid"><div class="field"><label for="practice-date">Date</label><input id="practice-date" type="date" max="${isoDate(new Date())}" required></div><div class="field"><label for="practice-hours">Hours completed</label><input id="practice-hours" type="number" min="0.25" max="8" step="0.25" required></div><div class="field field-full"><label for="practice-scenario">Scenario</label><select id="practice-scenario">${sessions.map((session) => `<option>${session.title}</option>`).join("")}</select></div><div class="field field-full"><label for="practice-note">Practice note</label><textarea id="practice-note" rows="3"></textarea></div><button class="button button-small" type="submit">Add Practice Entry</button></form></article></div><article class="dashboard-panel practice-log"><div class="panel-heading"><div><span class="overline">Practice history</span><h2>Completed entries</h2></div><strong>${hours.toFixed(1)} hours total</strong></div>${practice.length ? practiceTable(practice) : "<p>No completed simulator practice recorded yet.</p>"}</article></section>
+        <section class="dashboard-view" data-view="progress"><div class="view-heading"><div><span class="overline">Training record</span><h2>Progress & readiness</h2></div></div><div class="progress-layout"><article class="dashboard-panel readiness-panel">${gauge(ready.value, ready.label, ready.detail, { compact: true })}<p>This is an educational signal, not an official exam decision or pass prediction.</p></article><article class="dashboard-panel"><span class="overline">Topic evidence</span><h2>Performance by topic</h2>${topicBreakdown(attempts)}</article></div><div class="progress-layout practice-entry-layout"><article class="dashboard-panel"><span class="overline">Completed simulator practice</span><h2>Record a self-reported entry</h2><form id="practice-form" class="form-grid"><div class="field"><label for="practice-date">Date</label><input id="practice-date" type="date" max="${isoDate(new Date())}" required></div><div class="field"><label for="practice-hours">Hours completed</label><input id="practice-hours" type="number" min="0.25" max="8" step="0.25" required></div><div class="field field-full"><label for="practice-scenario">Scenario</label><select id="practice-scenario">${sessions.map((session) => `<option>${session.title}</option>`).join("")}</select></div><div class="field field-full"><label for="practice-note">Practice note</label><textarea id="practice-note" rows="3"></textarea></div><button class="button button-small" type="submit">Add Practice Entry</button></form></article><article class="dashboard-panel"><div class="panel-heading"><div><span class="overline">Practice history</span><h2>Completed entries</h2></div><strong>${hours.toFixed(1)} hours total</strong></div>${practice.length ? practiceTable(practice) : "<p>No completed simulator practice recorded yet.</p>"}</article></div></section>
         <section class="dashboard-view" data-view="settings"><div class="view-heading"><div><span class="overline">Preferences</span><h2>Settings</h2></div></div><article class="dashboard-panel settings-panel"><form id="settings-form" class="form-grid"><div class="field"><label for="settings-name">Display name</label><input id="settings-name" value="${escapeHtml(profile.name || "")}"></div><div class="field"><label for="settings-region">Theory region</label><input id="settings-region" value="${escapeHtml(profile.region || "Not set")}"></div><div class="field field-full settings-actions"><button class="button button-small" type="submit">Save Locally</button><button class="button button-secondary button-small" type="button" id="export-data">Export JSON</button><button class="text-button danger" type="button" id="reset-data">Reset local data</button></div></form><p class="settings-disclosure">Preview data is stored only in this browser and is not synchronized.</p></article></section>
       </div>
     </main>`;
@@ -105,6 +105,32 @@ function scoreChart(attempts) {
   const values = attempts.slice(-6);
   if (!values.length) return "";
   return `<div class="score-chart" aria-label="Recent theory scores">${values.map((attempt, index) => `<div><span style="--height:${attempt.score}%"></span><b>${attempt.score}%</b><small>${index + 1}</small></div>`).join("")}</div>`;
+}
+
+function topicBreakdown(attempts) {
+  const totals = {};
+  attempts.slice(-5).forEach((attempt) => {
+    Object.entries(attempt.topics || {}).forEach(([topic, value]) => {
+      totals[topic] ??= { correct: 0, total: 0 };
+      totals[topic].correct += Number(value.correct || 0);
+      totals[topic].total += Number(value.total || 0);
+    });
+  });
+  const topics = Object.entries(totals)
+    .map(([topic, value]) => ({
+      topic,
+      percentage: Math.round((value.correct / value.total) * 100),
+      evidence: value.total,
+    }))
+    .sort((a, b) => a.percentage - b.percentage);
+  if (!topics.length)
+    return '<p class="topic-empty">Complete a theory practice set to reveal topic-level evidence.</p>';
+  return `<div class="dashboard-topics">${topics
+    .map(
+      (item) =>
+        `<div><span><b>${item.topic}</b><small>${item.percentage}% · ${item.evidence} question${item.evidence === 1 ? "" : "s"}</small></span><i><em style="width:${item.percentage}%"></em></i></div>`,
+    )
+    .join("")}</div>`;
 }
 
 function historyTable(attempts) {

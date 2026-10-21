@@ -1,13 +1,38 @@
-[data-theme="dark"] {
-  --graphite: #f5f5fa;
-  --graphite-2: #282832;
-  --text: #f5f5fa;
-  --muted: #c5c5d1;
-  --background: #111116;
-  --surface: #1c1c24;
-  --border: #41414e;
-  --violet-pale: #342b4d;
-  --violet-subtle: #2c263e;
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-bg: #111116;
+  --surface-primary: #1c1c24;
+  --surface-secondary: #25252e;
+  --surface-elevated: #2b2b35;
+  --surface-inverse: #17171d;
+  --surface-inverse-elevated: #26262e;
+  --surface-brand-muted: #302943;
+  --text-primary: #f5f5fa;
+  --text-secondary: #c2c2cd;
+  --text-on-dark: #f8f8fb;
+  --text-on-dark-muted: #c6c6d0;
+  --text-on-light: #17171d;
+  --brand: #a58bf1;
+  --brand-hover: #bba8f5;
+  --brand-highlight: #a58bf1;
+  --brand-text: #c1b0ff;
+  --brand-text-on-dark: #c1b0ff;
+  --brand-foreground: #17171d;
+  --interactive-hover: #3a3156;
+  --interactive-subtle: #29243a;
+  --focus-ring: #b69fff;
+  --border-default: #41414e;
+  --border-strong: #626272;
+  --chart-track: #3b3b47;
+  --chart-active: #a58bf1;
+  --chart-center: #17171d;
+  --chart-label: #f5f5fa;
+  --status-success: #71d4ae;
+  --status-success-surface: #183c31;
+  --status-warning: #f0bd6d;
+  --status-warning-surface: #43331b;
+  --status-danger: #f08c9e;
+  --status-danger-surface: #47242c;
   --shadow: 0 26px 70px rgba(0, 0, 0, 0.34);
 }
 
@@ -18,21 +43,7 @@
   display: block;
 }
 [data-theme="dark"] .site-header {
-  background: color-mix(in srgb, #111116 90%, transparent);
-}
-[data-theme="dark"] .home-hero,
-[data-theme="dark"] .scenario-studio,
-[data-theme="dark"] .theory-editorial,
-[data-theme="dark"] .portal-close,
-[data-theme="dark"] .readiness-process,
-[data-theme="dark"] .catalog-header,
-[data-theme="dark"] .session-anatomy,
-[data-theme="dark"] .review-story,
-[data-theme="dark"] .package-explainer,
-[data-theme="dark"] .dark-story,
-[data-theme="dark"] .contact-header,
-[data-theme="dark"] .schedule-header {
-  --graphite: #17171d;
+  background: color-mix(in srgb, var(--page-bg) 90%, transparent);
 }
 [data-theme="dark"] .session-discovery,
 [data-theme="dark"] .showcase-section,
@@ -81,7 +92,7 @@
   border-color: #111116;
 }
 [data-theme="dark"] .result-counts b {
-  color: var(--text);
+  color: var(--text-primary);
 }
 [data-theme="dark"] .site-footer {
   background: #08080c;

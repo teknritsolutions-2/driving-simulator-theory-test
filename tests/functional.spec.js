@@ -210,5 +210,38 @@ test.describe("student dashboard and test engine", () => {
     await expect(page.locator(".readiness-panel")).toContainText(
       "70% recent score average",
     );
+    await expect(page.locator(".dashboard-topics > div")).toHaveCount(7);
+  });
+
+  test("standard and full practice modes use the requested question count", async ({
+    page,
+  }) => {
+    for (const count of [20, 30]) {
+      await page.goto(`/pages/mock-test.html?count=${count}`);
+      await expect(page.locator(".test-app")).toHaveAttribute(
+        "data-test-count",
+        String(count),
+      );
+      await page.locator("#start-test").click();
+      await expect(page.locator(".question-navigator button")).toHaveCount(
+        count,
+      );
+      await page.evaluate(() => localStorage.removeItem("dl-active-test"));
+    }
+  });
+
+  test("settings export and reset preserve their honest local-only behavior", async ({
+    page,
+  }) => {
+    await page.locator('[data-view="settings"]').first().click();
+    const download = page.waitForEvent("download");
+    await page.locator("#export-data").click();
+    expect((await download).suggestedFilename()).toBe("drivelab-progress.json");
+    page.once("dialog", (dialog) => dialog.accept());
+    await page.locator("#reset-data").click();
+    await expect(page).toHaveURL(/login\.html/);
+    expect(
+      await page.evaluate(() => localStorage.getItem("dl-profile")),
+    ).toBeNull();
   });
 });

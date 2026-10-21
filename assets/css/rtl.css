@@ -1,5 +1,5 @@
 [dir="rtl"] .home-hero-image,
-[dir="rtl"] .scenario-stage > img,
+[dir="rtl"] .scenario-image > img,
 [dir="rtl"] .assessment-visual > img,
 [dir="rtl"] .auth-visual > img,
 [dir="rtl"] .photo-frame img,
@@ -20,27 +20,11 @@
   right: 1.25rem;
   left: auto;
 }
-[dir="rtl"] .scenario-readout {
-  right: auto;
-  left: 1.25rem;
-}
-[dir="rtl"] .scenario-copy {
-  right: 2.2rem;
-  left: auto;
-}
 [dir="rtl"] .session-photo > span {
   right: 0.85rem;
   left: auto;
 }
 [dir="rtl"] .media-caption {
-  right: auto;
-  left: -28px;
-}
-[dir="rtl"] .assessment-card {
-  right: -34px;
-  left: auto;
-}
-[dir="rtl"] .score-orbit {
   right: auto;
   left: -28px;
 }
@@ -62,10 +46,6 @@
 }
 
 @media (max-width: 700px) {
-  [dir="rtl"] .scenario-copy {
-    right: 1.2rem;
-    left: 1.2rem;
-  }
   [dir="rtl"] .route-map {
     padding: 0 1.2rem 0 0;
   }
@@ -80,13 +60,5 @@
   [dir="rtl"] .route-map article > span {
     right: -1.2rem;
     left: auto;
-  }
-  [dir="rtl"] .assessment-card {
-    right: 12px;
-    left: auto;
-  }
-  [dir="rtl"] .score-orbit {
-    right: auto;
-    left: 14px;
   }
 }

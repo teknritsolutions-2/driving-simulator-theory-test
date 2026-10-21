@@ -116,14 +116,12 @@ export function scenarioStudio() {
           .join("")}
       </div>
       <div class="scenario-stage">
-        <img data-scenario-image src="${ROOT}assets/images/${first.image}" alt="City traffic training environment">
-        <div class="scenario-shade"></div>
-        <div class="scenario-status"><span class="status-dot"></span> Scenario preview</div>
-        <div class="scenario-readout">
-          <p>Training focus</p><strong data-field="focus">${first.focus}</strong>
-          <dl><div><dt>Duration</dt><dd data-field="duration">${first.duration}</dd></div><div><dt>Level</dt><dd data-field="difficulty">${first.difficulty}</dd></div></dl>
+        <div class="scenario-image"><img data-scenario-image src="${ROOT}assets/images/${first.image}" alt="City traffic training environment"><span class="scenario-status"><span class="status-dot"></span> Scenario preview</span></div>
+        <div class="scenario-brief">
+          <span class="kicker">Selected environment</span><h2 data-field="label">${first.label}</h2><p data-field="description">${first.description}</p>
+          <div class="scenario-readout"><div><span>Training focus</span><strong data-field="focus">${first.focus}</strong></div><dl><div><dt>Duration</dt><dd data-field="duration">${first.duration}</dd></div><div><dt>Level</dt><dd data-field="difficulty">${first.difficulty}</dd></div></dl></div>
+          <a class="button scenario-book" href="${ROOT}pages/book-session.html?session=${first.session}">Book this scenario ${icon("arrow")}</a>
         </div>
-        <div class="scenario-copy"><span class="kicker">Selected environment</span><h2 data-field="label">${first.label}</h2><p data-field="description">${first.description}</p><a class="button scenario-book" href="${ROOT}pages/book-session.html?session=${first.session}">Book this scenario ${icon("arrow")}</a></div>
       </div>
     </div>`;
 }
@@ -131,7 +129,7 @@ export function scenarioStudio() {
 export function sessionCard(session, featured = false) {
   return `
     <article class="session-product ${featured ? "session-featured" : ""}" data-duration="${session.duration}">
-      <a class="session-photo" href="${ROOT}pages/book-session.html?session=${session.id}" aria-label="Book ${session.title}"><img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment" loading="lazy"><span>${session.difficulty}</span></a>
+      <a class="session-photo" href="${ROOT}pages/book-session.html?session=${session.id}" aria-label="Book ${session.title}"><img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment"><span>${session.difficulty}</span></a>
       <div class="session-body"><div class="session-specs"><span>${icon("clock")} ${session.duration} min</span><span>$${session.price}</span></div><h3>${session.title}</h3><p>${session.description}</p><div class="session-focus">${session.focus}</div><a class="text-button" href="${ROOT}pages/book-session.html?session=${session.id}">Request session ${icon("arrow")}</a></div>
     </article>`;
 }
@@ -150,9 +148,9 @@ export function compactPricing() {
 
 export function gauge(value, label, note, options = {}) {
   const display = options.display ?? `${value}%`;
-  return `<div class="instrument ${options.compact ? "instrument-compact" : ""}"><div class="instrument-ring gauge" data-progress="${value}"><span class="gauge-value" data-value="${value}">${display}</span></div><div><h3>${label}</h3><p>${note}</p></div></div>`;
+  return `<div class="instrument ${options.compact ? "instrument-compact" : ""}"><div class="instrument-ring gauge" data-progress="${value}" role="img" aria-label="${label}: ${display}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="gauge-track" cx="50" cy="50" r="42" pathLength="100"></circle><circle class="gauge-active" cx="50" cy="50" r="42" pathLength="100"></circle></svg><span class="gauge-value" data-value="${value}">${display}</span></div><div><h3>${label}</h3><p>${note}</p></div></div>`;
 }
 
 export function photo(path, alt, className = "") {
-  return `<figure class="photo-frame ${className}"><img src="${ROOT}assets/images/${path}" alt="${alt}" loading="lazy"></figure>`;
+  return `<figure class="photo-frame ${className}"><img src="${ROOT}assets/images/${path}" alt="${alt}"></figure>`;
 }

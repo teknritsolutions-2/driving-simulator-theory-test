@@ -33,11 +33,8 @@ export function homePage() {
             <h1>Train the decisions <em>before the real road.</em></h1>
             <p>Practice demanding situations in a controlled simulator, strengthen theory judgment and turn every review into a clearer next step.</p>
             <div class="button-row">${action(`${ROOT}pages/simulator-sessions.html`, "Explore Simulator Sessions")}${action(`${ROOT}pages/theory-test-prep.html`, "Try Theory Practice", true)}</div>
+            <dl class="hero-spec-line"><div><dt>Method</dt><dd>Controlled repetition</dd></div><div><dt>Review</dt><dd>After every run</dd></div><div><dt>Purpose</dt><dd>Safer decisions</dd></div></dl>
           </div>
-          <aside class="hero-readout reveal" aria-label="Selected training overview">
-            <div><span class="pulse"></span> Training system ready</div>
-            <dl><div><dt>Scenario</dt><dd>Urban awareness</dd></div><div><dt>Focus</dt><dd>Observation</dd></div><div><dt>Review</dt><dd>After each run</dd></div></dl>
-          </aside>
         </div>
       </section>
 
@@ -92,7 +89,7 @@ export function homeTwoPage() {
       <section class="readiness-hero">
         <div class="container readiness-hero-grid">
           <div class="readiness-copy reveal">${eyebrow("Assessment & readiness studio")}<h1>Know what to revise <em>before test day.</em></h1><p>Build topic coverage, review every wrong answer and use recent results to choose your next practice move.</p><div class="button-row">${action("mock-test.html?count=10", "Start Mock Test")}${action("#readiness-showcase", "Explore Readiness", true)}</div><div class="hero-proof"><span>Original practice questions</span><span>Clear answer review</span><span>Local progress history</span></div></div>
-          <div class="assessment-visual reveal"><img src="${ROOT}assets/images/exam-desk.jpg" alt="Laptop and exam materials in a learning environment"><div class="assessment-card"><span>Practice set · 07 / 10</span><strong>Which response creates the safest margin?</strong><div><i class="is-complete"></i><i class="is-complete"></i><i class="is-active"></i><i></i></div></div><div class="score-orbit"><b>82%</b><span>Illustrative<br>recent average</span></div></div>
+          <div class="assessment-visual reveal"><img src="${ROOT}assets/images/exam-desk.jpg" alt="Laptop and exam materials in a learning environment"><div class="assessment-panel"><div class="assessment-card"><span>Practice set · 07 / 10</span><strong>Which response creates the safest margin?</strong><div><i class="is-complete"></i><i class="is-complete"></i><i class="is-active"></i><i></i></div></div><div class="assessment-score"><b>82%</b><span>Illustrative recent average</span></div></div></div>
         </div>
       </section>
 

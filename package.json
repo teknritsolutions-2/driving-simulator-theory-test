@@ -5,7 +5,7 @@
   "scripts": {
     "build": "sh scripts/build.sh",
     "format": "prettier --write assets/js/*.js assets/css/*.css tests/*.js",
-    "test": "playwright test tests/functional.spec.js tests/responsive.spec.js --project=desktop",
+    "test": "playwright test tests/functional.spec.js tests/responsive.spec.js tests/theme-contrast.spec.js tests/quality.spec.js --project=desktop",
     "test:visual": "playwright test tests/visual.spec.js --project=desktop"
   },
   "devDependencies": {
