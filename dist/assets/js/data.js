@@ -52,7 +52,7 @@ export const sessions = [
     difficulty: "Intermediate",
     focus: "Scanning, anticipation and response",
     price: 68,
-    image: "rain-highway.jpg",
+    image: "night-road.jpg",
     description:
       "Spot developing risks earlier and choose calm, proportionate responses.",
   },
@@ -106,7 +106,7 @@ export const scenarios = {
     focus: "Scanning · anticipation · response",
     duration: "60 min",
     difficulty: "Intermediate",
-    image: "rain-highway.jpg",
+    image: "hazard.jpg",
     description:
       "Learn to spot developing risks earlier and choose measured responses.",
   },
@@ -147,7 +147,7 @@ export const plans = {
 
 export const topicDetails = {
   "Road Signs": [
-    "road-signs.jpg",
+    "warning-sign.jpg",
     "Recognize sign shapes, symbols and temporary road information.",
   ],
   "Right of Way": [
@@ -171,7 +171,7 @@ export const topicDetails = {
     "Interpret essential vehicle information and control checks.",
   ],
   "Safe Driving Decisions": [
-    "rain-highway.jpg",
+    "roadworks-sign.jpg",
     "Choose measured responses when conditions change.",
   ],
 };
