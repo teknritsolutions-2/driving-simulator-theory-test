@@ -159,15 +159,15 @@ export const topicDetails = {
     "Build an updated picture of road users around you.",
   ],
   "Hazard Perception": [
-    "pedestrian-crossing.jpg",
+    "hazard.jpg",
     "Identify developing risks before they become urgent.",
   ],
   "Parking Rules": [
-    "parking.jpg",
+    "city.jpg",
     "Understand visibility, access and low-speed observation.",
   ],
   "Vehicle Basics": [
-    "dashboard-night.jpg",
+    "instrument-panel.jpg",
     "Interpret essential vehicle information and control checks.",
   ],
   "Safe Driving Decisions": [

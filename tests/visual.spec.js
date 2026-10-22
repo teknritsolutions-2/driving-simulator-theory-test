@@ -107,6 +107,7 @@ test("capture active mock and result views at review sizes", async ({
       localStorage.setItem("dl-theme", selectedTheme);
     }, theme);
     await page.reload();
+    await page.locator("#timer-enabled").check();
     await page.locator("#start-test").click();
     await revealWholePage(page);
     await page.screenshot({

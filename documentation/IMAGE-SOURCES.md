@@ -21,10 +21,13 @@ All bundled photography was downloaded from Pexels under the [Pexels license](ht
 - `dashboard-night.jpg` — Pexels photo 9661322, illuminated vehicle dashboard: https://www.pexels.com/photo/9661322/
 - `instrument-panel.jpg` — Pexels photo 16218481, vehicle instrument panel: https://www.pexels.com/photo/16218481/
 - `night-cockpit.jpg` — Pexels photo 28986777, vehicle cockpit at night: https://www.pexels.com/photo/28986777/
-- `road-cockpit.jpg` — Pexels photo 19198396, driver-view roadway and cockpit: https://www.pexels.com/photo/19198396/
 - `roadworks-sign.jpg` — Pexels photo 117602, roadworks warning environment: https://www.pexels.com/photo/117602/
+- `theory-study-desk.jpg` — Studio theory preparation study desk with laptop and revision notes.
+- `about-training-hero.jpg` — Multi-simulator training studio environment.
+- `simulator-coaching.jpg` — Professional simulator training coaching session.
+- `driver-perspective.jpg` — Driver perspective cockpit view on scenic open road.
 
-The interface does not claim that road-environment images are simulator screenshots. They appear as editorial or training-scenario visuals. The site bundles 21 locally hosted photographs and makes no runtime request to a stock-photo provider.
+The interface does not claim that road-environment images are simulator screenshots. They appear as editorial or training-scenario visuals. The site bundles 25 locally hosted photographs and makes no runtime request to a stock-photo provider.
 
 ### Contextual Usage
 - **City Traffic Scenario**: `urban-signal.jpg` (street-level urban junction, traffic signals and pedestrian awareness).

@@ -75,7 +75,7 @@ export function renderDashboard(store, escapeHtml) {
         </div>
       </aside>
       <div class="dashboard-main">
-        <header class="dashboard-header"><div><span class="overline">Student Dashboard</span><h1>Hello, ${escapeHtml(profile.name || "Student")}</h1><p>Your locally saved preparation activity at a glance.</p></div><button class="icon-button theme-toggle" aria-label="Switch color theme">${icon("sun")}</button></header>
+        <header class="dashboard-header"><div><span class="overline">Student Dashboard</span><h1>Hello, ${escapeHtml(profile.name || "Student")}</h1><p>Your locally saved preparation activity at a glance.</p></div></header>
 
         <section class="dashboard-view active" data-view="overview">
           <div class="metric-row"><article><span>Completed simulator practice</span><strong>${hours.toFixed(1)}<small>h</small></strong><i>Self-reported entries</i></article><article><span>Upcoming requests</span><strong>${bookings.filter((item) => item.status === "Requested").length}</strong><i>Pending confirmation</i></article><article><span>Average theory score</span><strong>${average === null ? "—" : `${average}%`}</strong><i>${attempts.length ? `${attempts.length} saved attempt${attempts.length === 1 ? "" : "s"}` : "No attempts yet"}</i></article><article><span>Readiness signal</span><strong class="metric-label">${ready.label}</strong><i>Educational indicator</i></article></div>

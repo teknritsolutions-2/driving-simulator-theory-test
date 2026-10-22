@@ -12,8 +12,8 @@ export function renderMockTest() {
   const minutes = count === 10 ? 15 : count === 20 ? 30 : 45;
   return `
     <main class="test-app" id="main" data-test-count="${count}">
-      <header class="test-app-header"><a class="brand" href="student-dashboard.html">${logo()}</a><div><span id="test-timer">Untimed</span><button class="icon-button theme-toggle" aria-label="Switch color theme">${icon("sun")}</button></div></header>
-      <section class="test-start" id="test-start"><div class="test-start-copy"><span class="overline">${count} original practice questions</span><h1>Build a clearer picture of what to revise.</h1><p>Move freely between questions, change answers before submission and receive an instant topic-level report.</p><div class="test-start-features"><span>Unique question IDs</span><span>Full answer review</span><span>Refresh-safe progress</span></div><label class="timer-option"><input type="checkbox" id="timer-enabled"><span><b>Enable a ${minutes}-minute timer</b><small>Untimed practice is always available.</small></span></label><button class="button" id="start-test">Start Assessment ${icon("arrow")}</button><p class="fine-print">Original educational content · not an official exam</p></div><div class="test-start-visual"><img src="${ROOT}assets/images/road-signs.jpg" alt="Road signs supporting theory practice"><div><span>Practice mode</span><b>${count === 10 ? "Quick Practice" : count === 20 ? "Standard Mock" : "Full Practice"}</b><i>${count} questions</i></div></div></section>
+      <header class="test-app-header test-timer-bar" id="test-timer-bar" hidden><span id="test-timer"></span></header>
+      <section class="test-start" id="test-start"><div class="test-start-copy"><a class="brand test-start-brand" href="student-dashboard.html">${logo()}</a><span class="overline">${count} original practice questions</span><h1>Build a clearer picture of what to revise.</h1><p>Move freely between questions, change answers before submission and receive an instant topic-level report.</p><div class="test-start-features"><span>Unique question IDs</span><span>Full answer review</span><span>Refresh-safe progress</span></div><label class="timer-option"><input type="checkbox" id="timer-enabled"><span><b>Enable a ${minutes}-minute timer</b><small>Untimed practice is always available.</small></span></label><button class="button" id="start-test">Start Assessment ${icon("arrow")}</button><p class="fine-print">Original educational content · not an official exam</p></div><div class="test-start-visual"><img src="${ROOT}assets/images/road-signs.jpg" alt="Road signs supporting theory practice"><div><span>Practice mode</span><b>${count === 10 ? "Quick Practice" : count === 20 ? "Standard Mock" : "Full Practice"}</b><i>${count} questions</i></div></div></section>
       <section class="test-active" id="test-active" hidden><aside class="test-sidebar"><div><span class="overline">Question map</span><strong><span data-answered-count>0</span> / ${count} answered</strong></div><div class="question-navigator" aria-label="Question navigation"></div><button class="text-button" id="submit-test">Submit Test ${icon("arrow")}</button></aside><article class="test-question-panel"><div class="test-progress" aria-label="Question progress"><span></span></div><div id="question-area"></div><div class="test-controls"><button class="button button-secondary" id="prev-question">Previous</button><span id="question-position">1 / ${count}</span><button class="button" id="next-question">Next</button></div></article></section>
     </main>`;
 }
@@ -80,6 +80,8 @@ export function bindMockTest(store) {
     }
     document.querySelector("#test-start").hidden = true;
     document.querySelector("#test-active").hidden = false;
+    const timerBar = document.querySelector("#test-timer-bar");
+    if (timerBar) timerBar.hidden = !state.timed;
     showQuestion();
     if (state.timed) interval = window.setInterval(tick, 1000);
   }
@@ -137,10 +139,14 @@ export function bindMockTest(store) {
   }
   function updateTimer() {
     const element = document.querySelector("#test-timer");
+    const bar = document.querySelector("#test-timer-bar");
+    if (!element) return;
     if (!state?.timed) {
-      element.textContent = "Untimed";
+      element.textContent = "";
+      if (bar) bar.hidden = true;
       return;
     }
+    if (bar) bar.hidden = false;
     element.textContent = `${Math.floor(state.remaining / 60)}:${String(state.remaining % 60).padStart(2, "0")}`;
   }
 
