@@ -96,7 +96,9 @@ test("capture RTL in both themes", async ({ page }) => {
   }
 });
 
-test("capture active mock and result views", async ({ page }) => {
+test("capture active mock and result views at review sizes", async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   for (const theme of ["light", "dark"]) {
     await page.goto("/pages/mock-test.html?count=10");
@@ -111,38 +113,48 @@ test("capture active mock and result views", async ({ page }) => {
       path: `tests/screenshots/mock-active-${theme}-desktop-1440.png`,
       fullPage: true,
     });
-    await page.evaluate(() => {
-      const question = {
-        question: "Sample review question",
-        choices: ["First", "Second", "Third", "Fourth"],
-        answer: 0,
-        correctIndex: 1,
-        correct: false,
-        explanation: "A clear explanation appears here.",
-        topic: "Road Signs",
-      };
-      const attempt = {
-        id: "visual-result",
-        date: new Date().toISOString(),
-        count: 10,
-        score: 70,
-        correct: 7,
-        incorrect: 2,
-        unanswered: 1,
-        duration: 540,
-        topics: {
-          "Road Signs": { correct: 3, total: 5 },
-          "Hazard Perception": { correct: 4, total: 5 },
-        },
-        review: Array.from({ length: 10 }, () => question),
-      };
-      localStorage.setItem("dl-attempts", JSON.stringify([attempt]));
-    });
-    await page.goto("/pages/test-results.html?id=visual-result");
-    await revealWholePage(page);
-    await page.screenshot({
-      path: `tests/screenshots/results-${theme}-desktop-1440.png`,
-      fullPage: true,
-    });
+  }
+
+  for (const [viewportName, width, height] of viewports) {
+    await page.setViewportSize({ width, height });
+    for (const theme of ["light", "dark"]) {
+      await page.goto("/pages/mock-test.html?count=10");
+      await page.evaluate(() => {
+        const question = {
+          question: "Sample review question",
+          choices: ["First", "Second", "Third", "Fourth"],
+          answer: 0,
+          correctIndex: 1,
+          correct: false,
+          explanation: "A clear explanation appears here.",
+          topic: "Road Signs",
+        };
+        const attempt = {
+          id: "visual-result",
+          date: new Date().toISOString(),
+          count: 10,
+          score: 70,
+          correct: 7,
+          incorrect: 2,
+          unanswered: 1,
+          duration: 540,
+          topics: {
+            "Road Signs": { correct: 3, total: 5 },
+            "Hazard Perception": { correct: 4, total: 5 },
+          },
+          review: Array.from({ length: 10 }, () => question),
+        };
+        localStorage.setItem("dl-attempts", JSON.stringify([attempt]));
+      }, theme);
+      await page.evaluate((selectedTheme) => {
+        localStorage.setItem("dl-theme", selectedTheme);
+      }, theme);
+      await page.goto("/pages/test-results.html?id=visual-result");
+      await revealWholePage(page);
+      await page.screenshot({
+        path: `tests/screenshots/results-${theme}-${viewportName}.png`,
+        fullPage: true,
+      });
+    }
   }
 });
