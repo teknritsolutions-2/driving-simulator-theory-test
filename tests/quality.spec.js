@@ -58,8 +58,8 @@ test("public navigation and customer-facing language match the final contract", 
   await page.goto("/");
   await expect(page.locator(".desktop-nav > .nav-link")).toHaveText([
     "About",
-    "Simulator Sessions",
-    "Theory Test Prep",
+    "Simulators",
+    "Theory Prep",
     "Schedule",
     "Pricing",
     "Contact",

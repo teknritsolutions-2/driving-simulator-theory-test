@@ -208,7 +208,27 @@ export function sessionsPage() {
       <section class="catalog-header"><div class="container catalog-header-grid"><div>${eyebrow("Simulator sessions")}<h1>Choose the skill you want to rehearse.</h1><p>Compare session focus, duration and level before sending a local request.</p><div class="catalog-quick-filters" role="group" aria-label="Quick duration filter"><button class="active" data-catalog-filter="all">All sessions</button><button data-catalog-filter="45">45 min</button><button data-catalog-filter="60">60 min</button><button data-catalog-filter="75">75 min</button></div></div><div class="catalog-header-media"><img src="${ROOT}assets/images/instrument-panel.jpg" alt="Illuminated vehicle instrument panel"><span>Precision practice · structured review</span></div></div></section>
       <section class="section section-compact"><div class="container">${featuredSession(sessions[1])}</div></section>
       <section class="section section-major catalog-section"><div class="container"><div class="section-heading"><span class="overline">Complete catalog</span><h2>Six ways to focus a simulator session.</h2></div><div class="session-catalog" id="session-catalog">${sessions.map((item) => sessionCard(item)).join("")}</div><p class="catalog-empty" hidden>No sessions match this duration.</p></div></section>
-      <section class="section section-major compare-section"><div class="container"><div class="compare-layout"><div>${eyebrow("Compare at a glance")}<h2>Match the session to the learning task.</h2></div><div class="comparison-table" role="table"><div class="table-header" role="row"><span role="columnheader">Session</span><span role="columnheader">Duration</span><span role="columnheader">Level</span><span role="columnheader">Focus</span><span role="columnheader">Action</span></div>${sessions.map((item) => `<div role="row" class="comparison-row"><b role="cell" class="cell-title" data-label="Session">${item.title}</b><span role="cell" class="cell-duration" data-label="Duration">${item.duration} min</span><span role="cell" class="cell-level" data-label="Level">${item.difficulty}</span><span role="cell" class="cell-focus" data-label="Focus">${item.focus}</span><a role="cell" class="cell-action button button-small" href="book-session.html?session=${item.id}" data-label="Action">Choose</a></div>`).join("")}</div></div></div></section>
+      <section class="section section-major compare-section">
+        <div class="container">
+          <div class="section-heading split-heading compare-heading">
+            <div>
+              ${eyebrow("Compare at a glance")}
+              <h2>Match the session to the learning task.</h2>
+            </div>
+            <p>Compare durations, difficulty levels and target skills to find the right practice session.</p>
+          </div>
+          <div class="comparison-table" role="table">
+            <div class="table-header" role="row">
+              <span role="columnheader">Session</span>
+              <span role="columnheader">Duration</span>
+              <span role="columnheader">Level</span>
+              <span role="columnheader">Focus</span>
+              <span role="columnheader">Action</span>
+            </div>
+            ${sessions.map((item) => `<div role="row" class="comparison-row"><b role="cell" class="cell-title" data-label="Session">${item.title}</b><span role="cell" class="cell-duration" data-label="Duration">${item.duration} min</span><span role="cell" class="cell-level" data-label="Level">${item.difficulty}</span><span role="cell" class="cell-focus" data-label="Focus">${item.focus}</span><a role="cell" class="cell-action button button-small" href="book-session.html?session=${item.id}" data-label="Action">Choose</a></div>`).join("")}
+          </div>
+        </div>
+      </section>
       <section class="section section-major session-anatomy"><div class="container anatomy-grid"><div class="anatomy-photo"><img src="${ROOT}assets/images/simulator.jpg" alt="Simulator steering wheel and instrument display"></div><div>${eyebrow("What happens in a session")}<h2>A focused sequence from orientation to review.</h2><ol class="number-list"><li><span>01</span><div><b>Set the focus</b><p>Choose the skill and become familiar with the controls.</p></div></li><li><span>02</span><div><b>Run the scenario</b><p>Practice the observation and decision sequence.</p></div></li><li><span>03</span><div><b>Review the attempt</b><p>Identify one clear adjustment before repeating.</p></div></li></ol><p class="fine-print">Equipment and session format are confirmed during booking.</p></div></div></section>
       ${faqStrip([
         [
@@ -231,7 +251,7 @@ export function theoryPage() {
   const firstTopic = Object.entries(topicDetails)[0];
   return `
     <main id="main">
-      <section class="theory-hero"><div class="container theory-hero-grid"><div>${eyebrow("Theory test preparation")}<h1>Build a stronger answer—and understand why.</h1><p>Original practice questions, instant scoring and topic-level review help turn mistakes into a focused revision plan.</p><div class="button-row">${action("mock-test.html?count=10", "Start Quick Practice")}${action("#topic-explorer", "Explore Topics", true)}</div><p class="fine-print">Practice content is educational and not an official examination.</p></div>${questionPreview("theory-hero-question", "question-preview-light")}</div></section>
+      <section class="theory-hero"><div class="container theory-hero-grid"><div>${eyebrow("Theory test preparation")}<h1>Build a stronger answer—and understand why.</h1><p>Original practice questions, instant scoring and topic-level review help turn mistakes into a focused revision plan.</p><div class="button-row">${action("mock-test.html?count=10", "Start Quick Practice")}${action("#topic-explorer", "Explore Topics", true)}</div><p class="fine-print">Practice content is educational and not an official examination.</p></div>${questionPreview("theory-hero-question", "")}</div></section>
       <section class="section section-major practice-modes"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Choose a practice mode")}<h2>Start short or build broader coverage.</h2></div><p>All modes preserve answers while you navigate and create an instant result report.</p></div><div class="mode-layout">${[
         ["Quick Practice", 10, "Short baseline", "Untimed option"],
         ["Standard Mock", 20, "Wider topic mix", "Optional 30 min timer"],
@@ -274,7 +294,7 @@ export function theoryPage() {
 export function schedulePage() {
   return `
     <main id="main" class="schedule-page">
-      <section class="schedule-header"><div class="container"><div>${eyebrow("Plan your practice")}<h1>Choose a session, date and preferred time.</h1><p>Build a request in four clear steps. The center confirms availability after it is submitted.</p></div><div class="schedule-stepper"><span class="active">1 · Session</span><span>2 · Date</span><span>3 · Time</span><span>4 · Review</span></div></div></section>
+      <section class="schedule-header"><div class="container"><div>${eyebrow("Plan your practice")}<h1>Choose a session, date and preferred time.</h1><p>Build a request in four clear steps. The center confirms availability after it is submitted.</p></div><div class="schedule-stepper"><span class="active"><b>1</b><i>Session</i></span><span><b>2</b><i>Date</i></span><span><b>3</b><i>Time</i></span><span><b>4</b><i>Review</i></span></div></div></section>
       <section class="section section-compact"><div class="container schedule-shell">
         <div class="schedule-main">
           <div class="schedule-session-picker"><h2>1. Choose a Session</h2><div class="session-pills">${sessions.map((session, index) => `<button class="session-pill ${index === 1 ? "active" : ""}" data-session="${session.id}"><b>${session.title}</b><span>${session.duration} min · pricing on enquiry</span></button>`).join("")}</div></div>
@@ -309,7 +329,7 @@ export function pricingPage() {
       )
         .map(
           ([key, plan], index) =>
-            `<article class="pricing-plan ${index === 1 ? "featured" : ""}"><div class="plan-title"><span>${index === 1 ? "Structured path" : "Training option"}</span><h2>${plan.title}</h2><p>${plan.note}</p></div><div class="plan-price"><strong>Contact for pricing</strong><small>Confirmed during follow-up</small></div><ul>${plan.features.map((feature) => `<li>${feature}</li>`).join("")}</ul><a class="button ${index === 1 ? "" : "button-secondary"}" href="book-session.html?plan=${key}">${key === "single" ? "Choose a Session" : "Request Package Follow-up"}</a></article>`,
+            `<article class="pricing-plan ${index === 1 ? "featured" : ""}"><div class="plan-title"><span>${index === 1 ? "Structured path" : "Training option"}</span><h2>${plan.title}</h2><p>${plan.note}</p></div><div class="plan-price"><strong>${plan.price}</strong><small>${plan.note}</small></div><ul>${plan.features.map((feature) => `<li>${feature}</li>`).join("")}</ul><a class="button ${index === 1 ? "" : "button-secondary"}" href="book-session.html?plan=${key}">${key === "single" ? "Choose a Session" : "Request Package Follow-up"}</a></article>`,
         )
         .join("")}</div></section>
       <section class="section section-major goal-decision-section">
@@ -493,6 +513,7 @@ export function aboutPage() {
           </div>
         </div>
       </section>
+      <section class="section section-major"><div class="container start-journey"><div class="journey-photo"><img src="${ROOT}assets/images/study-notes.jpg" alt="Learner taking structured study notes"></div><div>${eyebrow("How to begin")}<h2>Choose the next useful step—not every step at once.</h2><ol class="number-list"><li><span>01</span><div><b>Explore the sessions</b><p>Identify a practical skill to rehearse.</p></div></li><li><span>02</span><div><b>Try a theory baseline</b><p>Use ten questions to reveal revision priorities.</p></div></li><li><span>03</span><div><b>Review progress</b><p>Let evidence shape the next practice choice.</p></div></li></ol><div class="button-row">${action("simulator-sessions.html", "Explore Sessions")}${action("mock-test.html?count=10", "Start Theory Practice", true)}</div></div></div></section>
       <section class="section section-compact about-closing-cta">
         <div class="container about-cta-card">
           <div>
@@ -506,15 +527,14 @@ export function aboutPage() {
           </div>
         </div>
       </section>
-      <section class="section section-major"><div class="container start-journey"><div class="journey-photo"><img src="${ROOT}assets/images/study-notes.jpg" alt="Learner taking structured study notes"></div><div>${eyebrow("How to begin")}<h2>Choose the next useful step—not every step at once.</h2><ol class="number-list"><li><span>01</span><div><b>Explore the sessions</b><p>Identify a practical skill to rehearse.</p></div></li><li><span>02</span><div><b>Try a theory baseline</b><p>Use ten questions to reveal revision priorities.</p></div></li><li><span>03</span><div><b>Review progress</b><p>Let evidence shape the next practice choice.</p></div></li></ol><div class="button-row">${action("simulator-sessions.html", "Explore Sessions")}${action("mock-test.html?count=10", "Start Theory Practice", true)}</div></div></div></section>
     </main>`;
 }
 
 export function contactPage() {
   return `
     <main id="main">
-      <section class="contact-header"><div class="container contact-header-grid"><div>${eyebrow("Contact DriveLab")}<h1>Start with the question that matters to your practice.</h1><p>Ask about a session, booking support, center access or the Student Dashboard.</p></div><div class="contact-paths"><a href="#contact-form"><span>01</span><b>General enquiry</b>${icon("arrow")}</a><a href="#contact-form"><span>02</span><b>Session support</b>${icon("arrow")}</a><a href="#location"><span>03</span><b>Center location</b>${icon("arrow")}</a></div></div></section>
-      <section class="section section-major"><div class="container contact-main"><form class="contact-form" id="contact-form"><div class="form-heading"><span class="overline">Send an enquiry</span><h2>Tell us how we can help.</h2></div><div class="form-grid"><div class="field"><label for="contact-name">Name</label><input id="contact-name" required autocomplete="name"></div><div class="field"><label for="contact-email">Email</label><input id="contact-email" type="email" required autocomplete="email"></div><div class="field field-full"><label for="contact-topic">Enquiry type</label><select id="contact-topic"><option>General enquiry</option><option>Session or booking support</option><option>Center location</option><option>Student Dashboard support</option></select></div><div class="field field-full"><label for="contact-message">Message</label><textarea id="contact-message" required rows="6"></textarea></div><div class="field field-full"><button class="button" type="submit">Review Enquiry</button><p id="contact-status" aria-live="polite"></p></div></div></form><aside class="support-panel"><img src="${ROOT}assets/images/theory-study.jpg" alt="Learner reviewing study material"><div><span class="overline">Booking support</span><h3>Already have a local request?</h3><p>Open My Sessions to review or cancel a pending request from this browser.</p><a class="text-button" href="${portalLink()}">Open My Sessions ${icon("arrow")}</a></div></aside></div></section>
+      <section class="contact-header"><div class="container contact-header-grid"><div>${eyebrow("Contact DriveLab")}<h1>Start with the question that matters to your practice.</h1><p>Ask about a session, booking support, center access or the Student Dashboard.</p></div><div class="contact-paths"><a href="#contact-form"><span>01</span><b>General enquiry</b>${icon("arrow")}</a><a href="#contact-form"><span>02</span><b>Session support</b>${icon("arrow")}</a><a href="#contact-form"><span>03</span><b>Center arrival details</b>${icon("arrow")}</a></div></div></section>
+      <section class="section section-major"><div class="container contact-main"><form class="contact-form" id="contact-form"><div class="form-heading"><span class="overline">Send an enquiry</span><h2>Tell us how we can help.</h2></div><div class="form-grid"><div class="field"><label for="contact-name">Name</label><input id="contact-name" required autocomplete="name"></div><div class="field"><label for="contact-email">Email</label><input id="contact-email" type="email" required autocomplete="email"></div><div class="field field-full"><label for="contact-topic">Enquiry type</label><select id="contact-topic"><option>General enquiry</option><option>Session or booking support</option><option>Center location</option><option>Student Dashboard support</option></select></div><div class="field field-full"><label for="contact-message">Message</label><textarea id="contact-message" required rows="6"></textarea></div><div class="field field-full"><button class="button" type="submit">Review Enquiry</button><p id="contact-status" aria-live="polite"></p></div></div></form><aside class="support-panel"><div class="support-card-main"><span class="overline">Center support & arrival</span><h3>Need help with a session or arrival details?</h3><p>Our team is available to assist with training questions, accessibility needs, and location directions.</p><div class="support-points"><div class="support-point"><div class="support-point-icon">${icon("calendar")}</div><div><strong>Existing requests</strong><p>Review or cancel pending simulator requests from this browser.</p><a class="text-button" href="${portalLink()}">Open My Sessions ${icon("arrow")}</a></div></div><div class="support-point"><div class="support-point-icon">${icon("steer")}</div><div><strong>Arrival & equipment</strong><p>Center briefing begins 10 minutes prior to your scheduled simulator slot.</p></div></div><div class="support-point"><div class="support-point-icon">${icon("quiz")}</div><div><strong>Theory assistance</strong><p>Questions regarding mock tests or revision methods are answered by certified instructors.</p></div></div></div></div></aside></div></section>
       <section class="section section-compact enquiry-process-section">
         <div class="container">
           <div class="section-heading split-heading">
@@ -548,7 +568,6 @@ export function contactPage() {
           </div>
         </div>
       </section>
-      <section class="section section-compact location-section" id="location"><div class="container location-card"><div>${eyebrow("Visit the center")}<h2>Ask for center access and arrival details.</h2><p>Contact the center for current access and arrival details.</p></div><a class="button button-secondary" href="#contact-form">Ask about the location ${icon("arrow")}</a></div></section>
       ${faqStrip([
         [
           "Can I change a request?",

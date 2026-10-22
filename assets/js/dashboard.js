@@ -66,7 +66,13 @@ export function renderDashboard(store, escapeHtml) {
             )
             .join("")}
         </nav>
-        <a class="dashboard-exit" href="${ROOT}index.html">← Public website</a>
+        <div class="sidebar-footer">
+          <div class="sidebar-preferences">
+            <button class="icon-button theme-toggle" aria-label="Switch color theme"><span class="sun-icon">${icon("sun")}</span><span class="moon-icon">${icon("moon")}</span></button>
+            <button class="direction-toggle" aria-label="Switch text direction"><span class="direction-label">RTL</span></button>
+          </div>
+          <a class="dashboard-exit" href="${ROOT}index.html">← Quit</a>
+        </div>
       </aside>
       <div class="dashboard-main">
         <header class="dashboard-header"><div><span class="overline">Student Dashboard</span><h1>Hello, ${escapeHtml(profile.name || "Student")}</h1><p>Your locally saved preparation activity at a glance.</p></div><button class="icon-button theme-toggle" aria-label="Switch color theme">${icon("sun")}</button></header>

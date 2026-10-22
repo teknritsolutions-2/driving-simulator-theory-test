@@ -48,8 +48,8 @@ export function header(hasProfile) {
             </div>
           </div>
           <a class="nav-link" href="${ROOT}pages/about.html">About</a>
-          <a class="nav-link" href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a>
-          <a class="nav-link" href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a>
+          <a class="nav-link" href="${ROOT}pages/simulator-sessions.html">Simulators</a>
+          <a class="nav-link" href="${ROOT}pages/theory-test-prep.html">Theory Prep</a>
           <a class="nav-link" href="${ROOT}pages/schedule.html">Schedule</a>
           <a class="nav-link" href="${ROOT}pages/pricing.html">Pricing</a>
           <a class="nav-link" href="${ROOT}pages/contact.html">Contact</a>
@@ -66,8 +66,8 @@ export function header(hasProfile) {
           <a href="${ROOT}index.html">Home 1</a>
           <a href="${ROOT}pages/home2.html">Home 2</a>
           <a href="${ROOT}pages/about.html">About</a>
-          <a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a>
-          <a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a>
+          <a href="${ROOT}pages/simulator-sessions.html">Simulators</a>
+          <a href="${ROOT}pages/theory-test-prep.html">Theory Prep</a>
           <a href="${ROOT}pages/schedule.html">Schedule</a>
           <a href="${ROOT}pages/pricing.html">Pricing</a>
           <a href="${ROOT}pages/contact.html">Contact</a>
@@ -90,7 +90,7 @@ export function footer(hasProfile = false) {
           <a class="brand" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
           <p>Simulation, theory practice and clear progress tools for deliberate driver preparation.</p>
         </div>
-        <div><h3>Train</h3><a href="${ROOT}pages/simulator-sessions.html">Simulator Sessions</a><a href="${ROOT}pages/theory-test-prep.html">Theory Test Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a></div>
+        <div><h3>Train</h3><a href="${ROOT}pages/simulator-sessions.html">Simulators</a><a href="${ROOT}pages/theory-test-prep.html">Theory Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a></div>
         <div><h3>Explore</h3><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/contact.html">Contact</a></div>
         <div><h3>Support</h3><a href="${ROOT}pages/${portal}">Student Dashboard</a><a href="${ROOT}pages/faq.html">FAQ</a><a href="${ROOT}pages/privacy.html">Privacy</a><a href="${ROOT}pages/terms.html">Terms</a></div>
       </div>
@@ -144,20 +144,20 @@ export function scenarioStudio() {
 export function featuredSession(session) {
   return `
     <article class="featured-session-card">
-      <div class="featured-session-media">
+      <div class="featured-media">
         <img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment">
-        <span class="featured-badge">Featured practice</span>
+        <span class="featured-tag">Featured practice</span>
       </div>
-      <div class="featured-session-body">
-        <div class="featured-session-meta">
+      <div class="featured-content">
+        <div class="featured-meta">
           <span>${icon("clock")} ${session.duration} min</span>
           <span class="difficulty-pill">${session.difficulty}</span>
           <span class="pricing-pill">Pricing on enquiry</span>
         </div>
         <h2>${session.title}</h2>
-        <p class="featured-session-focus"><strong>Training focus:</strong> ${session.focus}</p>
-        <p class="featured-session-desc">${session.description} Rehearse observation routines, pedestrian scanning and measured gap decisions with structured post-run review.</p>
-        <div class="featured-session-action">
+        <p class="featured-lead"><strong>Training focus:</strong> ${session.focus}</p>
+        <p class="featured-desc">${session.description}</p>
+        <div class="featured-action">
           <a class="button" href="${ROOT}pages/book-session.html?session=${session.id}">Request this session ${icon("arrow")}</a>
         </div>
       </div>
