@@ -49,7 +49,14 @@ export function renderDashboard(store, escapeHtml) {
   return `
     <main class="dashboard-app">
       <aside class="dashboard-sidebar">
-        <a class="dashboard-logo" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
+        <div class="sidebar-header-row">
+          <a class="dashboard-logo" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
+          <div class="sidebar-mobile-controls">
+            <button class="icon-button theme-toggle" aria-label="Switch color theme"><span class="sun-icon">${icon("sun")}</span><span class="moon-icon">${icon("moon")}</span></button>
+            <button class="direction-toggle" aria-label="Switch text direction"><span class="direction-label">RTL</span></button>
+            <a class="dashboard-exit" href="${ROOT}index.html">← Quit</a>
+          </div>
+        </div>
         <nav aria-label="Dashboard navigation">
           ${[
             ["overview", "Overview", "dashboard"],

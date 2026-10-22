@@ -192,3 +192,24 @@ test("empty states render SVG icons without missing glyph boxes", async ({
   const emptyIcons = await page.locator(".empty-state .empty-icon svg").count();
   expect(emptyIcons).toBeGreaterThan(0);
 });
+
+test("mobile dashboard exposes visible exit link, theme toggle, and direction toggle without horizontal overflow", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/pages/student-dashboard.html");
+  const scrollWidth = await page.evaluate(
+    () => document.documentElement.scrollWidth,
+  );
+  expect(scrollWidth).toBeLessThanOrEqual(390);
+
+  const exitBtn = page.locator(".sidebar-mobile-controls .dashboard-exit");
+  await expect(exitBtn).toBeVisible();
+
+  const themeBtn = page.locator(".sidebar-mobile-controls .theme-toggle");
+  await expect(themeBtn).toBeVisible();
+
+  const dirBtn = page.locator(".sidebar-mobile-controls .direction-toggle");
+  await expect(dirBtn).toBeVisible();
+});
+

@@ -86,7 +86,7 @@ export const scenarios = {
     focus: "Merging · lane discipline · spacing",
     duration: "60 min",
     difficulty: "Developing",
-    image: "highway.jpg",
+    image: "highway-junction.jpg",
     description:
       "Build a reliable sequence for joining, lane changes, following space and exits.",
   },
@@ -96,7 +96,7 @@ export const scenarios = {
     focus: "Reference points · low-speed control",
     duration: "45 min",
     difficulty: "All levels",
-    image: "parking.jpg",
+    image: "parking-bay.jpg",
     description:
       "Repeat precise maneuvers in a controlled setting and review each attempt.",
   },
@@ -106,7 +106,7 @@ export const scenarios = {
     focus: "Scanning · anticipation · response",
     duration: "60 min",
     difficulty: "Intermediate",
-    image: "hazard.jpg",
+    image: "rain-highway.jpg",
     description:
       "Learn to spot developing risks earlier and choose measured responses.",
   },
@@ -151,7 +151,7 @@ export const topicDetails = {
     "Recognize sign shapes, symbols and warning information.",
   ],
   "Right of Way": [
-    "urban-signal.jpg",
+    "roundabout-junction.jpg",
     "Read junction context and make cautious priority decisions.",
   ],
   "Traffic Awareness": [
@@ -167,7 +167,7 @@ export const topicDetails = {
     "Understand visibility, access and low-speed observation.",
   ],
   "Vehicle Basics": [
-    "instrument-panel.jpg",
+    "vehicle-inspection.jpg",
     "Interpret essential vehicle information and control checks.",
   ],
   "Safe Driving Decisions": [

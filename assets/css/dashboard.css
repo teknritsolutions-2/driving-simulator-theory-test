@@ -16,6 +16,12 @@
   color: white;
 }
 
+.sidebar-header-row {
+  display: block;
+}
+.sidebar-mobile-controls {
+  display: none;
+}
 .dashboard-logo img {
   width: 165px;
 }
@@ -469,7 +475,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.2rem;
   min-height: 1.5rem;
 }
 #test-timer {
@@ -1001,11 +1007,63 @@
     background: #17171d;
     border-bottom: 1px solid #282834;
   }
-  .dashboard-logo {
+  .sidebar-header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
+    width: 100%;
+  }
+  .sidebar-mobile-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .sidebar-mobile-controls .icon-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #252530;
+    border: 1px solid #383848;
+    color: #e2e2ec;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+  .sidebar-mobile-controls .direction-toggle {
+    min-width: 42px;
+    height: 36px;
+    padding: 0.25rem 0.65rem;
+    border-radius: 99px;
+    background: #252530;
+    border: 1px solid #383848;
+    color: #e2e2ec;
+    font-weight: 700;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+  .sidebar-mobile-controls .dashboard-exit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0.35rem 0.75rem;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .sidebar-footer {
+    display: none;
+  }
+  .dashboard-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
   }
   .dashboard-logo img {
     width: 105px;
@@ -1046,9 +1104,6 @@
   }
   .dashboard-nav .nav-label {
     display: inline;
-  }
-  .dashboard-exit {
-    display: none;
   }
   .dashboard-main {
     padding: 18px;
@@ -1151,7 +1206,11 @@
     scrollbar-width: thin;
   }
   .dashboard-logo {
-    display: none;
+    display: flex;
+    align-items: center;
+  }
+  .dashboard-logo img {
+    width: 96px;
   }
   .dashboard-nav {
     min-height: 38px;

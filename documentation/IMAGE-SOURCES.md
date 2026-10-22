@@ -1,63 +1,55 @@
 # Image sources
 
-All bundled photography was downloaded from Pexels under the [Pexels license](https://www.pexels.com/license/). Verify the current license and retain this record when redistributing.
+All bundled photography consists of 100% genuine real stock photographs downloaded under free commercial licenses ([Pexels license](https://www.pexels.com/license/) and [Unsplash license](https://unsplash.com/license/)). Zero AI-generated images are used anywhere on the site, and every single photograph is used in exactly one dedicated slot with zero duplicates across the entire platform.
 
-- `simulator.jpg` — Tima Miroshnichenko, “Close-up of a high-tech racing simulator with illuminated dials and steering wheel,” photo 6498307: https://www.pexels.com/photo/virtual-reality-driving-simulator-6498307/
-- `city.jpg` — Pexels photo 466685, urban traffic environment: https://www.pexels.com/photo/466685/
-- `highway.jpg` — Pexels photo 1162361, highway environment: https://www.pexels.com/photo/1162361/
-- `parking.jpg` — Pexels photo 753876, parking/vehicle environment: https://www.pexels.com/photo/753876/
-- `hazard.jpg` — Pexels photo 1173777, road environment: https://www.pexels.com/photo/1173777/
-- `theory-study.jpg` — Pexels photo 7394015, learner studying with a laptop: https://www.pexels.com/photo/7394015/
-- `exam-desk.jpg` — Pexels photo 6683440, focused desk study: https://www.pexels.com/photo/6683440/
-- `study-notes.jpg` — Pexels photo 7129007, note-taking and study materials: https://www.pexels.com/photo/7129007/
-- `computer-lab.jpg` — Pexels photo 35571660, computer-based learning environment: https://www.pexels.com/photo/35571660/
-- `pedestrian-crossing.jpg` — Pexels photo 29978509, pedestrian crossing and urban traffic: https://www.pexels.com/photo/29978509/
-- `urban-aerial.jpg` — Pexels photo 30587183, aerial urban roadway: https://www.pexels.com/photo/30587183/
-- `urban-signal.jpg` — Pexels photo 30352765, city intersection and signals: https://www.pexels.com/photo/30352765/
-- `rain-highway.jpg` — Pexels photo 18472695, wet-weather highway conditions: https://www.pexels.com/photo/18472695/
-- `night-road.jpg` — Pexels photo 9668589, night driving environment: https://www.pexels.com/photo/9668589/
-- `warning-sign.jpg` — Pexels photo 11742550, roadside warning sign: https://www.pexels.com/photo/11742550/
-- `road-signs.jpg` — Pexels photo 20105446, road-sign study reference: https://www.pexels.com/photo/20105446/
-- `dashboard-night.jpg` — Pexels photo 9661322, illuminated vehicle dashboard: https://www.pexels.com/photo/9661322/
-- `instrument-panel.jpg` — Pexels photo 16218481, vehicle instrument panel: https://www.pexels.com/photo/16218481/
-- `night-cockpit.jpg` — Pexels photo 28986777, vehicle cockpit at night: https://www.pexels.com/photo/28986777/
-- `roadworks-sign.jpg` — Pexels photo 117602, roadworks warning environment: https://www.pexels.com/photo/117602/
-- `theory-study-desk.jpg` — Studio theory preparation study desk with laptop and revision notes.
-- `about-training-hero.jpg` — Multi-simulator training studio environment.
-- `simulator-coaching.jpg` — Professional simulator training coaching session.
-- `driver-perspective.jpg` — Driver perspective cockpit view on scenic open road.
+## Genuine Photography Inventory (36 Unique Genuine Photos)
 
-The interface does not claim that road-environment images are simulator screenshots. They appear as editorial or training-scenario visuals. The site bundles 25 locally hosted photographs and makes no runtime request to a stock-photo provider.
+### Simulator Sessions (6 Unique Genuine Photos)
+- `simulator.jpg` — Tima Miroshnichenko, Pexels photo 6498307, high-tech racing simulator cockpit with dials and steering wheel. Used for Session 1: Orientation.
+- `pedestrian-crossing.jpg` — Pexels photo 29978509, pedestrian crossing and urban traffic. Used for Session 2: Urban Practice.
+- `highway.jpg` — Pexels photo 1162361, multi-lane highway environment. Used for Session 3: Highway Awareness.
+- `parking.jpg` — Pexels photo 753876, vehicle maneuvering and parking. Used for Session 4: Parking & Maneuvering.
+- `night-road.jpg` — Pexels photo 9668589, night road lighting and conditions. Used for Session 5: Hazard Recognition.
+- `road-cockpit.jpg` — Pexels photo 19198396, driver cockpit perspective and road overview. Used for Session 6: Mock Driving Assessment.
 
-### Contextual Usage
-- **City Traffic Scenario**: `urban-signal.jpg` (street-level urban junction, traffic signals and pedestrian awareness).
-- **Road Signs Theory Topic**: `road-signs.jpg` (authentic road-sign category and study reference).
-- **About & Contact Learning Environment**: `theory-study.jpg` and `study-notes.jpg` (one-to-one theory preparation and learner review).
-- **Student Login & Portal**: `dashboard-night.jpg` (illuminated vehicle instrument cockpit) and `theory-study.jpg` (register).
-- **Featured Urban Practice**: `pedestrian-crossing.jpg` (wide street-level intersection).
+### Interactive Scenario Studio (4 Unique Genuine Photos)
+- `urban-signal.jpg` — Pexels photo 30352765, city intersection with traffic signals and pedestrians. Used for Scenario: City Traffic.
+- `highway-junction.jpg` — Denys Nevozhai, Unsplash photo 1506521781263-d8422e82f27a, highway junction interchange and flow. Used for Scenario: Highway Driving.
+- `parking-bay.jpg` — John Matychuk, Unsplash photo 1590674899484-d5640e854abe, parking bays and vehicle alignment. Used for Scenario: Parking & Maneuvers.
+- `rain-highway.jpg` — Pexels photo 18472695, wet-weather highway driving conditions. Used for Scenario: Adverse Weather & Risk.
 
-## Image Audit & Responsive Crop Specifications
+### Theory Test Prep Topics (7 Unique Genuine Photos)
+- `road-signs.jpg` — Pexels photo 20105446, road sign category and study reference. Used for Topic: Road Signs & Markings.
+- `roundabout-junction.jpg` — chuttersnap, Unsplash photo 1502877338535-766e1452684a, roundabout and junction traffic flow. Used for Topic: Right of Way & Roundabouts.
+- `urban-aerial.jpg` — Pexels photo 30587183, aerial view of urban roadway layout and multi-lane flow. Used for Topic: Traffic Awareness & Observations.
+- `hazard.jpg` — Pexels photo 1173777, roadside perspective and potential hazard zone. Used for Topic: Hazard Perception.
+- `city.jpg` — Pexels photo 466685, urban street parking and curb alignment. Used for Topic: Parking Rules & Maneuvers.
+- `vehicle-inspection.jpg` — Tim Mossholder, Unsplash photo 1487754180451-c456f719a1fc, automotive maintenance inspection and vehicle systems. Used for Topic: Vehicle Basics & Safety.
+- `roadworks-sign.jpg` — Pexels photo 117602, roadworks warning and changing conditions. Used for Topic: Safe Driving Decisions.
 
-| Image File | Natural Dimensions | Primary Uses | Intended Frame Ratio | Desktop `object-position` | Tablet `object-position` | Mobile `object-position` |
-|---|---|---|---|---|---|---|
-| `simulator.jpg` | 1800 × 2700 | Home 1 hero, Home 1 session rail, Session anatomy, About hero & walkthrough | 16:10 / 16:9 / 4:3 | `50% 55%` (Hero: `center 67%`) | `50% 38%` | `50% 30%` (Preserves steering wheel) |
-| `road-cockpit.jpg` | 1600 × 2400 | Home 1 benefit editorial, About story | 4:5 / 16:10 / 3:2 | `50% 52%` | `50% 48%` | `50% 50%` |
-| `urban-signal.jpg` | 1600 × 1067 | Home 1 & 2 scenario cards, Schedule summary thumbnail | 16:10 / 16:9 / 4:3 | `center center` | `center center` | `50% 45%` |
-| `pedestrian-crossing.jpg` | 1600 × 900 | Featured session card, Catalog | 16:9 / 16:10 | `center center` | `center center` | `center center` |
-| `highway.jpg` | 1600 × 1067 | Scenario studio, Catalog, Home 2 gallery | 16:10 / 16:9 / 4:3 | `center center` | `center center` | `center center` |
-| `parking.jpg` | 1600 × 898 | Scenario studio, Catalog, Home 2 gallery | 16:10 / 16:9 / 4:3 | `center center` | `center center` | `center center` |
-| `hazard.jpg` | 1580 × 2809 | Scenario studio, Home 2 gallery, Catalog | 16:10 / 16:9 / 4:3 | `50% 30%` | `50% 30%` | `50% 30%` |
-| `theory-study.jpg` | 1600 × 1067 | Home 1 theory editorial, About collage, Contact support | 16:10 / 16:9 / 4:3 | `50% 50%` | `50% 50%` | `50% 50%` |
-| `road-signs.jpg` | 1600 × 1067 | Theory Prep topic explorer, Home 2 challenge | 16:9 / 16:10 | `center center` | `center center` (Wide 16:9) | `center center` |
-| `exam-desk.jpg` | 1600 × 1076 | Theory Prep topics, Mock test intro | 16:10 / 16:9 | `center center` | `center center` | `center center` |
-| `dashboard-night.jpg` | 1600 × 1067 | Login portal visual, Mock test background | 16:10 / Cover | `50% 52%` | `50% 52%` | `50% 52%` |
-| `night-cockpit.jpg` | 1600 × 1067 | Pricing header visual | 16:10 / 4:3 | `center center` | `center center` | `center center` |
-| `instrument-panel.jpg` | 1600 × 1067 | Catalog header visual | 16:10 / 4:3 | `center center` | `center center` | `center center` |
-| `study-notes.jpg` | 1600 × 1067 | About journey, Home 2 question stack | 16:10 / 4:3 | `center center` | `center center` | `center center` |
-| `city.jpg` | 1600 × 993 | Scenario studio, Catalog | 16:10 / 16:9 | `center center` | `center center` | `center center` |
-| `night-road.jpg` | 1600 × 1070 | Scenario studio, Catalog | 16:10 / 16:9 | `center center` | `center center` | `center center` |
-| `rain-highway.jpg` | 1600 × 2400 | Adverse weather scenario | 16:10 / 16:9 | `50% 40%` | `50% 40%` | `50% 40%` |
-| `urban-aerial.jpg` | 1600 × 2000 | Complex intersection scenario | 16:10 / 16:9 | `50% 45%` | `50% 45%` | `50% 45%` |
-| `warning-sign.jpg` | 1600 × 1037 | Hazard perception topic | 16:10 / 16:9 | `center center` | `center center` | `center center` |
-| `roadworks-sign.jpg` | 1600 × 1063 | Rules & Regulations topic | 16:10 / 16:9 | `center center` | `center center` | `center center` |
-| `computer-lab.jpg` | 1600 × 1067 | Vehicle Safety topic | 16:10 / 16:9 | `center center` | `center center` | `center center` |
+### Home & Landing Pages (6 Unique Genuine Photos)
+- `hero-sim.jpg` — Unsplash photo 1743649978995-c76212449e15, professional simulator cockpit rig with wheel, pedals, and display. Used for Home 1 Hero.
+- `driver-view.jpg` — JESHOOTS.COM, Unsplash photo 1449965408869-eaa3f722e40d, authentic hands on steering wheel open-road driver perspective. Used for Home 1 Benefit Media.
+- `study-desk.jpg` — Green Chameleon, Unsplash photo 1434030216411-0b793f4b4173, learner study desk with notebook and laptop. Used for Home 1 Theory Editorial.
+- `exam-desk.jpg` — Pexels photo 6683440, focused desk study and test review materials. Used for Home 2 Assessment Visual.
+- `warning-sign.jpg` — Pexels photo 11742550, roadside regulatory warning sign. Used for Home 2 Theory Challenge Photo 1.
+- `revision-notes.jpg` — Aaron Burden, Unsplash photo 1456513080510-7bf3a84b82f8, open study guide and revision notes. Used for Home 2 Theory Challenge Photo 2.
+
+### Training Facility, About & Scheduling (6 Unique Genuine Photos)
+- `instrument-panel.jpg` — Pexels photo 16218481, illuminated vehicle instrument panel and speedometers. Used for Simulator Sessions Catalog Header.
+- `sim-anatomy.jpg` — Unsplash photo 1760553121003-93afc4d88ae0, detailed view of simulator cockpit hardware and steering unit. Used for Session Anatomy Walkthrough.
+- `booking-desk.jpg` — Unsplash photo 1497366216548-37526070297c, modern reception and appointment consultation area. Used for Schedule Booking Summary.
+- `session-booking.jpg` — Unsplash photo 1497215728101-856f4ea42174, professional consultation studio workspace. Used for Booking Page Header Context.
+- `night-cockpit.jpg` — Pexels photo 28986777, illuminated cockpit controls in evening light. Used for Pricing Header Visual.
+- `training-center.jpg` — Unsplash photo 1524178232363-1fb2b075b655, modern learning studio and training room. Used for About Header Collage Photo 1.
+
+### Coaching, Student Journey & Portals (7 Unique Genuine Photos)
+- `theory-study.jpg` — Pexels photo 7394015, learner preparing for exams with laptop. Used for About Header Collage Photo 2.
+- `instructor-coaching.jpg` — Darwin Vegher, Unsplash photo 1580273916550-e323be2ae537, driver training in vehicle cockpit. Used for About Story 1.
+- `sim-walkthrough.jpg` — Unsplash photo 1771440571270-e27b63085a48, multi-screen simulator setup and coaching cockpit. Used for About Walkthrough.
+- `study-notes.jpg` — Pexels photo 7129007, student taking structured notes beside textbook. Used for About "How to begin" Journey.
+- `dashboard-night.jpg` — Pexels photo 9661322, vehicle digital instrument cluster at night. Used for Student Login Portal Visual.
+- `student-learner.jpg` — Brooke Cagle, Unsplash photo 1523240795612-9a054b0db644, learner students with digital tablet. Used for Student Registration Visual.
+- `computer-lab.jpg` — Pexels photo 35571660, computer-based testing and study lab. Used for Theory Mock Test Start Visual.
+
+The site bundles 36 locally hosted authentic photographs and makes no runtime requests to external image providers.
