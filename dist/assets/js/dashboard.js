@@ -7,7 +7,8 @@ export function readiness(attempts) {
       value: null,
       display: "—",
       label: "Not Enough Data",
-      detail: "Complete at least 3 practice tests to generate readiness evidence.",
+      detail:
+        "Complete at least 3 practice tests to generate readiness evidence.",
     };
   }
   const recent = attempts.slice(-5);

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import fs from "node:fs";
 
 const routes = [
   "/",
@@ -77,4 +78,13 @@ test("public navigation and customer-facing language match the final contract", 
       forbidden,
     );
   }
+});
+
+test("production styles do not depend on runtime font services", async () => {
+  const styles = [
+    fs.readFileSync("assets/css/style.css", "utf8"),
+    fs.readFileSync("assets/css/dashboard.css", "utf8"),
+  ].join("\n");
+  expect(styles).not.toContain("fonts.googleapis.com");
+  expect(styles).not.toContain("fonts.gstatic.com");
 });

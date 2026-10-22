@@ -8,13 +8,19 @@ const iconPaths = {
   arrow: '<path d="M5 12h14m-5-5 5 5-5 5"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   chevron: '<path d="m8 10 4 4 4-4"/>',
-  dashboard: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
-  calendar: '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
-  steer: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/><path d="M12 14v7M4.9 9.5l6.1 1.7M19.1 9.5l-6.1 1.7"/>',
+  dashboard:
+    '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
+  calendar:
+    '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  steer:
+    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/><path d="M12 14v7M4.9 9.5l6.1 1.7M19.1 9.5l-6.1 1.7"/>',
   quiz: '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
-  history: '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/>',
-  trend: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
-  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+  history:
+    '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/>',
+  trend:
+    '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  settings:
+    '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
   plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
 };
 
@@ -124,7 +130,7 @@ export function scenarioStudio() {
           )
           .join("")}
       </div>
-      <div class="scenario-stage">
+      <div class="scenario-stage" data-active-scenario="city">
         <div class="scenario-image"><img data-scenario-image src="${ROOT}assets/images/${first.image}" alt="City traffic training environment"><span class="scenario-status"><span class="status-dot"></span> Selected scenario</span></div>
         <div class="scenario-brief">
           <span class="kicker">Selected environment</span><h2 data-field="label">${first.label}</h2><p data-field="description">${first.description}</p>
@@ -160,7 +166,7 @@ export function featuredSession(session) {
 
 export function sessionCard(session, featured = false) {
   return `
-    <article class="session-product ${featured ? "session-featured" : ""}" data-duration="${session.duration}">
+    <article class="session-product ${featured ? "session-featured" : ""}" data-duration="${session.duration}" data-session="${session.id}">
       <a class="session-photo" href="${ROOT}pages/book-session.html?session=${session.id}" aria-label="Book ${session.title}"><img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment"><span>${session.difficulty}</span></a>
       <div class="session-body"><div class="session-specs"><span>${icon("clock")} ${session.duration} min</span><span>Pricing on enquiry</span></div><h3>${session.title}</h3><p>${session.description}</p><div class="session-focus">${session.focus}</div><a class="text-button" href="${ROOT}pages/book-session.html?session=${session.id}">Request session ${icon("arrow")}</a></div>
     </article>`;
@@ -186,7 +192,10 @@ export function gauge(value, label, note, options = {}) {
   const parts = numMatch ? String(display).split(numMatch[1]) : ["", ""];
   const prefix = parts[0] || "";
   const suffix = parts[1] || "";
-  const progressPercent = typeof value === "number" && !isNaN(value) ? Math.max(0, Math.min(100, value)) : 0;
+  const progressPercent =
+    typeof value === "number" && !isNaN(value)
+      ? Math.max(0, Math.min(100, value))
+      : 0;
   const isAvailable = display !== "—" && progressPercent > 0;
   const primaryClass = options.primary ? "instrument-primary" : "";
   const compactClass = options.compact ? "instrument-compact" : "";

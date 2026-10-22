@@ -119,7 +119,13 @@
   z-index: 1;
   display: block;
   margin-block: 0.7rem 0.25rem;
-  font: 700 2.25rem "Space Grotesk";
+  font:
+    700 2.25rem Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 .metric-row strong small {
   font-size: 1rem;
@@ -414,7 +420,13 @@
 }
 #test-timer {
   min-width: 88px;
-  font: 700 1.1rem "Space Grotesk";
+  font:
+    700 1.1rem Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   text-align: end;
 }
 .test-start {
@@ -675,7 +687,13 @@
   z-index: 1;
 }
 .result-ring strong {
-  font: 700 3.4rem/1 "Space Grotesk";
+  font:
+    700 3.4rem/1 Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 .result-ring span {
   align-self: start;
@@ -700,7 +718,13 @@
 .result-counts b {
   display: block;
   color: var(--text-primary);
-  font: 700 1.8rem "Space Grotesk";
+  font:
+    700 1.8rem Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 .result-counts .correct {
   border-color: var(--success);
@@ -775,7 +799,13 @@
   padding: 1.3rem;
   border-inline-end: 1px solid var(--border-default);
   color: var(--text-secondary);
-  font: 700 1.15rem "Space Grotesk";
+  font:
+    700 1.15rem Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 .review-content {
   padding: 1.3rem;

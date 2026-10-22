@@ -50,6 +50,50 @@ test("home 1 session cards have uniform image heights at 768px", async ({
   }
 });
 
+test("scenario studio keeps controlled equal desktop panels and a 4:3 mobile image", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+  const desktop = await page.locator(".scenario-stage").evaluate((stage) => {
+    const image = stage
+      .querySelector(".scenario-image")
+      .getBoundingClientRect();
+    const brief = stage
+      .querySelector(".scenario-brief")
+      .getBoundingClientRect();
+    return {
+      stage: stage.getBoundingClientRect().height,
+      image: image.height,
+      brief: brief.height,
+    };
+  });
+  expect(desktop.stage).toBeGreaterThanOrEqual(520);
+  expect(desktop.stage).toBeLessThanOrEqual(640);
+  expect(Math.abs(desktop.image - desktop.brief)).toBeLessThanOrEqual(1);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobile = await page.locator(".scenario-image").evaluate((image) => {
+    const rect = image.getBoundingClientRect();
+    return rect.width / rect.height;
+  });
+  expect(mobile).toBeGreaterThan(1.3);
+  expect(mobile).toBeLessThan(1.36);
+});
+
+test("readiness workflow renders five aligned evidence steps", async ({
+  page,
+}) => {
+  await page.goto("/pages/home2.html");
+  await expect(page.locator(".process-track > li")).toHaveCount(5);
+  await expect(page.locator(".process-track")).toContainText(
+    "Build an initial score baseline.",
+  );
+  await expect(page.locator(".process-track")).toContainText(
+    "Choose the next useful focus.",
+  );
+});
+
 test("home 2 gallery has balanced image heights at 768px and 390px", async ({
   page,
 }) => {
@@ -145,8 +189,6 @@ test("empty states render SVG icons without missing glyph boxes", async ({
   page,
 }) => {
   await page.goto("/pages/student-dashboard.html");
-  const emptyIcons = await page
-    .locator(".empty-state .empty-icon svg")
-    .count();
+  const emptyIcons = await page.locator(".empty-state .empty-icon svg").count();
   expect(emptyIcons).toBeGreaterThan(0);
 });

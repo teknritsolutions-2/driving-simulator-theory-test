@@ -170,7 +170,18 @@ export function homeTwoPage() {
 
       <section class="section section-major challenge-section"><div class="container challenge-grid"><div>${eyebrow("Interactive theory challenge")}<h2>One question can reveal the next topic to study.</h2><p class="lede">Choose an answer, read the reasoning and move to a genuinely different question.</p><div class="question-photo-stack"><img src="${ROOT}assets/images/road-signs.jpg" alt="Road signs used to support theory learning"><img src="${ROOT}assets/images/study-notes.jpg" alt="Student taking notes beside a laptop"></div></div>${questionPreview("home-two-question", "question-preview-light")}</div></section>
 
-      <section class="section section-major readiness-process"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("How readiness develops")}<h2>Confidence follows evidence—not the other way around.</h2></div><p>Move through a repeatable loop that grows both score consistency and topic coverage.</p></div><div class="process-track"><svg viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true"><path d="M20 105 C170 15 275 145 420 70 S700 20 980 85"/></svg>${["Practice", "Review", "Cover topics", "Repeat", "Analyse"].map((item, index) => `<div style="--x:${[3, 23, 42, 69, 94][index]}%;--y:${[68, 25, 47, 20, 56][index]}%"><span>${index + 1}</span><b>${item}</b></div>`).join("")}</div></div></section>
+      <section class="section section-major readiness-process"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("How readiness develops")}<h2>Confidence follows evidence—not the other way around.</h2></div><p>Move through a repeatable loop that grows both score consistency and topic coverage.</p></div><ol class="process-track">${[
+        ["Practice", "Build an initial score baseline."],
+        ["Review", "Understand every missed answer."],
+        ["Cover topics", "Close the gaps in your coverage."],
+        ["Repeat", "Check whether the change holds."],
+        ["Analyse", "Choose the next useful focus."],
+      ]
+        .map(
+          ([title, description], index) =>
+            `<li><span>${index + 1}</span><div><b>${title}</b><p>${description}</p></div></li>`,
+        )
+        .join("")}</ol></div></section>
 
       <section class="section section-major showcase-section" id="readiness-showcase"><div class="container showcase-grid"><div class="showcase-copy">${eyebrow("Track your preparation")}<h2>A progress view designed for the next decision.</h2><p>Recent scores, topic coverage and revision priorities appear together. A new Student Dashboard begins empty and uses only saved learner activity.</p><div class="revision-list"><div><span>Priority</span><b>Road Signs</b><i>Revise</i></div><div><span>Steady</span><b>Hazard Perception</b><i>Maintain</i></div><div><span>Strong</span><b>Traffic Awareness</b><i>Extend</i></div></div></div><div><div class="dashboard-showcase reveal"><div class="showcase-top"><span>Readiness signal</span><b>Developing consistency</b></div><div class="showcase-main">${gauge(74, "Practice readiness", "Example educational indicator", { compact: true })}<div class="score-bars" aria-label="Example score trend">${[58, 68, 64, 76, 82].map((value, index) => `<span style="--h:${value}%"><i>${index + 1}</i></span>`).join("")}</div></div><div class="showcase-bottom"><span>Recent average <b>76%</b></span><span>Topics covered <b>6 / 7</b></span></div></div><p class="component-caption">Example progress display</p></div></div></section>
 

@@ -234,14 +234,12 @@ function bindReveals() {
     document
       .querySelectorAll(".reveal")
       .forEach((element) => element.classList.add("visible"));
-    document
-      .querySelectorAll(".gauge")
-      .forEach((element) => {
-        const prog = Number(element.dataset.progress || 0);
-        element.style.setProperty("--progress", prog);
-        const active = element.querySelector(".gauge-active");
-        if (active) active.style.opacity = prog > 0 ? "1" : "0";
-      });
+    document.querySelectorAll(".gauge").forEach((element) => {
+      const prog = Number(element.dataset.progress || 0);
+      element.style.setProperty("--progress", prog);
+      const active = element.querySelector(".gauge-active");
+      if (active) active.style.opacity = prog > 0 ? "1" : "0";
+    });
     return;
   }
   const observer = new IntersectionObserver(
@@ -298,6 +296,8 @@ function bindScenarioStudio() {
   studio.querySelectorAll(".scenario-tab").forEach((tab) =>
     tab.addEventListener("click", () => {
       const scenario = scenarios[tab.dataset.scenario];
+      studio.querySelector(".scenario-stage").dataset.activeScenario =
+        tab.dataset.scenario;
       studio
         .querySelectorAll(".scenario-tab")
         .forEach((item) => item.setAttribute("aria-selected", "false"));
