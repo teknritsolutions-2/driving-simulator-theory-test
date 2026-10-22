@@ -96,10 +96,20 @@ export function homePage() {
         </div>
       </section>
 
-      <section class="section section-major session-discovery"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Session discovery")}<h2>Practice formats built around a specific skill.</h2></div><a class="text-button" href="${ROOT}pages/simulator-sessions.html">Compare every session ${icon("arrow")}</a></div><div class="home-session-rail">${sessions
-        .slice(0, 4)
-        .map((item) => sessionCard(item, false))
-        .join("")}</div></div></section>
+      <section class="section section-major session-discovery"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Session discovery")}<h2>Practice formats built around a specific skill.</h2></div><a class="text-button" href="${ROOT}pages/simulator-sessions.html">Compare every session ${icon("arrow")}</a></div><div class="home-session-rail">${(() => {
+        const homeRailImages = [
+          "home-session-orientation.jpg",
+          "home-session-urban.jpg",
+          "home-session-highway.jpg",
+          "home-session-parking.jpg",
+        ];
+        return sessions
+          .slice(0, 4)
+          .map((item, index) =>
+            sessionCard({ ...item, image: homeRailImages[index] }, false),
+          )
+          .join("");
+      })()}</div></div></section>
 
       <section class="section section-major theory-editorial"><div class="container theory-split"><div class="theory-photo reveal"><img src="${ROOT}assets/images/study-desk.jpg" alt="Student preparing with a laptop and study materials"><div class="photo-note"><b>Original practice content</b><span>Explanation after every answer</span></div></div><div class="theory-content reveal">${eyebrow("Theory challenge")}<h2>Practice the reasoning—not only the answer.</h2><p>Try a question, review the explanation and switch to another without leaving the page.</p>${questionPreview("home-question")}</div></div></section>
 
@@ -185,14 +195,20 @@ export function homeTwoPage() {
 
       <section class="section section-major showcase-section" id="readiness-showcase"><div class="container showcase-grid"><div class="showcase-copy">${eyebrow("Track your preparation")}<h2>A progress view designed for the next decision.</h2><p>Recent scores, topic coverage and revision priorities appear together. A new Student Dashboard begins empty and uses only saved learner activity.</p><div class="revision-list"><div><span>Priority</span><b>Road Signs</b><i>Revise</i></div><div><span>Steady</span><b>Hazard Perception</b><i>Maintain</i></div><div><span>Strong</span><b>Traffic Awareness</b><i>Extend</i></div></div></div><div><div class="dashboard-showcase reveal"><div class="showcase-top"><span>Readiness signal</span><b>Developing consistency</b></div><div class="showcase-main">${gauge(74, "Practice readiness", "Example educational indicator", { compact: true })}<div class="score-bars" aria-label="Example score trend">${[58, 68, 64, 76, 82].map((value, index) => `<span style="--h:${value}%"><i>${index + 1}</i></span>`).join("")}</div></div><div class="showcase-bottom"><span>Recent average <b>76%</b></span><span>Topics covered <b>6 / 7</b></span></div></div><p class="component-caption">Example progress display</p></div></div></section>
 
-      <section class="section section-major skills-gallery"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Explore simulator skills")}<h2>Turn theory knowledge into observable decisions.</h2></div><a class="text-button" href="simulator-sessions.html">See all sessions ${icon("arrow")}</a></div><div class="skill-mosaic">${Object.values(
-        scenarios,
-      )
-        .map(
-          (item, index) =>
-            `<a href="book-session.html?session=${item.session}" class="skill-tile tile-${index + 1}"><img src="${ROOT}assets/images/${item.image}" alt="${item.label} environment"><div><span>${item.duration}</span><h3>${item.label}</h3><p>${item.focus}</p></div></a>`,
-        )
-        .join("")}</div></div></section>
+      <section class="section section-major skills-gallery"><div class="container"><div class="section-heading split-heading"><div>${eyebrow("Explore simulator skills")}<h2>Turn theory knowledge into observable decisions.</h2></div><a class="text-button" href="simulator-sessions.html">See all sessions ${icon("arrow")}</a></div><div class="skill-mosaic">${(() => {
+        const mosaicImages = [
+          "mosaic-city.jpg",
+          "mosaic-highway.jpg",
+          "mosaic-parking.jpg",
+          "mosaic-hazard.jpg",
+        ];
+        return Object.values(scenarios)
+          .map(
+            (item, index) =>
+              `<a href="book-session.html?session=${item.session}" class="skill-tile tile-${index + 1}"><img src="${ROOT}assets/images/${mosaicImages[index]}" alt="${item.label} environment"><div><span>${item.duration}</span><h3>${item.label}</h3><p>${item.focus}</p></div></a>`,
+          )
+          .join("");
+      })()}</div></div></section>
 
       <section class="section section-compact formats-band"><div class="container"><div class="formats-copy"><span>Training formats</span><h2>Start focused. Combine when it helps.</h2></div>${compactPricing()}</div></section>
 
@@ -206,7 +222,7 @@ export function sessionsPage() {
   return `
     <main id="main">
       <section class="catalog-header"><div class="container catalog-header-grid"><div>${eyebrow("Simulator sessions")}<h1>Choose the skill you want to rehearse.</h1><p>Compare session focus, duration and level before sending a local request.</p><div class="catalog-quick-filters" role="group" aria-label="Quick duration filter"><button class="active" data-catalog-filter="all">All sessions</button><button data-catalog-filter="45">45 min</button><button data-catalog-filter="60">60 min</button><button data-catalog-filter="75">75 min</button></div></div><div class="catalog-header-media"><img src="${ROOT}assets/images/instrument-panel.jpg" alt="Illuminated vehicle instrument panel"><span>Precision practice · structured review</span></div></div></section>
-      <section class="section section-compact"><div class="container">${featuredSession(sessions[1])}</div></section>
+      <section class="section section-compact"><div class="container">${featuredSession({ ...sessions[1], image: "featured-session.jpg" })}</div></section>
       <section class="section section-major catalog-section"><div class="container"><div class="section-heading"><span class="overline">Complete catalog</span><h2>Six ways to focus a simulator session.</h2></div><div class="session-catalog" id="session-catalog">${sessions.map((item) => sessionCard(item)).join("")}</div><p class="catalog-empty" hidden>No sessions match this duration.</p></div></section>
       <section class="section section-major compare-section">
         <div class="container">
@@ -624,7 +640,7 @@ export function bookingPage() {
   const params = new URLSearchParams(location.search);
   const session = params.get("session") || "urban";
   const plan = params.get("plan");
-  return `<main id="main"><section class="booking-header"><div class="container">${eyebrow(plan ? "Package enquiry" : "Session request")}<h1>${plan ? "Choose a starting preference for your training path." : "Request a simulator practice time."}</h1><p>${plan ? "The center will follow up to arrange the full sequence; this form does not create multiple appointments." : "Choose a future date and preferred request time."}</p></div></section><section class="section section-compact"><div class="container booking-page-grid"><div class="booking-context"><img src="${ROOT}assets/images/${sessions.find((item) => item.id === session)?.image || "session-booking.jpg"}" alt="Selected training environment"><div>${plan && plans[plan] ? `<span class="overline">Selected training path</span><h2>${plans[plan].title}</h2><p>${plans[plan].note}</p>` : '<span class="overline">Local request</span><h2>Choose the starting session.</h2>'}</div></div><div id="standalone-booking-form" data-selected-session="${session}" data-plan="${plan || ""}"></div></div></section></main>`;
+  return `<main id="main"><section class="booking-header"><div class="container">${eyebrow(plan ? "Package enquiry" : "Session request")}<h1>${plan ? "Choose a starting preference for your training path." : "Request a simulator practice time."}</h1><p>${plan ? "The center will follow up to arrange the full sequence; this form does not create multiple appointments." : "Choose a future date and preferred request time."}</p></div></section><section class="section section-compact"><div class="container booking-page-grid"><div class="booking-context"><img src="${ROOT}assets/images/session-booking.jpg" alt="DriveLab training center consultation desk"><div>${plan && plans[plan] ? `<span class="overline">Selected training path</span><h2>${plans[plan].title}</h2><p>${plans[plan].note}</p>` : '<span class="overline">Local request</span><h2>Choose the starting session.</h2>'}</div></div><div id="standalone-booking-form" data-selected-session="${session}" data-plan="${plan || ""}"></div></div></section></main>`;
 }
 
 function faqStrip(items) {
