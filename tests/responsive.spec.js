@@ -286,6 +286,10 @@ test("responsive header aligns its logo to the start and keeps navigation inside
     expect(logo.x).toBeLessThan(viewport.width / 4);
     expect(logo.x).toBeGreaterThan(0);
 
+    await expect(page.locator(".nav-actions .theme-toggle")).toBeHidden();
+    await expect(page.locator(".nav-actions .direction-toggle")).toBeHidden();
+    await expect(page.locator(".menu-toggle")).toBeVisible();
+
     const actions = await page.locator(".nav-actions").boundingBox();
     expect(actions).not.toBeNull();
     expect(actions.x).toBeGreaterThan(logo.x + logo.width);
@@ -318,3 +322,22 @@ test("responsive header aligns its logo to the start and keeps navigation inside
     await expect(drawer).toBeHidden();
   }
 });
+
+test("training route renders vertical timeline with centered connecting line on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const routeMap = page.locator(".route-map");
+  await expect(routeMap).toBeVisible();
+  const articles = routeMap.locator("article");
+  await expect(articles).toHaveCount(5);
+
+  const firstBadge = await articles.first().locator("span").boundingBox();
+  const lastBadge = await articles.last().locator("span").boundingBox();
+  expect(firstBadge).not.toBeNull();
+  expect(lastBadge).not.toBeNull();
+  expect(Math.abs(firstBadge.x - lastBadge.x)).toBeLessThan(2);
+  expect(firstBadge.x).toBeGreaterThan(20);
+});
+
