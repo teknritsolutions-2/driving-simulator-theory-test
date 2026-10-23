@@ -212,4 +212,3 @@ test("mobile dashboard exposes visible exit link, theme toggle, and direction to
   const dirBtn = page.locator(".sidebar-mobile-controls .direction-toggle");
   await expect(dirBtn).toBeVisible();
 });
-
