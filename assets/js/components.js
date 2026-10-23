@@ -75,8 +75,8 @@ export function header(hasProfile) {
         <a href="${ROOT}pages/${portal}">Student Dashboard</a>
       </nav>
       <div class="mobile-preferences">
-        <button class="preference-button theme-toggle">${icon("sun")} <span>Color theme</span></button>
-        <button class="preference-button direction-toggle"><strong class="direction-label">RTL</strong><span>Text direction</span></button>
+        <button class="preference-button theme-toggle" aria-label="Switch color theme" title="Switch color theme"><span class="sun-icon">${icon("sun")}</span><span class="moon-icon">${icon("moon")}</span></button>
+        <button class="preference-button direction-toggle" aria-label="Switch text direction" title="Switch text direction"><strong class="direction-label">RTL</strong></button>
       </div>
     </div>`;
 }

@@ -240,8 +240,8 @@ test("responsive header centers its logo and keeps navigation inside a viewport 
   page,
 }) => {
   for (const viewport of [
-    { width: 768, height: 900, headerHeight: 74 },
-    { width: 390, height: 844, headerHeight: 68 },
+    { width: 768, height: 900, headerHeight: 74, logoWidth: 141 },
+    { width: 390, height: 844, headerHeight: 68, logoWidth: 121 },
   ]) {
     await page.setViewportSize(viewport);
     await page.goto("/");
@@ -251,6 +251,7 @@ test("responsive header centers its logo and keeps navigation inside a viewport 
     expect(
       Math.abs(logo.x + logo.width / 2 - viewport.width / 2),
     ).toBeLessThan(1);
+    expect(Math.round(logo.width)).toBe(viewport.logoWidth);
 
     await page.locator(".menu-toggle").click();
     const drawer = page.locator(".mobile-menu");
@@ -258,6 +259,13 @@ test("responsive header centers its logo and keeps navigation inside a viewport 
     await expect(drawer).toHaveCSS("position", "fixed");
     await expect(page.locator(".menu-toggle .close-icon")).toBeVisible();
     await expect(page.locator(".menu-toggle .menu-icon")).toBeHidden();
+    await expect(drawer.locator(".mobile-preferences")).toHaveText("RTL");
+    await expect(
+      drawer.locator('.preference-button[aria-label="Switch color theme"]'),
+    ).toBeVisible();
+    await expect(
+      drawer.locator('.preference-button[aria-label="Switch text direction"]'),
+    ).toBeVisible();
     expect(await drawer.evaluate((element) => element.closest(".site-header"))).toBeNull();
 
     const drawerBox = await drawer.boundingBox();
