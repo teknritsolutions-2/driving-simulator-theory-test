@@ -892,4 +892,59 @@ function bindContact() {
     });
 }
 
+const PRELOAD_TARGETS = {
+  "simulator-sessions.html": "instrument-panel.jpg",
+  "theory-test-prep.html": "road-signs.jpg",
+  "pricing.html": "night-cockpit.jpg",
+  "about.html": "training-center.jpg",
+  "book-session.html": "session-booking.jpg",
+  "schedule.html": "booking-desk.jpg",
+  "login.html": "dashboard-night.jpg",
+  "register.html": "student-learner.jpg",
+  "mock-test.html": "computer-lab.jpg",
+};
+const prefetchedImages = new Set();
+function prefetchImage(src) {
+  if (!src || prefetchedImages.has(src)) return;
+  prefetchedImages.add(src);
+  const img = new Image();
+  img.decoding = "async";
+  img.src = src;
+}
+
+function initInstantPreload() {
+  const idlePrefetch = () => {
+    [
+      "hero-sim.jpg",
+      "training-center.jpg",
+      "instrument-panel.jpg",
+      "night-cockpit.jpg",
+    ].forEach((img) => {
+      prefetchImage(`${ROOT}assets/images/${img}`);
+    });
+  };
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(idlePrefetch, { timeout: 2000 });
+  } else {
+    setTimeout(idlePrefetch, 1000);
+  }
+
+  document.addEventListener(
+    "pointerover",
+    (e) => {
+      const link = e.target.closest("a[href]");
+      if (!link) return;
+      const href = link.getAttribute("href") || "";
+      for (const [page, img] of Object.entries(PRELOAD_TARGETS)) {
+        if (href.includes(page)) {
+          prefetchImage(`${ROOT}assets/images/${img}`);
+          break;
+        }
+      }
+    },
+    { passive: true },
+  );
+}
+
 renderPage();
+initInstantPreload();

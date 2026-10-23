@@ -131,7 +131,7 @@ export function scenarioStudio() {
           .join("")}
       </div>
       <div class="scenario-stage" data-active-scenario="city">
-        <div class="scenario-image"><img data-scenario-image src="${ROOT}assets/images/${first.image}" alt="City traffic training environment"><span class="scenario-status"><span class="status-dot"></span> Selected scenario</span></div>
+        <div class="scenario-image"><img data-scenario-image src="${ROOT}assets/images/${first.image}" alt="City traffic training environment" loading="lazy" decoding="async"><span class="scenario-status"><span class="status-dot"></span> Selected scenario</span></div>
         <div class="scenario-brief">
           <span class="kicker">Selected environment</span><h2 data-field="label">${first.label}</h2><p data-field="description">${first.description}</p>
           <div class="scenario-readout"><div><span>Training focus</span><strong data-field="focus">${first.focus}</strong></div><dl><div><dt>Duration</dt><dd data-field="duration">${first.duration}</dd></div><div><dt>Level</dt><dd data-field="difficulty">${first.difficulty}</dd></div></dl></div>
@@ -145,7 +145,7 @@ export function featuredSession(session) {
   return `
     <article class="featured-session-card">
       <div class="featured-media">
-        <img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment">
+        <img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment" loading="lazy" decoding="async">
         <span class="featured-tag">Featured practice</span>
       </div>
       <div class="featured-content">
@@ -167,7 +167,7 @@ export function featuredSession(session) {
 export function sessionCard(session, featured = false) {
   return `
     <article class="session-product ${featured ? "session-featured" : ""}" data-duration="${session.duration}" data-session="${session.id}">
-      <a class="session-photo" href="${ROOT}pages/book-session.html?session=${session.id}" aria-label="Book ${session.title}"><img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment"><span>${session.difficulty}</span></a>
+      <a class="session-photo" href="${ROOT}pages/book-session.html?session=${session.id}" aria-label="Book ${session.title}"><img src="${ROOT}assets/images/${session.image}" alt="${session.title} training environment" loading="lazy" decoding="async"><span>${session.difficulty}</span></a>
       <div class="session-body"><div class="session-specs"><span>${icon("clock")} ${session.duration} min</span><span>Pricing on enquiry</span></div><h3>${session.title}</h3><p>${session.description}</p><div class="session-focus">${session.focus}</div><a class="text-button" href="${ROOT}pages/book-session.html?session=${session.id}">Request session ${icon("arrow")}</a></div>
     </article>`;
 }
@@ -204,5 +204,5 @@ export function gauge(value, label, note, options = {}) {
 }
 
 export function photo(path, alt, className = "") {
-  return `<figure class="photo-frame ${className}"><img src="${ROOT}assets/images/${path}" alt="${alt}"></figure>`;
+  return `<figure class="photo-frame ${className}"><img src="${ROOT}assets/images/${path}" alt="${alt}" loading="lazy" decoding="async"></figure>`;
 }
