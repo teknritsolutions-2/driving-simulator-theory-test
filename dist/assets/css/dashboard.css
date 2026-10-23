@@ -469,6 +469,11 @@
   align-items: center;
   box-sizing: border-box;
 }
+.test-app:has(.test-start:not([hidden])) {
+  display: grid;
+  max-width: none;
+  place-items: center;
+}
 .test-app:has(.test-active:not([hidden])) {
   justify-content: flex-start;
   align-items: stretch;
@@ -507,7 +512,7 @@
   width: 100%;
   max-width: 1080px;
   min-height: 520px;
-  margin: auto;
+  margin: 0 auto;
   overflow: hidden;
   border: 1px solid var(--border-default);
   border-radius: 4px 28px 4px 28px;
@@ -996,7 +1001,12 @@
     grid-template-columns: 1fr 1fr;
   }
   .test-start {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 680px);
+    max-width: 680px;
+    min-height: auto;
+  }
+  .test-start-visual {
+    display: none;
   }
   .result-insights {
     grid-template-columns: 1fr 1fr;

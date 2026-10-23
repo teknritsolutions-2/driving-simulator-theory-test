@@ -212,3 +212,26 @@ test("mobile dashboard exposes visible exit link, theme toggle, and direction to
   const dirBtn = page.locator(".sidebar-mobile-controls .direction-toggle");
   await expect(dirBtn).toBeVisible();
 });
+
+test("mock-test entry is centered on desktop and removes its visual below desktop", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1680, height: 1268 });
+  await page.goto("/pages/mock-test.html?count=30");
+
+  const desktopCard = await page.locator(".test-start").boundingBox();
+  expect(desktopCard).not.toBeNull();
+  expect(Math.abs(desktopCard.x + desktopCard.width / 2 - 840)).toBeLessThan(2);
+  expect(Math.abs(desktopCard.y + desktopCard.height / 2 - 634)).toBeLessThan(2);
+  await expect(page.locator(".test-start-visual")).toBeVisible();
+
+  await page.setViewportSize({ width: 1024, height: 900 });
+  const tabletCard = await page.locator(".test-start").boundingBox();
+  expect(tabletCard).not.toBeNull();
+  expect(Math.abs(tabletCard.x + tabletCard.width / 2 - 512)).toBeLessThan(2);
+  expect(Math.abs(tabletCard.y + tabletCard.height / 2 - 450)).toBeLessThan(2);
+  await expect(page.locator(".test-start-visual")).toBeHidden();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator(".test-start-visual")).toBeHidden();
+});
