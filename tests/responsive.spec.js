@@ -117,6 +117,24 @@ test("home 2 gallery has balanced image heights at 768px and 390px", async ({
   }
 });
 
+test("pricing cards use one complete row each at tablet width", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.goto("/pages/pricing.html");
+  const cards = await page.locator(".pricing-plan").evaluateAll((elements) =>
+    elements.map((element) => {
+      const rect = element.getBoundingClientRect();
+      return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+    }),
+  );
+  expect(cards).toHaveLength(3);
+  expect(new Set(cards.map((card) => Math.round(card.x))).size).toBe(1);
+  expect(new Set(cards.map((card) => Math.round(card.width))).size).toBe(1);
+  expect(cards[1].y).toBeGreaterThan(cards[0].y + cards[0].height);
+  expect(cards[2].y).toBeGreaterThan(cards[1].y + cards[1].height);
+});
+
 test("theory prep topic image has wide landscape aspect ratio on tablet", async ({
   page,
 }) => {
@@ -134,11 +152,12 @@ test("theory prep topic image has wide landscape aspect ratio on tablet", async 
   expect(ratio).toBeGreaterThanOrEqual(1.5);
 });
 
-test("tablet dashboard navigation exposes visible text labels", async ({
+test("tablet dashboard drawer exposes visible text labels when opened", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 768, height: 1024 });
   await page.goto("/pages/student-dashboard.html");
+  await page.locator(".dashboard-menu-toggle").click();
   const labels = await page
     .locator(".dashboard-nav .nav-label")
     .evaluateAll((elements) =>
@@ -193,24 +212,38 @@ test("empty states render SVG icons without missing glyph boxes", async ({
   expect(emptyIcons).toBeGreaterThan(0);
 });
 
-test("mobile dashboard exposes visible exit link, theme toggle, and direction toggle without horizontal overflow", async ({
+test("tablet and mobile dashboards move navigation and preferences into a hamburger drawer", async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/pages/student-dashboard.html");
-  const scrollWidth = await page.evaluate(
-    () => document.documentElement.scrollWidth,
-  );
-  expect(scrollWidth).toBeLessThanOrEqual(390);
+  for (const viewport of [
+    { width: 768, height: 900 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/pages/student-dashboard.html");
+    const scrollWidth = await page.evaluate(
+      () => document.documentElement.scrollWidth,
+    );
+    expect(scrollWidth).toBeLessThanOrEqual(viewport.width);
 
-  const exitBtn = page.locator(".sidebar-mobile-controls .dashboard-exit");
-  await expect(exitBtn).toBeVisible();
+    const menuButton = page.locator(".dashboard-menu-toggle");
+    const drawer = page.locator(".dashboard-drawer");
+    await expect(menuButton).toBeVisible();
+    await expect(drawer).toBeHidden();
 
-  const themeBtn = page.locator(".sidebar-mobile-controls .theme-toggle");
-  await expect(themeBtn).toBeVisible();
+    await menuButton.click();
+    await expect(drawer).toBeVisible();
+    await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+    await expect(drawer.locator(".theme-toggle")).toBeVisible();
+    await expect(drawer.locator(".direction-toggle")).toBeVisible();
+    await expect(drawer.locator(".dashboard-exit")).toBeVisible();
 
-  const dirBtn = page.locator(".sidebar-mobile-controls .direction-toggle");
-  await expect(dirBtn).toBeVisible();
+    await drawer.locator('[data-view="tests"]').click();
+    await expect(drawer).toBeHidden();
+    await expect(
+      page.locator('[data-view="tests"].dashboard-view'),
+    ).toBeVisible();
+  }
 });
 
 test("mock-test entry is centered on desktop and removes its visual below desktop", async ({
@@ -222,7 +255,9 @@ test("mock-test entry is centered on desktop and removes its visual below deskto
   const desktopCard = await page.locator(".test-start").boundingBox();
   expect(desktopCard).not.toBeNull();
   expect(Math.abs(desktopCard.x + desktopCard.width / 2 - 840)).toBeLessThan(2);
-  expect(Math.abs(desktopCard.y + desktopCard.height / 2 - 634)).toBeLessThan(2);
+  expect(Math.abs(desktopCard.y + desktopCard.height / 2 - 634)).toBeLessThan(
+    2,
+  );
   await expect(page.locator(".test-start-visual")).toBeVisible();
 
   await page.setViewportSize({ width: 1024, height: 900 });
@@ -248,9 +283,9 @@ test("responsive header centers its logo and keeps navigation inside a viewport 
 
     const logo = await page.locator(".nav-row > .brand").boundingBox();
     expect(logo).not.toBeNull();
-    expect(
-      Math.abs(logo.x + logo.width / 2 - viewport.width / 2),
-    ).toBeLessThan(1);
+    expect(Math.abs(logo.x + logo.width / 2 - viewport.width / 2)).toBeLessThan(
+      1,
+    );
     expect(Math.round(logo.width)).toBe(viewport.logoWidth);
 
     await page.locator(".menu-toggle").click();
@@ -266,11 +301,15 @@ test("responsive header centers its logo and keeps navigation inside a viewport 
     await expect(
       drawer.locator('.preference-button[aria-label="Switch text direction"]'),
     ).toBeVisible();
-    expect(await drawer.evaluate((element) => element.closest(".site-header"))).toBeNull();
+    expect(
+      await drawer.evaluate((element) => element.closest(".site-header")),
+    ).toBeNull();
 
     const drawerBox = await drawer.boundingBox();
     expect(drawerBox).not.toBeNull();
-    expect(Math.abs(drawerBox.x + drawerBox.width - viewport.width)).toBeLessThan(1);
+    expect(
+      Math.abs(drawerBox.x + drawerBox.width - viewport.width),
+    ).toBeLessThan(1);
     expect(Math.abs(drawerBox.y - viewport.headerHeight)).toBeLessThan(1);
 
     await page.mouse.click(4, viewport.headerHeight + 40);

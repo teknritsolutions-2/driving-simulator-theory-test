@@ -717,6 +717,54 @@ function saveBooking(data, statusElement) {
 }
 
 function bindDashboard() {
+  const dashboardApp = document.querySelector(".dashboard-app");
+  const dashboardSidebar = document.querySelector(".dashboard-sidebar");
+  const dashboardDrawer = document.querySelector(".dashboard-drawer");
+  const dashboardMenuButton = document.querySelector(".dashboard-menu-toggle");
+  const closeDashboardMenu = (restoreFocus = true) => {
+    if (!dashboardApp || !dashboardSidebar || !dashboardMenuButton) return;
+    dashboardApp.classList.remove("dashboard-menu-open");
+    dashboardSidebar.classList.remove("is-open");
+    document.body.classList.remove("dashboard-menu-open");
+    dashboardMenuButton.setAttribute("aria-expanded", "false");
+    dashboardMenuButton.setAttribute("aria-label", "Open dashboard navigation");
+    if (restoreFocus) dashboardMenuButton.focus();
+  };
+  if (
+    dashboardApp &&
+    dashboardSidebar &&
+    dashboardDrawer &&
+    dashboardMenuButton
+  ) {
+    dashboardMenuButton.addEventListener("click", () => {
+      const opening = !dashboardSidebar.classList.contains("is-open");
+      if (!opening) return closeDashboardMenu();
+      dashboardApp.classList.add("dashboard-menu-open");
+      dashboardSidebar.classList.add("is-open");
+      document.body.classList.add("dashboard-menu-open");
+      dashboardMenuButton.setAttribute("aria-expanded", "true");
+      dashboardMenuButton.setAttribute(
+        "aria-label",
+        "Close dashboard navigation",
+      );
+      dashboardDrawer.querySelector(".dashboard-nav")?.focus();
+    });
+    dashboardApp.addEventListener("pointerdown", (event) => {
+      if (
+        dashboardSidebar.classList.contains("is-open") &&
+        !dashboardDrawer.contains(event.target) &&
+        !dashboardMenuButton.contains(event.target)
+      )
+        closeDashboardMenu(false);
+    });
+    dashboardApp.addEventListener("keydown", (event) => {
+      if (
+        event.key === "Escape" &&
+        dashboardSidebar.classList.contains("is-open")
+      )
+        closeDashboardMenu();
+    });
+  }
   const navigation = document.querySelectorAll(
     ".dashboard-nav, .dashboard-jump",
   );
@@ -739,6 +787,7 @@ function bindDashboard() {
           ),
         );
       window.scrollTo({ top: 0, behavior: "smooth" });
+      if (button.classList.contains("dashboard-nav")) closeDashboardMenu(false);
     }),
   );
   document.querySelectorAll(".cancel-booking").forEach((button) =>

@@ -52,33 +52,33 @@ export function renderDashboard(store, escapeHtml) {
         <div class="sidebar-header-row">
           <a class="dashboard-logo" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
           <div class="sidebar-mobile-controls">
-            <button class="icon-button theme-toggle" aria-label="Switch color theme"><span class="sun-icon">${icon("sun")}</span><span class="moon-icon">${icon("moon")}</span></button>
-            <button class="direction-toggle" aria-label="Switch text direction"><span class="direction-label">RTL</span></button>
-            <a class="dashboard-exit" href="${ROOT}index.html">← Quit</a>
+            <button class="icon-button dashboard-menu-toggle" aria-controls="dashboard-navigation-panel" aria-expanded="false" aria-label="Open dashboard navigation"><span class="menu-icon">${icon("menu")}</span><span class="close-icon">${icon("close")}</span></button>
           </div>
         </div>
-        <nav aria-label="Dashboard navigation">
-          ${[
-            ["overview", "Overview", "dashboard"],
-            ["sessions", "My Sessions", "calendar"],
-            ["book", "Book Simulator", "steer"],
-            ["tests", "Theory Practice", "quiz"],
-            ["history", "Test History", "history"],
-            ["progress", "My Progress", "trend"],
-            ["settings", "Settings", "settings"],
-          ]
-            .map(
-              ([view, label, iconName], index) =>
-                `<button class="dashboard-nav ${index === 0 ? "active" : ""}" data-view="${view}" title="${label}"><span class="nav-icon">${icon(iconName)}</span><span class="nav-label">${label}</span></button>`,
-            )
-            .join("")}
-        </nav>
-        <div class="sidebar-footer">
-          <div class="sidebar-preferences">
-            <button class="icon-button theme-toggle" aria-label="Switch color theme"><span class="sun-icon">${icon("sun")}</span><span class="moon-icon">${icon("moon")}</span></button>
-            <button class="direction-toggle" aria-label="Switch text direction"><span class="direction-label">RTL</span></button>
+        <div class="dashboard-drawer" id="dashboard-navigation-panel">
+          <nav aria-label="Dashboard navigation">
+            ${[
+              ["overview", "Overview", "dashboard"],
+              ["sessions", "My Sessions", "calendar"],
+              ["book", "Book Simulator", "steer"],
+              ["tests", "Theory Practice", "quiz"],
+              ["history", "Test History", "history"],
+              ["progress", "My Progress", "trend"],
+              ["settings", "Settings", "settings"],
+            ]
+              .map(
+                ([view, label, iconName], index) =>
+                  `<button class="dashboard-nav ${index === 0 ? "active" : ""}" data-view="${view}" title="${label}"><span class="nav-icon">${icon(iconName)}</span><span class="nav-label">${label}</span></button>`,
+              )
+              .join("")}
+          </nav>
+          <div class="sidebar-footer">
+            <div class="sidebar-preferences">
+              <button class="icon-button theme-toggle" aria-label="Switch color theme"><span class="sun-icon">${icon("sun")}</span><span class="moon-icon">${icon("moon")}</span></button>
+              <button class="direction-toggle" aria-label="Switch text direction"><span class="direction-label">RTL</span></button>
+            </div>
+            <a class="dashboard-exit" href="${ROOT}index.html">← Quit</a>
           </div>
-          <a class="dashboard-exit" href="${ROOT}index.html">← Quit</a>
         </div>
       </aside>
       <div class="dashboard-main">
