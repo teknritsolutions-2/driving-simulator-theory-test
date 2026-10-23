@@ -646,3 +646,103 @@ export function bookingPage() {
 function faqStrip(items) {
   return `<section class="section section-compact faq-strip"><div class="container"><div class="faq-heading"><span class="overline">Useful questions</span><h2>Before you continue</h2></div><div class="faq-list">${items.map((item) => `<details><summary>${item[0]}<span>+</span></summary><p>${item[1]}</p></details>`).join("")}</div></div></section>`;
 }
+
+export function blogPage() {
+  const articles = [
+    {
+      title: "Mastering Hazard Perception: Developing the 10-Second Eye Lead",
+      category: "Road Safety",
+      readTime: "5 min read",
+      date: "Oct 2026",
+      image: "hazard.jpg",
+      summary:
+        "How scanning far down the roadway rather than fixating on the front bumper gives drivers essential reaction margins before hazards materialize.",
+    },
+    {
+      title:
+        "Highway Merging & Speed Matching: Overcoming Dual-Carriageway Anxiety",
+      category: "High-Speed Driving",
+      readTime: "6 min read",
+      date: "Oct 2026",
+      image: "highway-junction.jpg",
+      summary:
+        "Practical techniques for assessing slip-road acceleration lanes, reading rear-mirror closing speeds, and merging smoothly into active traffic flow.",
+    },
+    {
+      title: "Theory Test Preparation: Why Active Recall Beats Passive Reading",
+      category: "Theory Assessment",
+      readTime: "4 min read",
+      date: "Oct 2026",
+      image: "theory-study.jpg",
+      summary:
+        "The cognitive science behind practice question drills and immediate rationale feedback compared to passive handbook memorization.",
+    },
+    {
+      title:
+        "Precision Vehicle Control: Visual Reference Points for Bay and Parallel Parking",
+      category: "Maneuvers",
+      readTime: "7 min read",
+      date: "Sep 2026",
+      image: "parking-bay.jpg",
+      summary:
+        "A structured methodology using pillar lines, mirror angles, and low-speed clutch control to reverse reliably into tight parking spaces every time.",
+    },
+    {
+      title:
+        "Adverse Weather Management: Aquaplaning Recovery and Low-Visibility Drills",
+      category: "Hazard Recognition",
+      readTime: "5 min read",
+      date: "Sep 2026",
+      image: "night-cockpit.jpg",
+      summary:
+        "Understanding surface water feedback, headlight beam cutoffs, and braking distance multipliers before encountering real torrential downpours.",
+    },
+    {
+      title:
+        "Simulator to Real-World Transfer: Accelerating Muscle Memory in Virtual Cockpits",
+      category: "Simulation Technology",
+      readTime: "6 min read",
+      date: "Aug 2026",
+      image: "hero-sim.jpg",
+      summary:
+        "How high-fidelity force-feedback controls and multi-screen panoramic visual setups train emergency reflexes without physical collision risk.",
+    },
+  ];
+
+  return `
+    <main id="main">
+      <section class="simple-header">
+        <div class="container">
+          ${eyebrow("Driver Education & Guides")}
+          <h1>Practical Insights for Safer, Confident Driving</h1>
+          <p>Explore structured guides covering hazard anticipation, simulator preparation, highway confidence, and theory revision strategies.</p>
+        </div>
+      </section>
+      <section class="section section-compact">
+        <div class="container">
+          <div class="blog-grid">
+            ${articles
+              .map(
+                (article) => `
+              <article class="blog-card reveal">
+                <div class="blog-media">
+                  <img src="${ROOT}assets/images/${article.image}" alt="${article.title}" loading="lazy" decoding="async">
+                  <span class="blog-tag">${article.category}</span>
+                </div>
+                <div class="blog-body">
+                  <div class="blog-meta">
+                    <span>${icon("clock")} ${article.readTime}</span>
+                    <span>${article.date}</span>
+                  </div>
+                  <h3>${article.title}</h3>
+                  <p>${article.summary}</p>
+                  <a class="text-button" href="${ROOT}pages/theory-test-prep.html">Explore relevant practice ${icon("arrow")}</a>
+                </div>
+              </article>`,
+              )
+              .join("")}
+          </div>
+        </div>
+      </section>
+    </main>`;
+}

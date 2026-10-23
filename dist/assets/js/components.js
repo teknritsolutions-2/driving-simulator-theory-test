@@ -91,7 +91,7 @@ export function footer(hasProfile = false) {
           <p>Simulation, theory practice and clear progress tools for deliberate driver preparation.</p>
         </div>
         <div><h3>Train</h3><a href="${ROOT}pages/simulator-sessions.html">Simulators</a><a href="${ROOT}pages/theory-test-prep.html">Theory Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a></div>
-        <div><h3>Explore</h3><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/contact.html">Contact</a></div>
+        <div><h3>Explore</h3><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/blog.html">Blog</a><a href="${ROOT}pages/contact.html">Contact</a></div>
         <div><h3>Support</h3><a href="${ROOT}pages/${portal}">Student Dashboard</a><a href="${ROOT}pages/faq.html">FAQ</a><a href="${ROOT}pages/privacy.html">Privacy</a><a href="${ROOT}pages/terms.html">Terms</a></div>
       </div>
       <div class="container footer-base"><span>© 2026 DriveLab</span><span>Driver Simulation & Theory Assessment Center</span></div>

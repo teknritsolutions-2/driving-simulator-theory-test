@@ -21,6 +21,7 @@ import {
   sessionsPage,
   theoryPage,
   aboutPage,
+  blogPage,
 } from "./public-pages.js";
 import { bookingForm, renderDashboard } from "./dashboard.js";
 import { bindMockTest, renderMockTest, renderResults } from "./mock-test.js";
@@ -67,7 +68,9 @@ function renderPage() {
     home2: homeTwoPage,
     about: aboutPage,
     "simulator-sessions": sessionsPage,
+    services: sessionsPage,
     "theory-test-prep": theoryPage,
+    blog: blogPage,
     schedule: schedulePage,
     pricing: pricingPage,
     contact: contactPage,

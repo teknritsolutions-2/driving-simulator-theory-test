@@ -341,3 +341,24 @@ test("training route renders vertical timeline with centered connecting line on 
   expect(firstBadge.x).toBeGreaterThan(20);
 });
 
+test("schedule session cards stack cleanly in one column on mobile without awkward wrapping", async ({
+  page,
+}) => {
+  for (const width of [360, 390, 430, 600]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/pages/schedule.html");
+    const pills = page.locator(".session-pills .session-pill");
+    await expect(pills).toHaveCount(6);
+
+    const firstBox = await pills.nth(0).boundingBox();
+    const secondBox = await pills.nth(1).boundingBox();
+    expect(firstBox).not.toBeNull();
+    expect(secondBox).not.toBeNull();
+    // In 1-column layout, the second pill is stacked vertically below the first
+    expect(secondBox.y).toBeGreaterThanOrEqual(
+      firstBox.y + firstBox.height - 2,
+    );
+    // Each pill spans across the container width comfortably
+    expect(firstBox.width).toBeGreaterThan(width * 0.7);
+  }
+});
