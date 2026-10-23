@@ -38,12 +38,12 @@ export function header(hasProfile) {
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="container nav-row">
-        <a class="brand" href="${ROOT}pages/index.html" aria-label="DriveLab home">${logo()}</a>
+        <a class="brand" href="${ROOT}index.html" aria-label="DriveLab home">${logo()}</a>
         <nav class="desktop-nav" aria-label="Primary navigation">
           <div class="nav-dropdown">
             <button class="nav-link home-menu-button" aria-expanded="false">Home ${icon("chevron")}</button>
             <div class="home-menu" hidden>
-              <a href="${ROOT}pages/index.html">Home 1</a>
+              <a href="${ROOT}index.html">Home 1</a>
               <a href="${ROOT}pages/home2.html">Home 2</a>
             </div>
           </div>
@@ -64,7 +64,7 @@ export function header(hasProfile) {
     </header>
     <div class="mobile-menu" id="mobile-menu" hidden>
       <nav aria-label="Mobile navigation">
-        <a href="${ROOT}pages/index.html">Home 1</a>
+        <a href="${ROOT}index.html">Home 1</a>
         <a href="${ROOT}pages/home2.html">Home 2</a>
         <a href="${ROOT}pages/about.html">About</a>
         <a href="${ROOT}pages/simulator-sessions.html">Simulators</a>
@@ -87,11 +87,11 @@ export function footer(hasProfile = false) {
     <footer class="site-footer">
       <div class="container footer-layout">
         <div class="footer-brand">
-          <a class="brand" href="${ROOT}pages/index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
+          <a class="brand" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
           <p>Simulation, theory practice and clear progress tools for deliberate driver preparation.</p>
         </div>
         <div><h3>Train</h3><a href="${ROOT}pages/simulator-sessions.html">Simulators</a><a href="${ROOT}pages/theory-test-prep.html">Theory Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a></div>
-        <div><h3>Explore</h3><a href="${ROOT}pages/index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/blog.html">Blog</a><a href="${ROOT}pages/contact.html">Contact</a></div>
+        <div><h3>Explore</h3><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/blog.html">Blog</a><a href="${ROOT}pages/contact.html">Contact</a></div>
         <div><h3>Support</h3><a href="${ROOT}pages/${portal}">Student Dashboard</a><a href="${ROOT}pages/faq.html">FAQ</a><a href="${ROOT}pages/privacy.html">Privacy</a><a href="${ROOT}pages/terms.html">Terms</a></div>
       </div>
       <div class="container footer-base"><span>© 2026 DriveLab</span><span>Driver Simulation & Theory Assessment Center</span></div>
