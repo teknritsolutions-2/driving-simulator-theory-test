@@ -271,22 +271,24 @@ test("mock-test entry is centered on desktop and removes its visual below deskto
   await expect(page.locator(".test-start-visual")).toBeHidden();
 });
 
-test("responsive header centers its logo and keeps navigation inside a viewport drawer", async ({
+test("responsive header aligns its logo to the start and keeps navigation inside a viewport drawer", async ({
   page,
 }) => {
   for (const viewport of [
-    { width: 768, height: 900, headerHeight: 74, logoWidth: 141 },
-    { width: 390, height: 844, headerHeight: 68, logoWidth: 121 },
+    { width: 768, height: 900, headerHeight: 74 },
+    { width: 390, height: 844, headerHeight: 68 },
   ]) {
     await page.setViewportSize(viewport);
     await page.goto("/");
 
     const logo = await page.locator(".nav-row > .brand").boundingBox();
     expect(logo).not.toBeNull();
-    expect(Math.abs(logo.x + logo.width / 2 - viewport.width / 2)).toBeLessThan(
-      1,
-    );
-    expect(Math.round(logo.width)).toBe(viewport.logoWidth);
+    expect(logo.x).toBeLessThan(viewport.width / 4);
+    expect(logo.x).toBeGreaterThan(0);
+
+    const actions = await page.locator(".nav-actions").boundingBox();
+    expect(actions).not.toBeNull();
+    expect(actions.x).toBeGreaterThan(logo.x + logo.width);
 
     await page.locator(".menu-toggle").click();
     const drawer = page.locator(".mobile-menu");
