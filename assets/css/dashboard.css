@@ -461,8 +461,17 @@
   background: var(--page-bg);
 }
 .test-app {
-  max-width: 1440px;
-  margin: auto;
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.test-app:has(.test-active:not([hidden])) {
+  justify-content: flex-start;
+  align-items: stretch;
 }
 .result-header {
   display: flex;
@@ -472,10 +481,12 @@
   margin-bottom: clamp(30px, 5vw, 64px);
 }
 .test-app-header {
+  width: 100%;
+  max-width: 1080px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
   min-height: 1.5rem;
 }
 #test-timer {
@@ -492,11 +503,16 @@
 }
 .test-start {
   display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  min-height: 480px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  width: 100%;
+  max-width: 1080px;
+  min-height: 520px;
+  margin: auto;
   overflow: hidden;
   border: 1px solid var(--border-default);
+  border-radius: 4px 28px 4px 28px;
   background: var(--surface-primary);
+  box-shadow: 0 24px 48px -12px rgba(15, 17, 26, 0.22), 0 0 0 1px var(--border-default);
 }
 .test-start-copy {
   align-self: stretch;
