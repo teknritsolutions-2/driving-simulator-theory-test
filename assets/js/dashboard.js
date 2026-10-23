@@ -50,7 +50,7 @@ export function renderDashboard(store, escapeHtml) {
     <main class="dashboard-app">
       <aside class="dashboard-sidebar">
         <div class="sidebar-header-row">
-          <a class="dashboard-logo" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
+          <a class="dashboard-logo" href="${ROOT}pages/index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
           <div class="sidebar-mobile-controls">
             <button class="icon-button dashboard-menu-toggle" aria-controls="dashboard-navigation-panel" aria-expanded="false" aria-label="Open dashboard navigation"><span class="menu-icon">${icon("menu")}</span><span class="close-icon">${icon("close")}</span></button>
           </div>
@@ -77,7 +77,7 @@ export function renderDashboard(store, escapeHtml) {
               <button class="icon-button theme-toggle" aria-label="Switch color theme"><span class="sun-icon">${icon("sun")}</span><span class="moon-icon">${icon("moon")}</span></button>
               <button class="direction-toggle" aria-label="Switch text direction"><span class="direction-label">RTL</span></button>
             </div>
-            <a class="dashboard-exit" href="${ROOT}index.html">← Quit</a>
+            <a class="dashboard-exit" href="${ROOT}pages/index.html">← Quit</a>
           </div>
         </div>
       </aside>

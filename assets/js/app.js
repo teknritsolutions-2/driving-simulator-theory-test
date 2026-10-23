@@ -92,7 +92,7 @@ function renderPage() {
 }
 
 function notFoundPage() {
-  return `<main id="main"><section class="simple-header"><div class="container"><span class="overline">404</span><h1>That route is outside the training map.</h1><p>Return to the simulator lab or explore the session catalog.</p><div class="button-row"><a class="button" href="${ROOT}index.html">Go Home</a><a class="button button-secondary" href="${ROOT}pages/simulator-sessions.html">View Sessions</a></div></div></section></main>`;
+  return `<main id="main"><section class="simple-header"><div class="container"><span class="overline">404</span><h1>That route is outside the training map.</h1><p>Return to the simulator lab or explore the session catalog.</p><div class="button-row"><a class="button" href="${ROOT}pages/index.html">Go Home</a><a class="button button-secondary" href="${ROOT}pages/simulator-sessions.html">View Sessions</a></div></div></section></main>`;
 }
 
 function bindInteractions() {

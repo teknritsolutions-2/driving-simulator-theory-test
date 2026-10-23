@@ -2,7 +2,7 @@
 
 Welcome to the technical documentation for the **DriveLab Driver Simulation & Theory Assessment Center** template.
 
-This folder contains comprehensive integration, configuration, and maintenance guides:
+This folder contains comprehensive integration, configuration, and customization guides:
 
 ## Documentation Index
 
@@ -16,15 +16,6 @@ This folder contains comprehensive integration, configuration, and maintenance g
 | [QUESTION-SOURCES.md](file:///Users/vijjureddy/Driving%20Simulator%20&%20Theory%20Test%20Center/documentation/QUESTION-SOURCES.md) | Theory question bank structure, schema, and educational authorship notes. |
 
 ## Quick Start
-To run the template locally for development and testing:
-
-```bash
-# Start local development server
-node scripts/serve.js
-
-# Or build static release into dist/
-npm run build
-
-# Run automated end-to-end tests
-npm test
-```
+To preview the template:
+1. Open `pages/index.html` directly in your browser, or
+2. Serve via HTTP (e.g. `python3 -m http.server 8000`) and visit `http://localhost:8000/pages/index.html`.

@@ -5,6 +5,32 @@ A modern, responsive HTML/CSS/JavaScript template for simulator-session discover
 ## Technical Specifications & File Structure
 
 ```
+template-name/
+├── assets/
+│   ├── css/
+│   │   ├── style.css (main styles)
+│   │   ├── dark-mode.css
+│   │   └── rtl.css
+│   ├── js/
+│   │   ├── main.js
+│   │   ├── dashboard.js (if applicable)
+│   │   └── plugins/
+│   ├── images/
+│   └── fonts/
+├── pages/
+│   ├── index.html (home)
+│   ├── about.html
+│   ├── services.html
+│   ├── blog.html
+│   ├── contact.html
+│   └── [template-specific pages]
+├── documentation/
+└── README.md
+```
+
+### Complete Structure
+
+```
 Driving Simulator & Theory Test Center/
 ├── assets/
 │   ├── brand/
@@ -17,10 +43,10 @@ Driving Simulator & Theory Test Center/
 │   │   ├── rtl.css
 │   │   └── dashboard.css
 │   ├── js/
-│   │   ├── main.js (template main entry point)
+│   │   ├── main.js
+│   │   ├── dashboard.js
 │   │   ├── app.js
 │   │   ├── components.js
-│   │   ├── dashboard.js
 │   │   ├── data.js
 │   │   ├── mock-test.js
 │   │   ├── public-pages.js
@@ -31,7 +57,6 @@ Driving Simulator & Theory Test Center/
 │   └── fonts/
 ├── pages/
 │   ├── index.html (home)
-│   ├── home2.html
 │   ├── about.html
 │   ├── services.html
 │   ├── blog.html
@@ -42,6 +67,7 @@ Driving Simulator & Theory Test Center/
 │   ├── book-session.html
 │   ├── pricing.html
 │   ├── faq.html
+│   ├── home2.html
 │   ├── login.html
 │   ├── register.html
 │   ├── student-dashboard.html
@@ -57,34 +83,25 @@ Driving Simulator & Theory Test Center/
 │   ├── INTEGRATION.md
 │   ├── IMAGE-SOURCES.md
 │   └── QUESTION-SOURCES.md
-├── index.html (root home entry point)
-├── 404.html
-├── robots.txt
-├── sitemap.xml
 └── README.md
 ```
 
-## Run Locally
+## Getting Started
 
-Serve the repository root over HTTP (for example `node scripts/serve.js` or `python3 -m http.server 4173`) and open `http://localhost:4173/`. No Node.js runtime or build step is required for normal use.
+DriveLab is buildless and dependency-free. To preview the template:
 
-## Build and Verify
+1. Open `pages/index.html` directly in any web browser, or
+2. Serve locally via HTTP:
+   ```bash
+   python3 -m http.server 8000
+   ```
+   and navigate to `http://localhost:8000/pages/index.html`.
 
-Run `npm install` once to install the development-only Playwright and formatting tools. Then use:
+## Features
 
-- `npm run build` to refresh the deployable `dist/` directory.
-- `npm test` to run the functional browser suite.
-- `npm run test:visual` to capture the public pages, dashboard and assessment views at the documented desktop, tablet and mobile sizes.
+- **Simulator Catalog & Scheduling**: Explore custom driving modules, interactive scenario previews, and appointment request workflows.
+- **Theory Mock Test Engine**: Instant scoring, question navigation, topic tagging, and rationale reviews.
+- **Student Dashboard**: Practice logging, score history, and visual readiness gauges stored locally in browser storage.
+- **Modern Design System**: Responsive layout across mobile, tablet, and desktop viewports, dark mode support, and RTL language direction.
 
-The runtime itself remains dependency-free: the browser loads native HTML, CSS and JavaScript modules.
-
-## Important Limitations
-
-- Login/profile behavior is a local browser preview, not secure authentication.
-- Booking slots are configured examples, not live center inventory.
-- Submitted bookings are local requests pending center confirmation.
-- Completed hours are self-reported and are separate from requested sessions.
-- Practice questions are original educational content, not official exam questions.
-- Readiness is an educational indicator, never a pass guarantee.
-
-See `documentation/` for customization and integration notes.
+See `documentation/` for detailed customization and deployment notes.
