@@ -61,24 +61,24 @@ export function header(hasProfile) {
           <button class="icon-button menu-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation"><span class="menu-icon">${icon("menu")}</span><span class="close-icon">${icon("close")}</span></button>
         </div>
       </div>
-      <div class="mobile-menu" id="mobile-menu" hidden>
-        <nav aria-label="Mobile navigation">
-          <a href="${ROOT}index.html">Home 1</a>
-          <a href="${ROOT}pages/home2.html">Home 2</a>
-          <a href="${ROOT}pages/about.html">About</a>
-          <a href="${ROOT}pages/simulator-sessions.html">Simulators</a>
-          <a href="${ROOT}pages/theory-test-prep.html">Theory Prep</a>
-          <a href="${ROOT}pages/schedule.html">Schedule</a>
-          <a href="${ROOT}pages/pricing.html">Pricing</a>
-          <a href="${ROOT}pages/contact.html">Contact</a>
-          <a href="${ROOT}pages/${portal}">Student Dashboard</a>
-        </nav>
-        <div class="mobile-preferences">
-          <button class="preference-button theme-toggle">${icon("sun")} <span>Color theme</span></button>
-          <button class="preference-button direction-toggle"><strong class="direction-label">RTL</strong><span>Text direction</span></button>
-        </div>
+    </header>
+    <div class="mobile-menu" id="mobile-menu" hidden>
+      <nav aria-label="Mobile navigation">
+        <a href="${ROOT}index.html">Home 1</a>
+        <a href="${ROOT}pages/home2.html">Home 2</a>
+        <a href="${ROOT}pages/about.html">About</a>
+        <a href="${ROOT}pages/simulator-sessions.html">Simulators</a>
+        <a href="${ROOT}pages/theory-test-prep.html">Theory Prep</a>
+        <a href="${ROOT}pages/schedule.html">Schedule</a>
+        <a href="${ROOT}pages/pricing.html">Pricing</a>
+        <a href="${ROOT}pages/contact.html">Contact</a>
+        <a href="${ROOT}pages/${portal}">Student Dashboard</a>
+      </nav>
+      <div class="mobile-preferences">
+        <button class="preference-button theme-toggle">${icon("sun")} <span>Color theme</span></button>
+        <button class="preference-button direction-toggle"><strong class="direction-label">RTL</strong><span>Text direction</span></button>
       </div>
-    </header>`;
+    </div>`;
 }
 
 export function footer(hasProfile = false) {

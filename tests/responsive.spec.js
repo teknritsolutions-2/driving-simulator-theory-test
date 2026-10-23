@@ -235,3 +235,37 @@ test("mock-test entry is centered on desktop and removes its visual below deskto
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator(".test-start-visual")).toBeHidden();
 });
+
+test("responsive header centers its logo and keeps navigation inside a viewport drawer", async ({
+  page,
+}) => {
+  for (const viewport of [
+    { width: 768, height: 900, headerHeight: 74 },
+    { width: 390, height: 844, headerHeight: 68 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+
+    const logo = await page.locator(".nav-row > .brand").boundingBox();
+    expect(logo).not.toBeNull();
+    expect(
+      Math.abs(logo.x + logo.width / 2 - viewport.width / 2),
+    ).toBeLessThan(1);
+
+    await page.locator(".menu-toggle").click();
+    const drawer = page.locator(".mobile-menu");
+    await expect(drawer).toBeVisible();
+    await expect(drawer).toHaveCSS("position", "fixed");
+    await expect(page.locator(".menu-toggle .close-icon")).toBeVisible();
+    await expect(page.locator(".menu-toggle .menu-icon")).toBeHidden();
+    expect(await drawer.evaluate((element) => element.closest(".site-header"))).toBeNull();
+
+    const drawerBox = await drawer.boundingBox();
+    expect(drawerBox).not.toBeNull();
+    expect(Math.abs(drawerBox.x + drawerBox.width - viewport.width)).toBeLessThan(1);
+    expect(Math.abs(drawerBox.y - viewport.headerHeight)).toBeLessThan(1);
+
+    await page.mouse.click(4, viewport.headerHeight + 40);
+    await expect(drawer).toBeHidden();
+  }
+});
