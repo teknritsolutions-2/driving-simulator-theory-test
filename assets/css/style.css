@@ -6988,7 +6988,80 @@ textarea {
   }
 }
 
-/* Home 2: conventional copy-and-image banner. */
+/* Home 2 uses a single centered photographic banner. */
+.readiness-hero.readiness-photo-banner {
+  display: flex;
+  align-items: center;
+  min-height: var(--hero-min-height);
+  padding-block: clamp(80px, 8vw, 112px);
+  background: var(--purple-night-900);
+  color: var(--text-on-dark);
+}
+.readiness-photo-banner::before {
+  content: none;
+}
+.readiness-photo-background {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 58%;
+}
+.readiness-photo-banner::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, rgba(22, 13, 32, 0.72), rgba(22, 13, 32, 0.88) 50%, rgba(22, 13, 32, 0.72));
+}
+.readiness-photo-banner .readiness-classic-copy {
+  max-width: 1080px;
+}
+.readiness-photo-banner .eyebrow,
+.readiness-photo-banner h1 em {
+  color: var(--brand-highlight);
+}
+.readiness-photo-banner .readiness-classic-copy > p {
+  color: var(--text-on-photo-muted);
+}
+.readiness-photo-banner .button:not(.button-secondary) {
+  background: var(--brand-highlight);
+  border-color: var(--brand-highlight);
+  color: var(--brand-highlight-foreground);
+}
+.readiness-photo-banner .button:not(.button-secondary):hover {
+  background: var(--brand-highlight-hover);
+  border-color: var(--brand-highlight-hover);
+}
+.readiness-photo-banner .button-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #ffffff;
+}
+.readiness-photo-banner .button-secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: #ffffff;
+}
+.readiness-photo-banner .readiness-classic-copy > .readiness-photo-note {
+  max-width: none;
+  margin: 1.5rem 0 0;
+  font-size: 0.82rem;
+}
+.readiness-photo-note span {
+  margin-inline: 0.5rem;
+  color: var(--brand-highlight);
+}
+@media (max-width: 700px) {
+  .readiness-hero.readiness-photo-banner {
+    min-height: 620px;
+    padding-block: 64px;
+  }
+  .readiness-photo-banner .readiness-classic-copy h1 {
+    font-size: clamp(2.35rem, 8.5vw, 3.7rem);
+  }
+}
 .readiness-hero.readiness-classic {
   display: flex;
   align-items: center;

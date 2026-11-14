@@ -137,17 +137,16 @@ export function homePage() {
 export function homeTwoPage() {
   return `
     <main id="main" class="readiness-home">
-      <section class="readiness-hero readiness-classic readiness-centered">
+      <section class="readiness-hero readiness-photo-banner">
+        <img class="readiness-photo-background" src="${ROOT}assets/images/exam-desk.webp" alt="" fetchpriority="high" decoding="async" width="1200" height="807">
         <div class="container readiness-classic-layout">
           <header class="readiness-classic-copy reveal">
-            ${eyebrow("Assessment & readiness studio")}
-            <h1>Your next step to<br><em>test-day confidence.</em></h1>
-            <p>Build your knowledge with focused theory practice, clear explanations and mock tests that help you feel ready for the road ahead.</p>
-            <div class="button-row">${action("mock-test.html?count=10", "Start Mock Test")}${action("#readiness-showcase", "Explore Readiness", true)}</div>
+            ${eyebrow("Theory practice. Clearer progress.")}
+            <h1>A little practice today.<br><em>More confidence tomorrow.</em></h1>
+            <p>Learn the reasoning behind every answer. Build your knowledge, practise at your pace and take the next step towards test day.</p>
+            <div class="button-row">${action("mock-test.html?count=10", "Start Practising")}${action("theory-test-prep.html#topic-explorer", "Explore Theory Topics", true)}</div>
+            <p class="readiness-photo-note">Focused questions <span aria-hidden="true">·</span> Clear explanations <span aria-hidden="true">·</span> Progress you can review</p>
           </header>
-          <div class="readiness-classic-image reveal">
-            <img src="${ROOT}assets/images/exam-desk.webp" alt="Laptop and study materials ready for a theory practice session" fetchpriority="high" decoding="async" width="1200" height="807">
-          </div>
         </div>
       </section>
 
