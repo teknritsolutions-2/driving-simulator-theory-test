@@ -138,44 +138,55 @@ export function homeTwoPage() {
   return `
     <main id="main" class="readiness-home">
       <section class="readiness-hero">
-        <div class="container readiness-banner">
-          <header class="readiness-banner-copy reveal">
+        <div class="container readiness-studio">
+          <header class="readiness-studio-copy reveal">
             ${eyebrow("Assessment & readiness studio")}
-            <h1>Know what to revise <em>before test day.</em></h1>
-            <p>Turn each practice result into a focused route: understand the missed decision, identify the topic and choose the next useful drill.</p>
+            <h1>Revise the right thing. <em>Before test day.</em></h1>
+            <p>Turn every practice result into a useful next step. Review the reasoning, spot the weaker topic and return with a focused drill.</p>
             <div class="button-row">${action("mock-test.html?count=10", "Start Mock Test")}${action("#readiness-showcase", "Explore Readiness", true)}</div>
+            <div class="readiness-studio-notes" aria-label="Practice features">
+              <span>${icon("quiz")} Original practice sets</span>
+              <span>${icon("quiz")} Answer-by-answer review</span>
+              <span>${icon("quiz")} Browser-local history</span>
+            </div>
           </header>
 
-          <article class="readiness-command-deck reveal">
-            <div class="readiness-deck-media">
-              <img src="${ROOT}assets/images/exam-desk.jpg" alt="Laptop and exam materials in a learning environment" fetchpriority="high" decoding="async">
-              <div class="readiness-deck-shade"></div>
-              <span class="readiness-deck-label">Practice analysis · example</span>
-              <div class="readiness-question-card">
-                <span>Practice set · 07 / 10</span>
-                <strong>Which response creates the safest margin?</strong>
-                <div aria-label="Example question progress"><i class="is-complete"></i><i class="is-complete"></i><i class="is-active"></i><i></i></div>
+          <article class="readiness-board reveal" aria-label="Example readiness analysis">
+            <div class="readiness-board-head">
+              <div>
+                <span class="overline">Readiness snapshot</span>
+                <strong>Latest 10-question set</strong>
+              </div>
+              <span class="readiness-board-chip">Example result</span>
+            </div>
+
+            <div class="readiness-score-panel">
+              <div class="readiness-score-number">
+                <span>Overall score</span>
+                <strong>82<small>%</small></strong>
+                <em>+8 points since first set</em>
+              </div>
+              <div class="readiness-signal-list">
+                <div><span>Hazard perception <b>88%</b></span><i style="--signal: 88%"></i></div>
+                <div><span>Rules of the road <b>84%</b></span><i style="--signal: 84%"></i></div>
+                <div class="is-focus"><span>Road signs <b>72%</b></span><i style="--signal: 72%"></i></div>
               </div>
             </div>
-            <div class="readiness-deck-panel">
-              <div class="readiness-score-block">
-                <div class="readiness-score-ring"><b>82%</b><span>Recent score</span></div>
-                <div><span class="overline">Result translated</span><h2>One score. One clear revision route.</h2></div>
+
+            <div class="readiness-focus-route">
+              <div class="readiness-focus-intro">
+                <span>Suggested next move</span>
+                <strong>Strengthen road-sign recognition</strong>
+                <small>Three missed answers point to one useful focus.</small>
               </div>
-              <ol class="readiness-route-list">
-                <li><span>01</span><div><b>Review the reasoning</b><small>Keep the answer and explanation together.</small></div></li>
-                <li><span>02</span><div><b>Find the weaker topic</b><small>Road Signs becomes the next priority.</small></div></li>
-                <li><span>03</span><div><b>Repeat with purpose</b><small>Use a short drill to check the change.</small></div></li>
+              <ol>
+                <li><span>01</span><b>Review</b><small>Read why each answer was missed.</small></li>
+                <li><span>02</span><b>Drill</b><small>Complete a short topic set.</small></li>
+                <li><span>03</span><b>Retest</b><small>Check whether the change holds.</small></li>
               </ol>
               <a class="text-button" href="theory-test-prep.html#topic-explorer">Open topic review ${icon("arrow")}</a>
             </div>
           </article>
-
-          <div class="readiness-banner-proof" aria-label="Readiness workflow">
-            <div><span>01</span><b>Answer</b><small>Complete a focused set</small></div>
-            <div><span>02</span><b>Understand</b><small>Review every missed decision</small></div>
-            <div><span>03</span><b>Refocus</b><small>Choose the next topic</small></div>
-          </div>
         </div>
       </section>
 
