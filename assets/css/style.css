@@ -48,6 +48,8 @@
   --brand: #7046e8;
   --brand-hover: #5427c2;
   --brand-highlight: #a58bf1;
+  --brand-highlight-hover: #bba8f5;
+  --brand-highlight-foreground: #17171d;
   --brand-text: #5b31c9;
   --brand-text-on-dark: #b9a5ff;
   --brand-foreground: #ffffff;
@@ -6990,6 +6992,42 @@ textarea {
   height: 100%;
   object-fit: cover;
   object-position: 44% center;
+}
+
+/* Dark sections keep the same lavender accents in either page theme. */
+:is(
+  .home-hero,
+  .theory-hero,
+  .theory-editorial,
+  .portal-close,
+  .dark-story,
+  .readiness-process,
+  .dashboard-showcase,
+  .review-story,
+  .package-explainer,
+  .contact-header,
+  .question-preview:not(.question-preview-light)
+) .button:not(.button-secondary) {
+  background: var(--brand-highlight);
+  border-color: var(--brand-highlight);
+  color: var(--brand-highlight-foreground);
+}
+:is(
+  .home-hero,
+  .theory-hero,
+  .theory-editorial,
+  .portal-close,
+  .dark-story,
+  .readiness-process,
+  .dashboard-showcase,
+  .review-story,
+  .package-explainer,
+  .contact-header,
+  .question-preview:not(.question-preview-light)
+) .button:not(.button-secondary):hover {
+  background: var(--brand-highlight-hover);
+  border-color: var(--brand-highlight-hover);
+  color: var(--brand-highlight-foreground);
 }
 [data-theme="dark"] .readiness-hero.readiness-classic {
   background: var(--purple-night-900);
