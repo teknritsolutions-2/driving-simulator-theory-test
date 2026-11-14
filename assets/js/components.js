@@ -101,7 +101,7 @@ export function footer(hasProfile = false) {
           <a class="brand" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
           <p>Simulation, theory practice and clear progress tools for deliberate driver preparation.</p>
           <div class="footer-social" aria-label="DriveLab social links">
-            <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">${icon("tiktok")}</a>
+            <a href="https://www.tiktok.com/login" target="_blank" rel="noopener noreferrer" aria-label="TikTok login" title="TikTok">${icon("tiktok")}</a>
             <a href="https://www.linkedin.com/sharing/share-offsite/?url=${siteUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share DriveLab on LinkedIn" title="LinkedIn">${icon("linkedin")}</a>
             <a href="https://www.facebook.com/sharer/sharer.php?u=${siteUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share DriveLab on Facebook" title="Facebook">${icon("facebook")}</a>
           </div>
