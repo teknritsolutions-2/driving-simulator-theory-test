@@ -137,11 +137,11 @@ export function homePage() {
 export function homeTwoPage() {
   return `
     <main id="main" class="readiness-home">
-      <section class="readiness-hero readiness-classic">
+      <section class="readiness-hero readiness-classic readiness-centered">
         <div class="container readiness-classic-layout">
           <header class="readiness-classic-copy reveal">
             ${eyebrow("Assessment & readiness studio")}
-            <h1>Prepare today.<br><em>Drive with confidence.</em></h1>
+            <h1>Your next step to<br><em>test-day confidence.</em></h1>
             <p>Build your knowledge with focused theory practice, clear explanations and mock tests that help you feel ready for the road ahead.</p>
             <div class="button-row">${action("mock-test.html?count=10", "Start Mock Test")}${action("#readiness-showcase", "Explore Readiness", true)}</div>
           </header>
