@@ -138,9 +138,44 @@ export function homeTwoPage() {
   return `
     <main id="main" class="readiness-home">
       <section class="readiness-hero">
-        <div class="container readiness-hero-grid">
-          <div class="readiness-copy reveal">${eyebrow("Assessment & readiness studio")}<h1>Turn every result into a <em>clearer next move.</em></h1><p>Build topic coverage, review the reasoning behind missed answers and let recent evidence shape the next useful practice.</p><div class="button-row">${action("mock-test.html?count=10", "Start Mock Test")}${action("#readiness-showcase", "Explore Readiness", true)}</div><div class="readiness-proof-grid"><div><span>01</span><b>Answer</b><small>Complete a focused set</small></div><div><span>02</span><b>Review</b><small>Understand every miss</small></div><div><span>03</span><b>Respond</b><small>Choose the next topic</small></div></div></div>
-          <article class="readiness-dossier reveal"><div class="assessment-visual"><div class="assessment-image-wrap"><img src="${ROOT}assets/images/exam-desk.jpg" alt="Laptop and exam materials in a learning environment" loading="lazy" decoding="async"><span>Example practice analysis</span></div><div class="assessment-panel"><div class="assessment-card"><span>Practice set · 07 / 10</span><strong>Which response creates the safest margin?</strong><div aria-label="Example question progress"><i class="is-complete"></i><i class="is-complete"></i><i class="is-active"></i><i></i></div></div><div class="assessment-score"><b>82%</b><span>Recent example score</span></div></div></div><div class="readiness-next"><div><span>Suggested next step</span><b>Review Road Signs</b></div><p>One weaker topic becomes a specific revision move.</p><a class="text-button" href="theory-test-prep.html#topic-explorer">Open topic review ${icon("arrow")}</a></div></article>
+        <div class="container readiness-banner">
+          <header class="readiness-banner-copy reveal">
+            ${eyebrow("Assessment & readiness studio")}
+            <h1>Know what to revise <em>before test day.</em></h1>
+            <p>Turn each practice result into a focused route: understand the missed decision, identify the topic and choose the next useful drill.</p>
+            <div class="button-row">${action("mock-test.html?count=10", "Start Mock Test")}${action("#readiness-showcase", "Explore Readiness", true)}</div>
+          </header>
+
+          <article class="readiness-command-deck reveal">
+            <div class="readiness-deck-media">
+              <img src="${ROOT}assets/images/exam-desk.jpg" alt="Laptop and exam materials in a learning environment" fetchpriority="high" decoding="async">
+              <div class="readiness-deck-shade"></div>
+              <span class="readiness-deck-label">Practice analysis · example</span>
+              <div class="readiness-question-card">
+                <span>Practice set · 07 / 10</span>
+                <strong>Which response creates the safest margin?</strong>
+                <div aria-label="Example question progress"><i class="is-complete"></i><i class="is-complete"></i><i class="is-active"></i><i></i></div>
+              </div>
+            </div>
+            <div class="readiness-deck-panel">
+              <div class="readiness-score-block">
+                <div class="readiness-score-ring"><b>82%</b><span>Recent score</span></div>
+                <div><span class="overline">Result translated</span><h2>One score. One clear revision route.</h2></div>
+              </div>
+              <ol class="readiness-route-list">
+                <li><span>01</span><div><b>Review the reasoning</b><small>Keep the answer and explanation together.</small></div></li>
+                <li><span>02</span><div><b>Find the weaker topic</b><small>Road Signs becomes the next priority.</small></div></li>
+                <li><span>03</span><div><b>Repeat with purpose</b><small>Use a short drill to check the change.</small></div></li>
+              </ol>
+              <a class="text-button" href="theory-test-prep.html#topic-explorer">Open topic review ${icon("arrow")}</a>
+            </div>
+          </article>
+
+          <div class="readiness-banner-proof" aria-label="Readiness workflow">
+            <div><span>01</span><b>Answer</b><small>Complete a focused set</small></div>
+            <div><span>02</span><b>Understand</b><small>Review every missed decision</small></div>
+            <div><span>03</span><b>Refocus</b><small>Choose the next topic</small></div>
+          </div>
         </div>
       </section>
 

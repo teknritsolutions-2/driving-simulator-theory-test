@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: column;
   padding: 1.3rem;
-  background: #17171d;
+  background: var(--purple-night-900);
   color: white;
 }
 
@@ -51,7 +51,7 @@
 }
 .dashboard-nav:hover,
 .dashboard-nav.active {
-  background: #2c293a;
+  background: var(--purple-night-750);
   color: white;
 }
 .nav-dot {
@@ -82,8 +82,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #252530;
-  border: 1px solid #383848;
+  background: var(--purple-night-750);
+  border: 1px solid var(--purple-night-border);
   color: #e2e2ec;
   cursor: pointer;
   display: grid;
@@ -91,7 +91,7 @@
   transition: all 180ms ease;
 }
 .sidebar-preferences .icon-button:hover {
-  background: #323242;
+  background: var(--purple-night-700);
   color: #ffffff;
 }
 .sidebar-preferences .direction-toggle {
@@ -99,8 +99,8 @@
   height: 40px;
   padding: 0.4rem 0.85rem;
   border-radius: 99px;
-  background: #252530;
-  border: 1px solid #383848;
+  background: var(--purple-night-750);
+  border: 1px solid var(--purple-night-border);
   color: #e2e2ec;
   font-weight: 700;
   font-size: 0.82rem;
@@ -108,7 +108,7 @@
   transition: all 180ms ease;
 }
 .sidebar-preferences .direction-toggle:hover {
-  background: #323242;
+  background: var(--purple-night-700);
   color: #ffffff;
 }
 .dashboard-exit {
@@ -524,7 +524,7 @@
   border-radius: 4px 28px 4px 28px;
   background: var(--surface-primary);
   box-shadow:
-    0 24px 48px -12px rgba(15, 17, 26, 0.22),
+    0 24px 48px -12px rgba(20, 11, 31, 0.26),
     0 0 0 1px var(--border-default);
 }
 .test-start-copy {
@@ -597,7 +597,7 @@
   left: 1.5rem;
   padding: 1rem;
   border-radius: 14px;
-  background: rgba(17, 17, 22, 0.82);
+  background: rgba(18, 10, 28, 0.84);
   color: white;
   backdrop-filter: blur(12px);
 }
@@ -777,7 +777,7 @@
   stroke-width: 8;
 }
 .result-track {
-  stroke: #40404b;
+  stroke: var(--purple-night-border);
 }
 .result-active {
   stroke: var(--brand-highlight);
@@ -1038,8 +1038,8 @@
     flex-direction: column;
     padding: 0.65rem 0.85rem 0.75rem;
     box-sizing: border-box;
-    background: #17171d;
-    border-bottom: 1px solid #282834;
+    background: var(--purple-night-900);
+    border-bottom: 1px solid var(--purple-night-border);
   }
   .sidebar-header-row {
     display: flex;
@@ -1057,8 +1057,8 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #252530;
-    border: 1px solid #383848;
+    background: var(--purple-night-750);
+    border: 1px solid var(--purple-night-border);
     color: #e2e2ec;
     cursor: pointer;
     display: grid;
@@ -1069,8 +1069,8 @@
     height: 36px;
     padding: 0.25rem 0.65rem;
     border-radius: 99px;
-    background: #252530;
-    border: 1px solid #383848;
+    background: var(--purple-night-750);
+    border: 1px solid var(--purple-night-border);
     color: #e2e2ec;
     font-weight: 700;
     font-size: 0.78rem;
@@ -1128,7 +1128,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
   .dashboard-nav.active {
-    background: #2e2844;
+    background: var(--purple-night-750);
     border-color: var(--brand-highlight);
     color: #ffffff;
   }
@@ -1310,7 +1310,7 @@
     position: fixed;
     z-index: 40;
     inset: 68px 0 0;
-    background: rgba(9, 9, 14, 0.55);
+    background: rgba(12, 6, 18, 0.58);
   }
   .dashboard-sidebar {
     position: sticky;
@@ -1320,7 +1320,7 @@
     width: 100%;
     height: 68px;
     padding: 0.7rem clamp(16px, 4vw, 28px);
-    border-bottom: 1px solid #30303a;
+    border-bottom: 1px solid var(--purple-night-border);
     box-sizing: border-box;
   }
   .sidebar-header-row {
@@ -1340,9 +1340,9 @@
     width: 42px;
     height: 42px;
     place-items: center;
-    border: 1px solid #3c3c48;
+    border: 1px solid var(--purple-night-border);
     border-radius: 50%;
-    background: #252530;
+    background: var(--purple-night-750);
     color: #fff;
     cursor: pointer;
   }
@@ -1378,8 +1378,8 @@
     width: min(340px, calc(100vw - 24px));
     min-height: 0;
     padding: 1rem;
-    border-inline-end: 1px solid #30303a;
-    background: #17171d;
+    border-inline-end: 1px solid var(--purple-night-border);
+    background: var(--purple-night-900);
     box-shadow: 24px 0 60px rgba(0, 0, 0, 0.28);
     box-sizing: border-box;
   }
@@ -1409,7 +1409,7 @@
     white-space: normal;
   }
   .dashboard-sidebar .dashboard-nav.active {
-    background: #2c293a;
+    background: var(--purple-night-750);
     box-shadow: inset 3px 0 0 var(--brand-highlight);
   }
   .dashboard-sidebar .dashboard-nav .nav-icon svg {
