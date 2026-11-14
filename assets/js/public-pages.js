@@ -138,7 +138,7 @@ export function homeTwoPage() {
   return `
     <main id="main" class="readiness-home">
       <section class="readiness-hero readiness-photo-banner">
-        <img class="readiness-photo-background" src="${ROOT}assets/images/home2-gt3-racing.webp" alt="" fetchpriority="high" decoding="async" width="1920" height="1281">
+        <img class="readiness-photo-background" src="${ROOT}assets/images/home2-gt3-pfaff.webp" alt="" fetchpriority="high" decoding="async" width="1920" height="1440">
         <div class="container readiness-classic-layout">
           <header class="readiness-classic-copy reveal">
             ${eyebrow("Theory practice. Clearer progress.")}
@@ -148,7 +148,6 @@ export function homeTwoPage() {
             <p class="readiness-photo-note">Focused questions <span aria-hidden="true">·</span> Clear explanations <span aria-hidden="true">·</span> Progress you can review</p>
           </header>
         </div>
-        <div class="readiness-photo-credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:AO_Racing_Team%27s_Porsche_911_GT3_R_during_the_2023_Petit_Le_Mans.jpg" target="_blank" rel="noopener noreferrer">Osajus Photography</a> · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener noreferrer">CC BY 2.0</a></div>
       </section>
 
       <section class="section section-compact path-selector-section"><div class="container"><div class="path-selector" role="tablist" aria-label="Preparation path">${[

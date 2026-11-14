@@ -7,7 +7,7 @@ import {
   sessions,
   topicDetails,
 } from "./data.js";
-import { footer, header } from "./components.js";
+import { footer, header } from "./components.js?v=photo-credits-20261114";
 import {
   bookingPage,
   contactPage,
@@ -22,7 +22,7 @@ import {
   theoryPage,
   aboutPage,
   blogPage,
-} from "./public-pages.js?v=home2-gt3-20261114";
+} from "./public-pages.js?v=home2-gt3-v2-20261114";
 import { bookingForm, renderDashboard } from "./dashboard.js";
 import { bindMockTest, renderMockTest, renderResults } from "./mock-test.js";
 
