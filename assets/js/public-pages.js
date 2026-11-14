@@ -22,16 +22,8 @@ import {
 const action = (href, label, secondary = false) =>
   `<a class="button ${secondary ? "button-secondary" : ""}" href="${href}">${label}${icon("arrow")}</a>`;
 
-function hasStoredProfile() {
-  try {
-    return Boolean(JSON.parse(localStorage.getItem("dl-profile") || "null"));
-  } catch {
-    return false;
-  }
-}
-
 function portalLink() {
-  return `${ROOT}pages/${hasStoredProfile() ? "student-dashboard.html" : "login.html"}`;
+  return `${ROOT}pages/student-dashboard.html`;
 }
 
 function publicProgress() {
@@ -548,9 +540,22 @@ export function aboutPage() {
 
 export function contactPage() {
   return `
-    <main id="main">
+    <main id="main" class="contact-page">
       <section class="contact-header"><div class="container contact-header-grid"><div>${eyebrow("Contact DriveLab")}<h1>Start with the question that matters to your practice.</h1><p>Ask about a session, booking support, center access or the Student Dashboard.</p></div><div class="contact-paths"><a href="#contact-form"><span>01</span><b>General enquiry</b>${icon("arrow")}</a><a href="#contact-form"><span>02</span><b>Session support</b>${icon("arrow")}</a><a href="#contact-form"><span>03</span><b>Center arrival details</b>${icon("arrow")}</a></div></div></section>
       <section class="section section-major"><div class="container contact-main"><form class="contact-form" id="contact-form"><div class="form-heading"><span class="overline">Send an enquiry</span><h2>Tell us how we can help.</h2></div><div class="form-grid"><div class="field"><label for="contact-name">Name</label><input id="contact-name" required autocomplete="name"></div><div class="field"><label for="contact-email">Email</label><input id="contact-email" type="email" required autocomplete="email"></div><div class="field field-full"><label for="contact-topic">Enquiry type</label><select id="contact-topic"><option>General enquiry</option><option>Session or booking support</option><option>Center location</option><option>Student Dashboard support</option></select></div><div class="field field-full"><label for="contact-message">Message</label><textarea id="contact-message" required rows="6"></textarea></div><div class="field field-full"><button class="button" type="submit">Review Enquiry</button><p id="contact-status" aria-live="polite"></p></div></div></form><aside class="support-panel"><div class="support-card-main"><span class="overline">Center support & arrival</span><h3>Need help with a session or arrival details?</h3><p>Our team is available to assist with training questions, accessibility needs, and location directions.</p><div class="support-points"><div class="support-point"><div class="support-point-icon">${icon("calendar")}</div><div><strong>Existing requests</strong><p>Review or cancel pending simulator requests from this browser.</p><a class="text-button" href="${portalLink()}">Open My Sessions ${icon("arrow")}</a></div></div><div class="support-point"><div class="support-point-icon">${icon("steer")}</div><div><strong>Arrival & equipment</strong><p>Center briefing begins 10 minutes prior to your scheduled simulator slot.</p></div></div><div class="support-point"><div class="support-point-icon">${icon("quiz")}</div><div><strong>Theory assistance</strong><p>Questions regarding mock tests or revision methods are answered by certified instructors.</p></div></div></div></div></aside></div></section>
+      <section class="section section-compact contact-map-section" aria-labelledby="contact-map-title">
+        <div class="container contact-map-grid">
+          <div class="contact-map-copy">
+            ${eyebrow("Center location")}
+            <h2 id="contact-map-title">Plan your route to the training center.</h2>
+            <p>Open the interactive map to search the current center listing, check nearby routes and confirm arrival details before travelling.</p>
+            <a class="button button-secondary" href="https://www.google.com/maps/search/?api=1&query=Driving+Simulator+%26+Theory+Test+Center" target="_blank" rel="noopener noreferrer">Open in Google Maps ${icon("arrow")}</a>
+          </div>
+          <div class="contact-map-frame">
+            <iframe title="Map search for the DriveLab training center" src="https://www.google.com/maps?q=Driving+Simulator+%26+Theory+Test+Center&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          </div>
+        </div>
+      </section>
       <section class="section section-compact enquiry-process-section">
         <div class="container">
           <div class="section-heading split-heading">
@@ -594,8 +599,8 @@ export function contactPage() {
           "No live-support claim is made. Use the enquiry form for follow-up.",
         ],
         [
-          "Why is there no map?",
-          "Contact the center directly for the most current access, arrival and parking instructions.",
+          "How do I confirm final arrival details?",
+          "Use the map section to plan your route, then confirm the exact entrance and parking instructions during center follow-up.",
         ],
       ])}
     </main>`;

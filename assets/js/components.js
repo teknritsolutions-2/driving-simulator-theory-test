@@ -19,6 +19,14 @@ const iconPaths = {
     '<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/>',
   trend:
     '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  chart:
+    '<path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/>',
+  facebook:
+    '<path d="M14 8h3V4h-3c-3 0-5 2-5 5v3H6v4h3v6h4v-6h3.5l.5-4h-4V9c0-.7.3-1 1-1Z"/>',
+  linkedin:
+    '<rect x="3" y="9" width="4" height="12"/><path d="M5 3.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM11 21V9h4v2c1-1.5 2.4-2.4 4.2-2.2 2.5.2 2.8 2.2 2.8 4.7V21h-4v-6.8c0-1.3-.4-2.2-1.6-2.2-1.4 0-1.4 1.3-1.4 2.2V21Z"/>',
+  github:
+    '<path d="M15 22v-3.8c.1-1-.3-2-1-2.6 3.3-.4 6.8-1.6 6.8-7.3A5.7 5.7 0 0 0 19.3 4 5.3 5.3 0 0 0 19.1.2S17.9-.2 15 1.7a13.4 13.4 0 0 0-6 0C6.1-.2 4.9.2 4.9.2A5.3 5.3 0 0 0 4.7 4a5.7 5.7 0 0 0-1.5 4.3c0 5.7 3.5 6.9 6.8 7.3a3.7 3.7 0 0 0-1 2.6V22"/><path d="M9 19c-3 .9-3-1.5-4.2-2"/>',
   settings:
     '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
   plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
@@ -33,7 +41,7 @@ export function logo() {
 }
 
 export function header(hasProfile) {
-  const portal = hasProfile ? "student-dashboard.html" : "login.html";
+  const portal = "student-dashboard.html";
   return `
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
@@ -82,13 +90,21 @@ export function header(hasProfile) {
 }
 
 export function footer(hasProfile = false) {
-  const portal = hasProfile ? "student-dashboard.html" : "login.html";
+  const portal = "student-dashboard.html";
+  const siteUrl = encodeURIComponent(
+    "https://teknritsolutions-2.github.io/driving-simulator-theory-test/",
+  );
   return `
     <footer class="site-footer">
       <div class="container footer-layout">
         <div class="footer-brand">
           <a class="brand" href="${ROOT}index.html"><img src="${ROOT}assets/brand/logo-white.svg" alt="DriveLab"></a>
           <p>Simulation, theory practice and clear progress tools for deliberate driver preparation.</p>
+          <div class="footer-social" aria-label="DriveLab social links">
+            <a href="https://github.com/teknritsolutions-2/driving-simulator-theory-test" target="_blank" rel="noopener noreferrer" aria-label="DriveLab project on GitHub" title="GitHub">${icon("github")}</a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=${siteUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share DriveLab on LinkedIn" title="LinkedIn">${icon("linkedin")}</a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=${siteUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share DriveLab on Facebook" title="Facebook">${icon("facebook")}</a>
+          </div>
         </div>
         <div><h3>Train</h3><a href="${ROOT}pages/simulator-sessions.html">Simulators</a><a href="${ROOT}pages/theory-test-prep.html">Theory Prep</a><a href="${ROOT}pages/schedule.html">Schedule</a><a href="${ROOT}pages/pricing.html">Pricing</a></div>
         <div><h3>Explore</h3><a href="${ROOT}index.html">Home 1</a><a href="${ROOT}pages/home2.html">Home 2</a><a href="${ROOT}pages/about.html">About</a><a href="${ROOT}pages/blog.html">Blog</a><a href="${ROOT}pages/contact.html">Contact</a></div>

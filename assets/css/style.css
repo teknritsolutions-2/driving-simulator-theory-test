@@ -44,6 +44,9 @@
   --brand-text: #5b31c9;
   --brand-text-on-dark: #b9a5ff;
   --brand-foreground: #ffffff;
+  --brand-surface-soft: #f1eff8;
+  --brand-surface-strong: #e5dffd;
+  --brand-accent-on-dark: #d1bfff;
   --interactive-hover: #e5dffd;
   --interactive-subtle: #f4f1ff;
   --focus-ring: #8f6cf0;
@@ -79,6 +82,7 @@
   --shadow: 0 24px 64px rgba(23, 23, 29, 0.1);
   --major-space: clamp(76px, 7vw, 92px);
   --compact-space: clamp(46px, 5vw, 60px);
+  --hero-min-height: 680px;
 }
 
 * {
@@ -6648,5 +6652,266 @@ textarea {
   }
   .blog-body {
     padding: 1.25rem;
+  }
+}
+
+/* Client repair pass: shared brand system, heroes and requested page fixes */
+.route-section,
+.about-header,
+.simple-header,
+.booking-header {
+  background: linear-gradient(
+    135deg,
+    var(--brand-surface-soft),
+    var(--page-bg)
+  );
+}
+
+.home-hero,
+.readiness-hero,
+.catalog-header,
+.theory-hero,
+.about-header,
+.contact-header,
+.pricing-header,
+.schedule-header,
+.booking-header,
+.simple-header {
+  min-height: var(--hero-min-height);
+}
+
+.catalog-header,
+.theory-hero,
+.about-header,
+.contact-header,
+.pricing-header,
+.schedule-header,
+.booking-header,
+.simple-header {
+  display: flex;
+  align-items: center;
+}
+
+.catalog-header > .container,
+.theory-hero > .container,
+.about-header > .container,
+.contact-header > .container,
+.pricing-header > .container,
+.schedule-header > .container,
+.booking-header > .container,
+.simple-header > .container {
+  width: min(100%, var(--container));
+}
+
+/* Home 2 uses an editorial header over a full-width readiness dossier. */
+@media (min-width: 1101px) {
+  .readiness-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .readiness-copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+    grid-template-rows: auto auto auto;
+    column-gap: clamp(3rem, 8vw, 8rem);
+    align-items: start;
+  }
+
+  .readiness-copy > .eyebrow {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .readiness-copy > h1 {
+    grid-column: 1;
+    grid-row: 2 / 4;
+    max-width: 12ch;
+    margin-bottom: 0;
+  }
+
+  .readiness-copy > p {
+    grid-column: 2;
+    grid-row: 1;
+    margin-top: 0;
+  }
+
+  .readiness-copy > .button-row {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+  }
+
+  .readiness-copy > .readiness-proof-grid {
+    grid-column: 2;
+    grid-row: 3;
+    margin-top: 1.25rem;
+  }
+
+  .readiness-dossier {
+    display: grid;
+    grid-template-columns: minmax(0, 1.22fr) minmax(320px, 0.78fr);
+    width: 100%;
+  }
+
+  .readiness-next {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 1rem;
+    border-inline-start: 1px solid var(--border-default);
+  }
+
+  .readiness-next .text-button {
+    justify-self: start;
+    white-space: normal;
+  }
+}
+
+.theory-hero-container {
+  width: 100%;
+  align-content: center;
+}
+
+.theory-console,
+.theory-rig-frame,
+.theory-console .question-preview {
+  width: 100%;
+}
+
+.theory-question-panel .question-actions {
+  margin-top: auto;
+  padding-top: 1.25rem;
+}
+
+.portal-close .button-secondary:hover,
+.portal-close .button-secondary:focus-visible {
+  border-color: var(--brand-highlight);
+  background: color-mix(in srgb, var(--brand) 30%, transparent);
+  color: #ffffff;
+}
+
+.table-header > :last-child {
+  justify-self: center;
+  text-align: center;
+}
+
+.comparison-row .cell-action {
+  width: 100%;
+  justify-self: stretch;
+}
+
+.contact-map-section {
+  background: var(--surface-secondary);
+}
+
+.contact-map-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.contact-map-copy p {
+  max-width: 560px;
+}
+
+.contact-map-frame {
+  min-height: 430px;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-large);
+  background: var(--surface-primary);
+  box-shadow: var(--shadow);
+}
+
+.contact-map-frame iframe {
+  display: block;
+  width: 100%;
+  height: 430px;
+  border: 0;
+}
+
+.contact-page .faq-strip .container {
+  grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1.45fr);
+  align-items: start;
+}
+
+.contact-page .faq-heading,
+.contact-page .faq-list {
+  min-width: 0;
+}
+
+.contact-page .faq-heading h2 {
+  max-width: 12ch;
+  margin-bottom: 0;
+}
+
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+.footer-layout .footer-social a {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  margin: 0;
+  border: 1px solid var(--inverse-border);
+  border-radius: 50%;
+  color: var(--text-on-dark-muted);
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.footer-layout .footer-social a:hover,
+.footer-layout .footer-social a:focus-visible {
+  border-color: var(--brand-highlight);
+  background: color-mix(in srgb, var(--brand) 24%, transparent);
+  color: #ffffff;
+}
+
+.footer-social .icon {
+  width: 19px;
+  height: 19px;
+}
+
+@media (max-width: 920px) {
+  .contact-map-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-map-copy {
+    max-width: 680px;
+  }
+
+  .contact-page .faq-strip .container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .home-hero,
+  .readiness-hero,
+  .catalog-header,
+  .theory-hero,
+  .about-header,
+  .contact-header,
+  .pricing-header,
+  .schedule-header,
+  .booking-header,
+  .simple-header {
+    min-height: auto;
+  }
+
+  .contact-map-frame,
+  .contact-map-frame iframe {
+    min-height: 320px;
+    height: 320px;
+  }
+
+  .footer-social {
+    margin-top: 1rem;
   }
 }
