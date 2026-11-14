@@ -7014,7 +7014,22 @@ textarea {
   z-index: -1;
   inset: 0;
   content: "";
-  background: linear-gradient(90deg, rgba(22, 13, 32, 0.72), rgba(22, 13, 32, 0.88) 50%, rgba(22, 13, 32, 0.72));
+  background: linear-gradient(90deg, rgba(22, 13, 32, 0.5), rgba(22, 13, 32, 0.74) 50%, rgba(22, 13, 32, 0.5));
+}
+.readiness-photo-credit {
+  position: absolute;
+  inset-inline-end: var(--gutter);
+  bottom: 14px;
+  max-width: calc(100% - 2 * var(--gutter));
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(22, 13, 32, 0.8);
+  color: #e6e5f0;
+  font-size: 0.68rem;
+}
+.readiness-photo-credit a {
+  color: inherit;
+  text-underline-offset: 2px;
 }
 .readiness-photo-banner .readiness-classic-copy {
   max-width: 1080px;
