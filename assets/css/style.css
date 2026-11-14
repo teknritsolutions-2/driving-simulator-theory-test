@@ -7112,7 +7112,7 @@ textarea {
   letter-spacing: -0.055em;
 }
 .readiness-classic-copy h1 em {
-  color: var(--brand);
+  color: var(--brand-highlight);
   font-style: normal;
 }
 .readiness-classic-copy > p {
@@ -7142,6 +7142,27 @@ textarea {
 /* Dark sections keep the same lavender accents in either page theme. */
 :is(
   .home-hero,
+  .readiness-photo-banner,
+  .theory-hero,
+  .catalog-header,
+  .schedule-header,
+  .contact-header,
+  .theory-editorial,
+  .portal-close,
+  .dark-story,
+  .readiness-process,
+  .dashboard-showcase,
+  .review-story,
+  .package-explainer,
+  .auth-visual
+) :is(h1 em, h2 em, .eyebrow) {
+  color: var(--brand-highlight);
+}
+:is(
+  .home-hero,
+  .readiness-photo-banner,
+  .catalog-header,
+  .schedule-header,
   .theory-hero,
   .theory-editorial,
   .portal-close,
@@ -7159,6 +7180,9 @@ textarea {
 }
 :is(
   .home-hero,
+  .readiness-photo-banner,
+  .catalog-header,
+  .schedule-header,
   .theory-hero,
   .theory-editorial,
   .portal-close,
