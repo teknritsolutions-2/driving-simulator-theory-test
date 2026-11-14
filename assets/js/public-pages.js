@@ -138,7 +138,7 @@ export function homeTwoPage() {
   return `
     <main id="main" class="readiness-home">
       <section class="readiness-hero readiness-photo-banner">
-        <img class="readiness-photo-background" src="${ROOT}assets/images/home2-gt3-pfaff.webp" alt="" fetchpriority="high" decoding="async" width="1920" height="1440">
+        <img class="readiness-photo-background" src="${ROOT}assets/images/home2-gt3-pfaff-2560.webp" srcset="${ROOT}assets/images/home2-gt3-pfaff-1600.webp 1600w, ${ROOT}assets/images/home2-gt3-pfaff-2560.webp 2560w, ${ROOT}assets/images/home2-gt3-pfaff-4000.webp 4000w" sizes="(max-width: 980px) 1400px, 100vw" alt="" fetchpriority="high" decoding="async" width="4000" height="3000">
         <div class="container readiness-classic-layout">
           <header class="readiness-classic-copy reveal">
             ${eyebrow("Theory practice. Clearer progress.")}

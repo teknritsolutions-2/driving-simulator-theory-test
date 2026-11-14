@@ -22,7 +22,7 @@ import {
   theoryPage,
   aboutPage,
   blogPage,
-} from "./public-pages.js?v=home2-card-position-20261114";
+} from "./public-pages.js?v=home2-image-quality-20261114";
 import { bookingForm, renderDashboard } from "./dashboard.js";
 import { bindMockTest, renderMockTest, renderResults } from "./mock-test.js";
 
