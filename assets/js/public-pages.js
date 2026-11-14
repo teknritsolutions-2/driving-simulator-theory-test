@@ -147,10 +147,7 @@ export function homeTwoPage() {
             <div class="button-row">${action("mock-test.html?count=10", "Start Practising")}${action("theory-test-prep.html#topic-explorer", "Explore Theory Topics", true)}</div>
             <p class="readiness-photo-note">Focused questions <span aria-hidden="true">·</span> Clear explanations <span aria-hidden="true">·</span> Progress you can review</p>
           </header>
-        </div>
-      </section>
-
-      <section class="section section-compact path-selector-section"><div class="container"><div class="path-selector" role="tablist" aria-label="Preparation path">${[
+          <div class="readiness-banner-paths"><div class="path-selector" role="tablist" aria-label="Preparation path">${[
         [
           "theory",
           "Theory Practice",
@@ -174,7 +171,9 @@ export function homeTwoPage() {
           (item, index) =>
             `<a class="path-choice ${index === 0 ? "active" : ""}" href="${item[3]}" data-path="${item[0]}"><span>0${index + 1}</span><div><h3>${item[1]}</h3><p>${item[2]}</p></div>${icon("arrow")}</a>`,
         )
-        .join("")}</div></div></section>
+        .join("")}</div></div>
+        </div>
+      </section>
 
       <section class="section section-major challenge-section"><div class="container challenge-grid"><div>${eyebrow("Interactive theory challenge")}<h2>One question can reveal the next topic to study.</h2><p class="lede">Choose an answer, read the reasoning and move to a genuinely different question.</p><div class="question-photo-stack"><img src="${ROOT}assets/images/warning-sign.jpg" alt="Road signs used to support theory learning" loading="lazy" decoding="async"><img src="${ROOT}assets/images/revision-notes.jpg" alt="Student taking notes beside a laptop" loading="lazy" decoding="async"></div></div>${questionPreview("home-two-question", "question-preview-light")}</div></section>
 
