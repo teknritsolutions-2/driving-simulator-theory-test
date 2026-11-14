@@ -137,56 +137,17 @@ export function homePage() {
 export function homeTwoPage() {
   return `
     <main id="main" class="readiness-home">
-      <section class="readiness-hero">
-        <div class="container readiness-studio">
-          <header class="readiness-studio-copy reveal">
+      <section class="readiness-hero readiness-classic">
+        <div class="container readiness-classic-layout">
+          <header class="readiness-classic-copy reveal">
             ${eyebrow("Assessment & readiness studio")}
-            <h1>Revise the right thing. <em>Before test day.</em></h1>
-            <p>Turn every practice result into a useful next step. Review the reasoning, spot the weaker topic and return with a focused drill.</p>
+            <h1>Prepare today.<br><em>Drive with confidence.</em></h1>
+            <p>Build your knowledge with focused theory practice, clear explanations and mock tests that help you feel ready for the road ahead.</p>
             <div class="button-row">${action("mock-test.html?count=10", "Start Mock Test")}${action("#readiness-showcase", "Explore Readiness", true)}</div>
-            <div class="readiness-studio-notes" aria-label="Practice features">
-              <span>${icon("quiz")} Original practice sets</span>
-              <span>${icon("quiz")} Answer-by-answer review</span>
-              <span>${icon("quiz")} Browser-local history</span>
-            </div>
           </header>
-
-          <article class="readiness-board reveal" aria-label="Example readiness analysis">
-            <div class="readiness-board-head">
-              <div>
-                <span class="overline">Readiness snapshot</span>
-                <strong>Latest 10-question set</strong>
-              </div>
-              <span class="readiness-board-chip">Example result</span>
-            </div>
-
-            <div class="readiness-score-panel">
-              <div class="readiness-score-number">
-                <span>Overall score</span>
-                <strong>82<small>%</small></strong>
-                <em>+8 points since first set</em>
-              </div>
-              <div class="readiness-signal-list">
-                <div><span>Hazard perception <b>88%</b></span><i style="--signal: 88%"></i></div>
-                <div><span>Rules of the road <b>84%</b></span><i style="--signal: 84%"></i></div>
-                <div class="is-focus"><span>Road signs <b>72%</b></span><i style="--signal: 72%"></i></div>
-              </div>
-            </div>
-
-            <div class="readiness-focus-route">
-              <div class="readiness-focus-intro">
-                <span>Suggested next move</span>
-                <strong>Strengthen road-sign recognition</strong>
-                <small>Three missed answers point to one useful focus.</small>
-              </div>
-              <ol>
-                <li><span>01</span><b>Review</b><small>Read why each answer was missed.</small></li>
-                <li><span>02</span><b>Drill</b><small>Complete a short topic set.</small></li>
-                <li><span>03</span><b>Retest</b><small>Check whether the change holds.</small></li>
-              </ol>
-              <a class="text-button" href="theory-test-prep.html#topic-explorer">Open topic review ${icon("arrow")}</a>
-            </div>
-          </article>
+          <div class="readiness-classic-image reveal">
+            <img src="${ROOT}assets/images/exam-desk.webp" alt="Laptop and study materials ready for a theory practice session" fetchpriority="high" decoding="async" width="1200" height="807">
+          </div>
         </div>
       </section>
 
